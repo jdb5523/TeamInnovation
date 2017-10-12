@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controller;
 
 import java.io.IOException;
@@ -11,10 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/**
- *
- * @author Jared
- */
 public class AppController {
 
     Parent root;
@@ -40,6 +31,12 @@ public class AppController {
         this.stage = stage;
         showLogin();
     }
+    
+    /**
+     * This is the first screen presented to the user when the application is launched
+     * It allows for the input and passing of values to authenticate user logins
+     * @throws IOException 
+     */
     public final void showLogin() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/LoginView.fxml"));
         root = loader.load();
@@ -61,17 +58,24 @@ public class AppController {
         root = loader.load();
         main = (MainController) loader.getController();
         main.setUp(this);
-        stage.setTitle("Nautilus ALPHA BUILD");
+        stage.setTitle("Nautilus ALPHA BUILD -- Welcome, " + getCurrentUser());
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
     
+    /**
+     * This screen allows users to reset their passwords after successful validation.
+     * Validation requires the entry of a valid usernames and user_id as well
+     * as the correct response to the challenge question
+     * @throws IOException 
+     */
     public void showReset() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ResetPasswordView.fxml"));
         root = loader.load();
         reset = (ResetPasswordViewController) loader.getController();
         reset.setUp(this);
+        stage.setTitle("Reset Password");
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

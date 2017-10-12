@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="479.0" prefWidth="620.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controller.MainController">
+  <children>
+    <Pane layoutX="-8.0" layoutY="-7.0" prefHeight="479.0" prefWidth="635.0">
+      <children>
+        <Button fx:id="decryptButton" layoutX="187.0" layoutY="449.0" mnemonicParsing="false" onAction="#handleDecryptButtonAction" prefWidth="78.0" text="Decrypt" />
+        <TextArea fx:id="inputArea" layoutX="14.0" layoutY="70.0" prefHeight="374.0" prefWidth="304.0" wrapText="true" />
+        <TextArea fx:id="outputArea" editable="false" layoutX="318.0" layoutY="70.0" prefHeight="374.0" prefWidth="304.0" wrapText="true" />
+        <Button fx:id="clearButton" layoutX="286.0" layoutY="449.0" mnemonicParsing="false" onAction="#handleClearButtonAction" prefWidth="65.0" text="Clear" />
+        <Label layoutX="152.0" layoutY="52.0" text="Input" />
+        <Label layoutX="455.0" layoutY="52.0" text="Output" />
+        <Button fx:id="importButton" layoutX="19.0" layoutY="449.0" mnemonicParsing="false" onAction="#handleImportButtonAction" prefWidth="78.0" text="Import .txt" />
+        <Button fx:id="ocrButton" layoutX="102.0" layoutY="449.0" mnemonicParsing="false" onAction="#handleOcrButtonAction" prefWidth="78.0" text="OCR" />
+        <Button fx:id="saveButton" layoutX="509.0" layoutY="450.0" mnemonicParsing="false" prefWidth="113.0" text="Save Output" onAction="#handleSaveButtonAction"/>
+      </children>
+    </Pane>
+  </children>
+</AnchorPane>

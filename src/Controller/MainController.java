@@ -36,16 +36,17 @@ public class MainController {
     
     @FXML 
     protected void handleOcrButtonAction(ActionEvent event) throws IOException, SQLException {
+        clearText();
         app.getFile().setFileContents("");
         app.getFile().ocr();
+        inputArea.setText(app.getFile().getFileContents());
     }
     
     @FXML
     protected void handleSaveButtonAction(ActionEvent event) throws IOException {
-        System.out.println("save");
         app.getFile().saveOutput();
-        
     }
+    
     public void setUp(AppController app) {
         this.app = app;
     }
@@ -57,5 +58,13 @@ public class MainController {
 
     public String getOutputText() {
         return outputText;
+    }
+
+    public TextArea getInputArea() {
+        return inputArea;
+    }
+
+    public void setInputArea(TextArea inputArea) {
+        this.inputArea = inputArea;
     }
 }

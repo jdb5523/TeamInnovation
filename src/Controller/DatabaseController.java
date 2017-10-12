@@ -5,15 +5,18 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DatabaseController {
 
     private AppController app;
     private final String url = "jdbc:sqlserver://DESKTOP-C3ACMOB;"
-            + "integratedSecurity=true;databaseName=testDB";
+            + "integratedSecurity=true;databaseName=Nautilus";
     private String sql = "";
-    ResultSet result;
     Statement state;
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      * Default constructor for DatabaseController
@@ -31,7 +34,7 @@ public class DatabaseController {
     public void connect() {
         try {
             Connection connect = DriverManager.getConnection(url);
-            System.out.println("connected to database");
+            System.out.println("Connected to database");
             state = connect.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         } catch (SQLException ex) {
@@ -51,16 +54,43 @@ public class DatabaseController {
      * @throws java.sql.SQLException If SQL query is invalid
      */
     public Boolean authentication(String user, String password) throws SQLException {
-        sql = "SELECT * FROM Users WHERE username='" + user + "'";
-        result = state.executeQuery(sql);
+        sql = "SELECT * FROM [USER] WHERE USER_NAME = '" + user + "'";
+        ResultSet result = state.executeQuery(sql);
         while (result.next()) {
-            if (result.getString(3).equals(password)) {
-                result.close();
+            if (result.getString("password").equals(password) && result.getInt("LOCKED") == 0) {
+                resetLoginAttempts(user);
                 return true;
+            } else if (!result.getString("password").equals(password) && result.getInt("LOGIN_ATTEMPT") == 2) {
+                result.close();
+                addLoginAttempt(user);
+                app.getLoginView().setLockedFlag(1);
+                lockAccount(user);
+                return false; 
+            } else {
+                result.close();
+                addLoginAttempt(user);
+                return false;
             }
-        }
-        result.close();
+        }   
         return false;
+    }
+    /**
+     * This method increments the user's LOGIN_ATTEMPT's field by 1 whenever an
+     * incorrect password is submitted.  If the counter is already at 3, the LOCKED 
+     * flag is set to true, instead.
+     * @param user Username of the account whose attempts is being incremented
+     * @throws SQLException 
+     */
+    public void addLoginAttempt(String user) throws SQLException {
+        sql = "UPDATE [USER] SET LOGIN_ATTEMPT = LOGIN_ATTEMPT + 1 "
+                + "WHERE USER_NAME = '" + user + "'";
+        state.executeUpdate(sql);     
+    }
+    
+    public void resetLoginAttempts(String user) throws SQLException {
+        sql = "UPDATE [USER] SET LOGIN_ATTEMPT = 0 "
+                + "WHERE USER_NAME = '" + user + "'";
+        state.executeUpdate(sql);
     }
     /**
      * Performs the validation for the password reset page
@@ -70,15 +100,13 @@ public class DatabaseController {
      * @throws SQLException Throws error if SQL query is invalid
      */
     public Boolean isUserValid(String username, int userID) throws SQLException {
-        sql = "SELECT * FROM Users WHERE user_id=" + userID;
-        result = state.executeQuery(sql);
+        sql = "SELECT * FROM [USER] WHERE user_id=" + userID;
+        ResultSet result = state.executeQuery(sql);
         while (result.next()) {
-            if (result.getString("username").equals(username)) {
-                result.close();
+            if (result.getString("user_name").equals(username)) {
                 return true;
             } 
         }
-        result.close();
         return false;
     }
 
@@ -112,6 +140,15 @@ public class DatabaseController {
                 + "'" + date + "'" + ", " + userID + ")";
         state.executeUpdate(sql);
     }
+    
+    public int getNextOcrId() throws SQLException {
+        sql = "SELECT ocr_id FROM Ocr";
+        ResultSet ocrID = state.executeQuery(sql);
+        while (ocrID.last()) {
+            return ocrID.getInt("ocr_id") + 1;
+        }
+        return 0;
+    }
 
     /**
      * Gets all User instances in the database table
@@ -120,11 +157,18 @@ public class DatabaseController {
      * @throws java.sql.SQLException Throws error if query is invalid
      */
     public ResultSet getUsers() throws SQLException {
-        ResultSet users = state.executeQuery("SELECT * FROM Users");
+        ResultSet users = state.executeQuery("SELECT * FROM [USER]");
         while (users.next()) {
             return users;
         }
         return null;
+    }
+    
+    public void lockAccount(String username) throws SQLException {
+        Date date = new Date();
+        sql = "UPDATE [USER] SET LOCKED=1, LOCKOUT_DATE ='" + df.format(date) 
+                + "'" + " WHERE USER_NAME='" + username + "'";
+        state.executeUpdate(sql);
     }
 
     /**
@@ -136,7 +180,8 @@ public class DatabaseController {
      * @throws java.sql.SQLException Throws error if SQL query is invalid
      */
     public int getUserID(String username) throws SQLException {
-        sql = "SELECT user_id FROM Users WHERE username='" + username + "'";
+        sql = "SELECT USER_ID FROM [USER] WHERE USER_NAME='" + username + "'";
+        System.out.println(sql);
         ResultSet userID = state.executeQuery(sql);
         while (userID.next()) {
             return userID.getInt("user_id");

@@ -54,6 +54,7 @@ public class ResetPasswordViewController implements Initializable {
             userLabel.setTextFill(Color.GREEN);
             userLabel.setVisible(true);
             app.setCurrentUser(idField.getText());
+            //TODO
             //Set text of questionArea to the question stored within 
             //current user's record
         } else {
@@ -78,6 +79,7 @@ public class ResetPasswordViewController implements Initializable {
             matchLabel.setText("Password updated");
             matchLabel.setTextFill(Color.GREEN);
             passwordSaved();
+            //TODO
             //save new password to database
         } else {
             matchLabel.setVisible(true);

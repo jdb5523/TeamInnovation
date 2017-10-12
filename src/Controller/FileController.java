@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controller;
 
 import java.io.BufferedReader;
@@ -16,13 +11,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
-/**
- *
- * @author Jared
- */
 public class FileController {
 
     AppController app;
@@ -67,15 +60,32 @@ public class FileController {
      */
     public void ocr() throws IOException, SQLException {
         imageFileChooser.getExtensionFilters().addAll(
-                new ExtensionFilter("PNG Images", "*.png"),
-                new ExtensionFilter("TIFF Images", "*.tiff"),
-                new ExtensionFilter("GIF Images", "*.gif"));
+                new ExtensionFilter("JPEG Images", "*.jpg"));
         file = imageFileChooser.showOpenDialog(app.getStage());
         Date date = Calendar.getInstance().getTime();
-        String fileName = "C:\\Users\\Jared\\Desktop\\OCR_" + df.format(date);
+        String fileName = "C:\\Users\\Jared\\Desktop\\OCR_" + app.getDb().getNextOcrId();
         String command = "tesseract " + file.getAbsolutePath() + " " + fileName;
         Process process = Runtime.getRuntime().exec(command);
         app.getDb().ocrEntry(fileName, df.format(date), app.getCurrentUserID());
+        TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            File textFile = new File(fileName + ".txt");
+            try (BufferedReader reader = new BufferedReader(new FileReader(textFile))) {
+                String text = "";
+                while ((text = reader.readLine()) != null) {
+                    System.out.println(text);
+                    fileContents += text;
+                }
+                app.getMain().getInputArea().setText(fileContents);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+    Timer timer = new Timer("Timer");
+    long delay = 3000L;
+    timer.schedule(task, delay);
     }
     
     

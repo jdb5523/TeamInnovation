@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="184.0" prefWidth="343.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controller.LoginViewController">
+  <children>
+    <Pane layoutX="0.0" layoutY="0.0" prefHeight="184.0" prefWidth="343.0">
+      <children>
+        <Label layoutX="14.0" layoutY="27.0" prefHeight="19.9609375" prefWidth="70.0" text="Username" />
+        <Label layoutX="14.0" layoutY="70.0" prefHeight="19.9609375" prefWidth="70.0" text="Password" />
+        <TextField fx:id="usernameField" layoutX="117.0" layoutY="27.0" prefWidth="200.0" onKeyPressed="#handleKeyPressed"/>
+        <PasswordField fx:id="passwordField" layoutX="117.0" layoutY="70.0" prefWidth="200.0" onKeyPressed="#handleKeyPressed"/>
+        <Button fx:id="loginButton" layoutX="279.0" layoutY="149.0" mnemonicParsing="false" text="Login" onKeyPressed="#handleKeyPressed" onAction="#handleLoginButtonAction"/>
+        <Button fx:id="resetButton" layoutX="14.0" layoutY="149.0" mnemonicParsing="false" text="Reset Password" onKeyPressed="#handleKeyPressed" onAction="#handleResetButtonAction"/>
+        <Label fx:id="invalidLabel" layoutX="117.0" layoutY="106.0" text="Password Invalid" textFill="#ff3333" />
+      </children>
+    </Pane>
+  </children>
+</AnchorPane>

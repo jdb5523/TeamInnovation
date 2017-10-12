@@ -21,10 +21,10 @@ public class LoginViewController implements Initializable {
     @FXML private Label invalidLabel;
     @FXML private Button loginButton;
     @FXML private Button resetButton;
+    private int lockedFlag = 0;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
         usernameField.requestFocus();
         invalidLabel.setVisible(false);
     }    
@@ -34,12 +34,18 @@ public class LoginViewController implements Initializable {
     protected void handleLoginButtonAction() throws IOException, SQLException {
         if(app.getDb().authentication(usernameField.getText(), passwordField.getText())) {
             System.out.println("Login successful");
-            app.showMain();
             app.setCurrentUser(usernameField.getText());
             app.setCurrentUserID(app.getDb().getUserID(usernameField.getText()));
+            app.showMain();     
         } else {
             System.out.println("Login Failed");
-            invalidLabel.setVisible(true);
+            if (lockedFlag == 0) {
+                invalidLabel.setText("Invalid login credentials");
+                invalidLabel.setVisible(true);
+            } else {
+                invalidLabel.setText("Your account has been locked");
+                invalidLabel.setVisible(true);
+            }
         }
     }
     
@@ -58,5 +64,13 @@ public class LoginViewController implements Initializable {
         } else if (keyEvent.getCode() == KeyCode.ENTER && resetButton.isFocused()) {
             handleResetButtonAction();
         }
+    }
+
+    public int getLockedFlag() {
+        return lockedFlag;
+    }
+
+    public void setLockedFlag(int lockedFlag) {
+        this.lockedFlag = lockedFlag;
     }
 }
