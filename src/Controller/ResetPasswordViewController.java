@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -23,8 +24,8 @@ public class ResetPasswordViewController implements Initializable {
     @FXML private TextArea questionArea;
     @FXML private TextField responseField;
     @FXML private Button responseButton;
-    @FXML private TextField newField;
-    @FXML private TextField confirmField;
+    @FXML private PasswordField newField;
+    @FXML private PasswordField confirmField;
     @FXML private Button saveButton;
     @FXML private Label matchLabel;
     @FXML private Label responseLabel;
@@ -53,18 +54,19 @@ public class ResetPasswordViewController implements Initializable {
             userLabel.setText("Username/ID combination found");
             userLabel.setTextFill(Color.GREEN);
             userLabel.setVisible(true);
-            app.setCurrentUser(idField.getText());
-            //TODO
-            //Set text of questionArea to the question stored within 
-            //current user's record
+            app.setCurrentUserID(Integer.parseInt(idField.getText()));
+            questionArea.setText(app.getDb().getChallengeQuestion(
+                    app.getCurrentUserID()));
+            System.out.println(app.getDb().getChallengeQuestion(1));
         } else {
             userLabel.setVisible(true);
         }
     }
     
     @FXML
-    protected void handleResponseButtonAction() {
-        if (responseField.getText().equals("correct response")) {
+    protected void handleResponseButtonAction() throws SQLException {
+        if (responseField.getText().equals(app.getDb().getChallengeResponse(
+                app.getCurrentUserID()))) {
             responseLabel.setText("Reponse verified");
             responseLabel.setTextFill(Color.GREEN);
             responseLabel.setVisible(true);
@@ -74,13 +76,12 @@ public class ResetPasswordViewController implements Initializable {
         }
     }
     
-    @FXML protected void handleSaveButtonAction() throws IOException {
+    @FXML protected void handleSaveButtonAction() throws IOException, SQLException {
         if (passwordsMatch()) {
             matchLabel.setText("Password updated");
             matchLabel.setTextFill(Color.GREEN);
             passwordSaved();
-            //TODO
-            //save new password to database
+            app.getDb().setNewPassword(confirmField.getText(), app.getCurrentUserID());
         } else {
             matchLabel.setVisible(true);
         }
@@ -151,6 +152,6 @@ public class ResetPasswordViewController implements Initializable {
             handleSaveButtonAction();
         } else if (keyEvent.getCode() == KeyCode.ENTER && backButton.isFocused()) {
             handleBackButtonAction();
-        }
+        } 
     }
 }

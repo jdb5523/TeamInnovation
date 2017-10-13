@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,17 +58,28 @@ public class DatabaseController {
         sql = "SELECT * FROM [USER] WHERE USER_NAME = '" + user + "'";
         ResultSet result = state.executeQuery(sql);
         while (result.next()) {
-            if (result.getString("password").equals(password) && result.getInt("LOCKED") == 0) {
+            String validPw = result.getString("password");
+            int attempts = result.getInt("LOGIN_ATTEMPT");
+            int locked = result.getInt("LOCKED");
+            Timestamp unlockDate = result.getTimestamp("LOCKOUT_DATE");
+            unlockDate.setDate(unlockDate.getDate() + 1);
+            Date currentDate = new Date();
+            if (currentDate.after(unlockDate)) {
+                removeLockoutDate(user);
+                locked = 0;
+            }
+            if (locked == 1) {
+                app.getLoginView().setLockedFlag(1);
+                return false;
+            }
+            if (validPw.equals(password) && locked == 0) {
                 resetLoginAttempts(user);
                 return true;
-            } else if (!result.getString("password").equals(password) && result.getInt("LOGIN_ATTEMPT") == 2) {
-                result.close();
+            } else if (!validPw.equals(password) && attempts == 2) {
                 addLoginAttempt(user);
-                app.getLoginView().setLockedFlag(1);
                 lockAccount(user);
-                return false; 
-            } else {
-                result.close();
+                return false;
+            } else if (!validPw.equals(password) && attempts < 3) {
                 addLoginAttempt(user);
                 return false;
             }
@@ -92,6 +104,12 @@ public class DatabaseController {
                 + "WHERE USER_NAME = '" + user + "'";
         state.executeUpdate(sql);
     }
+    
+    public void removeLockoutDate(String user) throws SQLException {
+        sql = "UPDATE [USER] SET LOCKED = 0, LOCKOUT_DATE = null "
+                + "WHERE USER_NAME = '" + user + "'";
+        state.executeUpdate(sql);
+    }
     /**
      * Performs the validation for the password reset page
      * @param username The username of the user attempting to reset password
@@ -100,16 +118,59 @@ public class DatabaseController {
      * @throws SQLException Throws error if SQL query is invalid
      */
     public Boolean isUserValid(String username, int userID) throws SQLException {
-        sql = "SELECT * FROM [USER] WHERE user_id=" + userID;
+        Boolean isComboValid = false;
+        sql = "SELECT * FROM [USER] WHERE USER_ID=" + userID;
         ResultSet result = state.executeQuery(sql);
         while (result.next()) {
-            if (result.getString("user_name").equals(username)) {
-                return true;
+            if (result.getString("USER_NAME").equals(username)) {
+                isComboValid = true;
             } 
         }
-        return false;
+        return isComboValid;
     }
-
+    /**
+     * Method for obtaining the challenge question associated with the User entity
+     * @param id The user_id of the user for whom the question is being requested
+     * @return Returns a String object of the challenge question
+     * @throws SQLException Throws error if SQL query is invalid
+     */
+    public String getChallengeQuestion(int id) throws SQLException {
+        String question = "";
+        sql = "SELECT CHALLENGE_QUESTION FROM [USER] WHERE"
+                + " USER_ID=" + id;
+        ResultSet result = state.executeQuery(sql);
+        while (result.next()) {
+            question = result.getString("CHALLENGE_QUESTION");
+        }
+        return question;
+    }
+    /**
+     * Method for obtaining the corresponding answer to the challenge question
+     * @param id The user_id of the user whose challenge response is being requested
+     * @return Returns a String object of the valid challenge response
+     * @throws SQLException Throws error if SQL query is invalid
+     */
+    public String getChallengeResponse(int id) throws SQLException {
+        String response = "";
+        sql = "SELECT CHALLENGE_ANSWER FROM [USER] WHERE USER_ID=" + id;
+        ResultSet result = state.executeQuery(sql);
+        while (result.next()) {
+            response = result.getString("CHALLENGE_ANSWER");
+            System.out.println(response);
+        }
+        return response;
+    }
+    /**
+     * Updates the password for a user
+     * @param password The new password to be used
+     * @param id The user_id of the user whose password is being updated
+     * @throws SQLException Throwss error is SQL update is invalid
+     */
+    public void setNewPassword(String password, int id) throws SQLException {
+        sql = "UPDATE [USER] SET PASSWORD='" + password + "'" +" WHERE USER_ID="
+                + id;
+        state.executeUpdate(sql);
+    }
     /**
      * Creates entry in SQL Server database
      *
@@ -169,6 +230,7 @@ public class DatabaseController {
         sql = "UPDATE [USER] SET LOCKED=1, LOCKOUT_DATE ='" + df.format(date) 
                 + "'" + " WHERE USER_NAME='" + username + "'";
         state.executeUpdate(sql);
+        app.getLoginView().setLockedFlag(1);
     }
 
     /**
@@ -181,7 +243,6 @@ public class DatabaseController {
      */
     public int getUserID(String username) throws SQLException {
         sql = "SELECT USER_ID FROM [USER] WHERE USER_NAME='" + username + "'";
-        System.out.println(sql);
         ResultSet userID = state.executeQuery(sql);
         while (userID.next()) {
             return userID.getInt("user_id");

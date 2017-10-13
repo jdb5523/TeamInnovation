@@ -38,13 +38,13 @@ public class LoginViewController implements Initializable {
             app.setCurrentUserID(app.getDb().getUserID(usernameField.getText()));
             app.showMain();     
         } else {
-            System.out.println("Login Failed");
             if (lockedFlag == 0) {
                 invalidLabel.setText("Invalid login credentials");
                 invalidLabel.setVisible(true);
             } else {
-                invalidLabel.setText("Your account has been locked");
+                invalidLabel.setText("Your account is locked");
                 invalidLabel.setVisible(true);
+                lockedFlag = 0;
             }
         }
     }
@@ -63,6 +63,8 @@ public class LoginViewController implements Initializable {
             handleLoginButtonAction();
         } else if (keyEvent.getCode() == KeyCode.ENTER && resetButton.isFocused()) {
             handleResetButtonAction();
+        } else if (keyEvent.getCode() != KeyCode.ENTER) {
+            invalidLabel.setVisible(false);
         }
     }
 
