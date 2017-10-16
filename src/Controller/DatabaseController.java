@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,6 +15,7 @@ public class DatabaseController {
     private final String url = "jdbc:sqlserver://DESKTOP-C3ACMOB;"
             + "integratedSecurity=true;databaseName=Nautilus";
     private String sql = "";
+    ResultSet result;
     Statement state;
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -49,42 +49,22 @@ public class DatabaseController {
      * @param user Username of the person attempting to login
      * @param password Password being tested against the password stored in the
      * database
-     * @return Returns a Boolean: true if login is successful, false if not. If
-     * login is successful, AppController will display MainView. Otherwise,
-     * error message is displayed in login window
+     * @return Returns a ResultSet object containing the user data
      * @throws java.sql.SQLException If SQL query is invalid
      */
-    public Boolean authentication(String user, String password) throws SQLException {
+    public ResultSet getUser(String user, String password) throws SQLException {
         sql = "SELECT * FROM [USER] WHERE USER_NAME = '" + user + "'";
-        ResultSet result = state.executeQuery(sql);
+        result = state.executeQuery(sql);
+        return result;
+    }
+    
+    public int getUserId(String user) throws SQLException {
+        sql = "SELECT USER_ID FROM [USER] WHERE USER_NAME='" + user + "'";
+        result = state.executeQuery(sql);
         while (result.next()) {
-            String validPw = result.getString("password");
-            int attempts = result.getInt("LOGIN_ATTEMPT");
-            int locked = result.getInt("LOCKED");
-            Timestamp unlockDate = result.getTimestamp("LOCKOUT_DATE");
-            unlockDate.setDate(unlockDate.getDate() + 1);
-            Date currentDate = new Date();
-            if (currentDate.after(unlockDate)) {
-                removeLockoutDate(user);
-                locked = 0;
-            }
-            if (locked == 1) {
-                app.getLoginView().setLockedFlag(1);
-                return false;
-            }
-            if (validPw.equals(password) && locked == 0) {
-                resetLoginAttempts(user);
-                return true;
-            } else if (!validPw.equals(password) && attempts == 2) {
-                addLoginAttempt(user);
-                lockAccount(user);
-                return false;
-            } else if (!validPw.equals(password) && attempts < 3) {
-                addLoginAttempt(user);
-                return false;
-            }
-        }   
-        return false;
+            return result.getInt("USER_ID");
+        }
+        return 0;
     }
     /**
      * This method increments the user's LOGIN_ATTEMPT's field by 1 whenever an
@@ -94,19 +74,19 @@ public class DatabaseController {
      * @throws SQLException 
      */
     public void addLoginAttempt(String user) throws SQLException {
-        sql = "UPDATE [USER] SET LOGIN_ATTEMPT = LOGIN_ATTEMPT + 1 "
+        sql = "UPDATE [USER] SET LOGIN_ATTEMPT=LOGIN_ATTEMPT+1 "
                 + "WHERE USER_NAME = '" + user + "'";
         state.executeUpdate(sql);     
     }
     
     public void resetLoginAttempts(String user) throws SQLException {
-        sql = "UPDATE [USER] SET LOGIN_ATTEMPT = 0 "
+        sql = "UPDATE [USER] SET LOGIN_ATTEMPT=0 "
                 + "WHERE USER_NAME = '" + user + "'";
         state.executeUpdate(sql);
     }
     
-    public void removeLockoutDate(String user) throws SQLException {
-        sql = "UPDATE [USER] SET LOCKED = 0, LOCKOUT_DATE = null "
+    public void removeLock(String user) throws SQLException {
+        sql = "UPDATE [USER] SET LOGIN_ATTEMPT=0,LOCKED=0, LOCKOUT_DATE=null "
                 + "WHERE USER_NAME = '" + user + "'";
         state.executeUpdate(sql);
     }
@@ -210,20 +190,6 @@ public class DatabaseController {
         }
         return 0;
     }
-
-    /**
-     * Gets all User instances in the database table
-     *
-     * @return Returns a ResultSet of the User instances
-     * @throws java.sql.SQLException Throws error if query is invalid
-     */
-    public ResultSet getUsers() throws SQLException {
-        ResultSet users = state.executeQuery("SELECT * FROM [USER]");
-        while (users.next()) {
-            return users;
-        }
-        return null;
-    }
     
     public void lockAccount(String username) throws SQLException {
         Date date = new Date();
@@ -231,23 +197,6 @@ public class DatabaseController {
                 + "'" + " WHERE USER_NAME='" + username + "'";
         state.executeUpdate(sql);
         app.getLoginView().setLockedFlag(1);
-    }
-
-    /**
-     * Gets the user_id associated with a given username
-     *
-     * @param username The username with which a SQL SELECT...WHERE statement
-     * will be executed
-     * @return Returns an int of the user_id of the user
-     * @throws java.sql.SQLException Throws error if SQL query is invalid
-     */
-    public int getUserID(String username) throws SQLException {
-        sql = "SELECT USER_ID FROM [USER] WHERE USER_NAME='" + username + "'";
-        ResultSet userID = state.executeQuery(sql);
-        while (userID.next()) {
-            return userID.getInt("user_id");
-        }
-        return 0;
     }
 
 }

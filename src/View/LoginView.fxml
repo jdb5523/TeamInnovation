@@ -4,19 +4,21 @@
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="184.0" prefWidth="343.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controller.LoginViewController">
+<AnchorPane id="AnchorPane" maxHeight="389.0" maxWidth="343.0" prefHeight="389.0" prefWidth="343.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controller.LoginViewController">
   <children>
-    <Pane layoutX="0.0" layoutY="0.0" prefHeight="184.0" prefWidth="343.0">
+    <Pane layoutX="0.0" layoutY="0.0" prefHeight="389.0" prefWidth="343.0">
       <children>
-        <Label layoutX="14.0" layoutY="27.0" prefHeight="19.9609375" prefWidth="70.0" text="Username" />
-        <Label layoutX="14.0" layoutY="70.0" prefHeight="19.9609375" prefWidth="70.0" text="Password" />
-        <TextField fx:id="usernameField" layoutX="117.0" layoutY="27.0" prefWidth="200.0" onKeyPressed="#handleKeyPressed"/>
-        <PasswordField fx:id="passwordField" layoutX="117.0" layoutY="70.0" prefWidth="200.0" onKeyPressed="#handleKeyPressed"/>
-        <Button fx:id="loginButton" layoutX="279.0" layoutY="149.0" mnemonicParsing="false" text="Login" onKeyPressed="#handleKeyPressed" onAction="#handleLoginButtonAction"/>
-        <Button fx:id="resetButton" layoutX="14.0" layoutY="149.0" mnemonicParsing="false" text="Reset Password" onKeyPressed="#handleKeyPressed" onAction="#handleResetButtonAction"/>
-        <Label fx:id="invalidLabel" layoutX="117.0" layoutY="106.0" text="Password Invalid" textFill="#ff3333" />
+        <TextField fx:id="usernameField" layoutX="69.0" layoutY="231.0" onKeyPressed="#handleKeyPressed" prefWidth="200.0" promptText="Username" />
+        <PasswordField fx:id="passwordField" layoutX="69.0" layoutY="259.0" onKeyPressed="#handleKeyPressed" prefWidth="200.0" promptText="Password" />
+        <Button fx:id="loginButton" layoutX="130.0" layoutY="321.0" mnemonicParsing="false" onAction="#handleLoginButtonAction" onKeyPressed="#handleKeyPressed" prefWidth="79.0" text="Login" />
+        <Button fx:id="resetButton" layoutX="120.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleResetButtonAction" onKeyPressed="#handleKeyPressed" text="Reset Password" />
+        <Label fx:id="invalidLabel" layoutX="125.0" layoutY="289.0" text="Password Invalid" textFill="#ff3333" />
+        <Button fx:id="guideButton" layoutX="14.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleGuideButtonAction" onKeyPressed="#handleKeyPressed" text="User Guide" />
+        <Button fx:id="aboutButton" layoutX="247.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleAboutButtonAction" onKeyPressed="#handleKeyPressed" prefWidth="79.0" text="About" />
+        <ImageView fx:id="logo" fitHeight="219.0" fitWidth="322.0" layoutX="14.0" layoutY="0.0" pickOnBounds="true" preserveRatio="false" />
       </children>
     </Pane>
   </children>

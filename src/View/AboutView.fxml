@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="327.0" prefWidth="516.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controller.AboutViewController">
+  <children>
+    <Pane layoutX="0.0" layoutY="0.0" prefHeight="327.0" prefWidth="516.0">
+      <children>
+        <ImageView fx:id="logo" fitHeight="163.5" fitWidth="487.0" layoutX="15.0" layoutY="0.0" pickOnBounds="true" preserveRatio="false" />
+        <TextArea fx:id="aboutArea" editable="false" layoutX="15.0" layoutY="164.0" prefHeight="121.0" prefWidth="487.0" wrapText="true" />
+        <Button fx:id="closeButton" layoutX="230.0" layoutY="293.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" onKeyPressed="#handleKeyPressed" text="Close" />
+      </children>
+    </Pane>
+  </children>
+</AnchorPane>

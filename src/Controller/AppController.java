@@ -12,9 +12,13 @@ public class AppController {
     private MainController main;
     private LoginViewController login;
     private ResetPasswordViewController reset;
+    GuideViewController guide;
+    AboutViewController about;
     private FileController file;
     private DatabaseController db;
     private Stage stage;
+    Stage guideStage;
+    Stage aboutStage;
     private String currentUser;
     private int currentUserID;
 
@@ -45,6 +49,7 @@ public class AppController {
         stage.setTitle("Login");
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
     /**
@@ -61,6 +66,7 @@ public class AppController {
         stage.setTitle("Nautilus ALPHA BUILD -- Welcome, " + getCurrentUser());
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
     
@@ -78,9 +84,47 @@ public class AppController {
         stage.setTitle("Reset Password");
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
-
+    
+    public void showUserGuide() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/GuideView.fxml"));
+        root = loader.load();
+        guide = (GuideViewController) loader.getController();
+        guide.setUp(this);
+        guideStage = new Stage();
+        guideStage.setX(1500);
+        guideStage.setY(180);
+        guideStage.setTitle("User Guide");
+        Scene scene = new Scene(root);
+        guideStage.setScene(scene);
+        guideStage.setResizable(false);
+        guideStage.show();
+    }
+    
+    public void showAbout() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AboutView.fxml"));
+        root = loader.load();
+        about = (AboutViewController) loader.getController();
+        about.setUp(this);
+        aboutStage = new Stage();
+        aboutStage.setX(500);
+        aboutStage.setY(180);
+        aboutStage.setTitle("About Nautilus");
+        Scene scene = new Scene(root);
+        aboutStage.setScene(scene);
+        aboutStage.setResizable(false);
+        aboutStage.show();
+    }
+    
+    public void closeGuide() {
+        guideStage.close();
+    }
+   
+    public void closeAbout() {
+        aboutStage.close();
+    }
     public MainController getMain() {
         return main;
     }
