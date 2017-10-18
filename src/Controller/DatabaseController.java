@@ -151,6 +151,7 @@ public class DatabaseController {
                 + id;
         state.executeUpdate(sql);
     }
+    
     /**
      * Creates entry in SQL Server database
      *
@@ -182,8 +183,18 @@ public class DatabaseController {
         state.executeUpdate(sql);
     }
     
+    public void ocrEntry(int caseId, String captureDate, int photographer, 
+            int processor, String filePath, String additionalNotes) throws SQLException {
+        sql = "INSERT INTO OCR (CASE_ID, CAPTURE_DATE, PHOTOGRAPHER, PROCESSED_BY"
+                + ", FILE_PATH, ADDITIONAL_NOTES) "
+                + "VALUES ('" + caseId + "', "
+                + "'" + captureDate + "'" + ", " + photographer + ", " + processor
+                + ", " + "'" + filePath + "', '" + additionalNotes + "'\")";
+        state.executeUpdate(sql);
+    }
+    
     public int getNextOcrId() throws SQLException {
-        sql = "SELECT ocr_id FROM Ocr";
+        sql = "SELECT ocr_id FROM OCR";
         ResultSet ocrID = state.executeQuery(sql);
         while (ocrID.last()) {
             return ocrID.getInt("ocr_id") + 1;

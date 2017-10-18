@@ -23,7 +23,6 @@ public class AboutViewController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        closeButton.requestFocus();
         loadText();
         try {
             Image image = new Image(new FileInputStream("images/logo - About.jpg"));
@@ -49,9 +48,10 @@ public class AboutViewController implements Initializable {
     }
     
     public void loadText() {
-        aboutArea.setText("Nautilus Decryption Application\nDeveloped by Team Innovation 2017"
-                + "\nVersion 0.1a"
+        aboutArea.setText("Nautilus Decryption Application ver. 0.1a"
+                + "\nDeveloped by Team Innovation (2017)"
                 + "\n\nUtilizes Tesseract OCR which is licensed under the Apache License, "
-                + "Version 2.0\nhttp://www.apache.org/licenses/LICENSE-2.0");
+                + "Version 2.0\nhttp://www.apache.org/licenses/LICENSE-2.0"
+                + "\nRepository: https://github.com/tesseract-ocr/tesseract");
     }
 }

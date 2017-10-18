@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="238.0" prefWidth="351.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controller.OptionViewController">
+  <children>
+    <Pane layoutX="0.0" layoutY="0.0" prefHeight="238.00009999999747" prefWidth="351.0000999999975">
+      <children>
+        <Label layoutX="94.0" layoutY="34.0" prefWidth="166.0" text="Please make a selection: ">
+          <font>
+            <Font name="System Bold" size="14.0" fx:id="x1" />
+          </font>
+        </Label>
+        <Button fx:id="processButton" layoutX="14.0" layoutY="81.0" mnemonicParsing="false" prefWidth="323.0" text="Process New Image" onAction="#handleProcessButtonAction" onKeyPressed="#handleKeyPressed" />
+        <Button fx:id="historyButton" layoutX="14.0" layoutY="151.0" mnemonicParsing="false" prefWidth="323.0000999999975" text="View Historical Log" onAction="#handleHistoryButtonAction" onKeyPressed="#handleKeyPressed" />
+        <Label font="$x1" layoutX="167.0" layoutY="116.0" prefWidth="20.0" text="OR" />
+      </children>
+    </Pane>
+  </children>
+</AnchorPane>

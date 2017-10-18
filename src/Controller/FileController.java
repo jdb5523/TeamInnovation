@@ -51,6 +51,13 @@ public class FileController {
             e.printStackTrace();
         }
     }
+    
+    public String processImage() {
+        imageFileChooser.getExtensionFilters().addAll(
+                new ExtensionFilter("JPEG Images", "*.jpg"));
+        file = imageFileChooser.showOpenDialog(app.getStage());
+        return file.getAbsolutePath();
+    }
     /**
      * Allows user to select an image file to be processed by tesseract. After
      * image file is selected, .txt file is generated on the desktop.
@@ -58,15 +65,16 @@ public class FileController {
      * @throws java.sql.SQLException Throws error if the DatabaseController fails
      * to create record in Ocr table
      */
-    public void ocr() throws IOException, SQLException {
+    public String[] ocr() throws IOException, SQLException {
+        String [] results = new String[2];
         imageFileChooser.getExtensionFilters().addAll(
                 new ExtensionFilter("JPEG Images", "*.jpg"));
         file = imageFileChooser.showOpenDialog(app.getStage());
-        Date date = Calendar.getInstance().getTime();
+        Date date = new Date();
         String fileName = "C:\\Users\\Jared\\Desktop\\OCR_" + app.getDb().getNextOcrId();
         String command = "tesseract " + file.getAbsolutePath() + " " + fileName;
         Process process = Runtime.getRuntime().exec(command);
-        app.getDb().ocrEntry(fileName, df.format(date), app.getCurrentUserID());
+        app.getDb().ocrEntry(0, fileName, 0, 0, fileName, fileContents);
         TimerTask task = new TimerTask() {
         @Override
         public void run() {
@@ -86,9 +94,9 @@ public class FileController {
     Timer timer = new Timer("Timer");
     long delay = 3000L;
     timer.schedule(task, delay);
+        return null;
     }
-    
-    
+     
     public void saveOutput() throws IOException {
         File outputFile = textFileChooser.showSaveDialog(app.getStage());
         try {

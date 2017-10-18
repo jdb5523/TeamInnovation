@@ -35,6 +35,7 @@ public class GuideViewController implements Initializable {
     @FXML private TextArea helpText;
     @FXML private Button closeButton;
     @FXML ImageView logo;
+    int selectedItem = 0;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -50,38 +51,52 @@ public class GuideViewController implements Initializable {
         helpItems.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         helpText.setText(instance.getIntro());
     }    
-    @FXML protected void handleItemSelection() {
-        String selectedItem = helpItems.getSelectionModel().getSelectedItem();
+    protected void handleItemSelection() {
         switch (selectedItem) {
-            case "Introduction": helpText.setText(instance.getIntro());
+            case 0: helpText.setText(instance.getIntro());
             break;
-            case "Login Screen": helpText.setText(instance.getLogin());
+            case 1: helpText.setText(instance.getLogin());
             break;
-            case "Resetting Password": helpText.setText(instance.getReset());
+            case 2: helpText.setText(instance.getReset());
             break;
-            case "Main Screen": helpText.setText(instance.getMain());
+            case 3: helpText.setText(instance.getMain());
             break;
-            case "OCR Process": helpText.setText(instance.getOcr());
+            case 4: helpText.setText(instance.getOcr());
             break;
-            case "Importing Text": helpText.setText(instance.getImporting());
+            case 5: helpText.setText(instance.getImporting());
             break;
-            case "Decrypting Text": helpText.setText(instance.getDecrypt());
+            case 6: helpText.setText(instance.getDecrypt());
             break;
-            case "Saving Results": helpText.setText(instance.getSave());
+            case 7: helpText.setText(instance.getSave());
             break;
         }
     }
     
     @FXML
     protected void handleKeyPressed(KeyEvent key) throws IOException {
-        if (key.getCode() == KeyCode.ENTER && closeButton.isFocused()) {
+        KeyCode code = key.getCode();
+        if (code == KeyCode.ENTER && closeButton.isFocused()) {
             handleCloseButtonAction();
-        } else if ((key.getCode() == KeyCode.UP) || (key.getCode() == KeyCode.DOWN)) {
-            key.consume();
+        } else if (code == KeyCode.DOWN) {
+            if (selectedItem < 7) {
+                selectedItem += 1;
+            }
+            handleItemSelection();
+        } else if (code == KeyCode.UP) {
+            if (selectedItem > 0) {
+                selectedItem -= 1;
+            }
+            handleItemSelection();
         }
     }
+    
+    @FXML 
+    protected void handleMouseClicked() {
+        selectedItem = helpItems.getSelectionModel().getSelectedIndex();
+        handleItemSelection();
+    }
     @FXML
-    public void handleCloseButtonAction() {
+    protected void handleCloseButtonAction() {
         app.closeGuide();
     }
     

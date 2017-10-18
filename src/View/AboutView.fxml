@@ -11,9 +11,9 @@
   <children>
     <Pane layoutX="0.0" layoutY="0.0" prefHeight="327.0" prefWidth="516.0">
       <children>
+        <Button fx:id="closeButton" layoutX="230.0" layoutY="293.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" onKeyPressed="#handleKeyPressed" text="Close" />
         <ImageView fx:id="logo" fitHeight="163.5" fitWidth="487.0" layoutX="15.0" layoutY="0.0" pickOnBounds="true" preserveRatio="false" />
         <TextArea fx:id="aboutArea" editable="false" layoutX="15.0" layoutY="164.0" prefHeight="121.0" prefWidth="487.0" wrapText="true" />
-        <Button fx:id="closeButton" layoutX="230.0" layoutY="293.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" onKeyPressed="#handleKeyPressed" text="Close" />
       </children>
     </Pane>
   </children>

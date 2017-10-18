@@ -55,7 +55,7 @@ public class LoginViewController implements Initializable {
             System.out.println("Login successful");
             app.setCurrentUser(usernameField.getText());
             app.setCurrentUserID(app.getDb().getUserId(app.getCurrentUser()));
-            app.showMain();     
+            app.showOption();
         } else {
             if (lockedFlag == 0) {
                 invalidLabel.setText("Invalid login credentials");

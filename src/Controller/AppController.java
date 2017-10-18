@@ -14,6 +14,8 @@ public class AppController {
     private ResetPasswordViewController reset;
     GuideViewController guide;
     AboutViewController about;
+    OptionViewController option;
+    ProcessImageViewController image;
     private FileController file;
     private DatabaseController db;
     private Stage stage;
@@ -21,6 +23,7 @@ public class AppController {
     Stage aboutStage;
     private String currentUser;
     private int currentUserID;
+    FXMLLoader loader;
 
     /**
      *Default constructor for the AppController
@@ -33,7 +36,10 @@ public class AppController {
         db.connect();
         this.file = new FileController(this); 
         this.stage = stage;
-        showLogin();
+        //TODO
+        //Change back to Login
+        //showLogin();
+        showProcessImage();
     }
     
     /**
@@ -42,14 +48,38 @@ public class AppController {
      * @throws IOException 
      */
     public final void showLogin() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/LoginView.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/View/LoginView.fxml"));
         root = loader.load();
         login = (LoginViewController) loader.getController();
         login.setUp(this);
-        stage.setTitle("Login");
         Scene scene = new Scene(root);
+        stage.setTitle("Login");
         stage.setScene(scene);
         stage.setResizable(false);
+        stage.show();
+    }
+    
+    public final void showOption() throws IOException {
+        loader = new FXMLLoader(getClass().getResource("/View/OptionView.fxml"));
+        root = loader.load();
+        option = (OptionViewController) loader.getController();
+        option.setUp(this);
+        Scene scene = new Scene(root);
+        stage.setTitle("Option Menu");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
+    
+    public final void showProcessImage() throws IOException {
+        loader = new FXMLLoader(getClass().getResource("/View/ProcessImageView.fxml"));
+        root = loader.load();
+        image = (ProcessImageViewController) loader.getController();
+        image.setUp(this);
+        Scene scene = new Scene(root);
+        stage.setTitle("Import Image");
+        stage.setResizable(false);
+        stage.setScene(scene);
         stage.show();
     }
     /**
@@ -59,7 +89,7 @@ public class AppController {
      * be loaded
     **/
     public void showMain() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/MainView.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/View/MainView.fxml"));
         root = loader.load();
         main = (MainController) loader.getController();
         main.setUp(this);
@@ -77,7 +107,7 @@ public class AppController {
      * @throws IOException 
      */
     public void showReset() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ResetPasswordView.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/View/ResetPasswordView.fxml"));
         root = loader.load();
         reset = (ResetPasswordViewController) loader.getController();
         reset.setUp(this);
@@ -89,7 +119,7 @@ public class AppController {
     }
     
     public void showUserGuide() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/GuideView.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/View/GuideView.fxml"));
         root = loader.load();
         guide = (GuideViewController) loader.getController();
         guide.setUp(this);
@@ -104,7 +134,7 @@ public class AppController {
     }
     
     public void showAbout() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AboutView.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/View/AboutView.fxml"));
         root = loader.load();
         about = (AboutViewController) loader.getController();
         about.setUp(this);
