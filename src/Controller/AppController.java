@@ -37,9 +37,7 @@ public class AppController {
         this.file = new FileController(this); 
         this.stage = stage;
         //TODO
-        //Change back to Login
-        //showLogin();
-        showProcessImage();
+        showLogin();
     }
     
     /**

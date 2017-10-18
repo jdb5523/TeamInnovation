@@ -155,15 +155,29 @@ public class DatabaseController {
     /**
      * Creates entry in SQL Server database
      *
-     * @param path The file pathway to the image
-     * @param date The date the image was imported
-     * @param userID The user_id of the user who imported the image
+     * @param caseId
+     * @param captureDate
+     * @param processor
+     * @param filePath
      * @throws java.sql.SQLException Throws exception if the SQL INSERT
      * statement fails
      */
-    public void imageEntry(String path, String date, int userID) throws SQLException {
-        sql = "INSERT INTO Image (file_path, capture_date, user_id) VALUES"
-                + path + ", " + date + ", " + userID;
+    public void imageEntry(int caseId, String captureDate, int photographer, 
+            int processor, String filePath) throws SQLException {
+        sql = "INSERT INTO Image (CASE_ID, CAPTURE_DATE, PHOTOGRAPHER, PROCESSED_BY"
+                + ", FILE_PATH) "
+                + "VALUES (" + caseId + ", "
+                + captureDate + ", " + photographer + ", " + processor
+                + ", " + "'" + filePath + "')";
+        state.executeUpdate(sql);
+    }
+    
+    public void imageEntry(String captureDate, int photographer, 
+            int processor, String filePath) throws SQLException {
+        sql = "INSERT INTO Image (CAPTURE_DATE, PHOTOGRAPHER, PROCESSED_BY"
+                + ", FILE_PATH) "
+                + "VALUES (" + captureDate + ", " + photographer + ", " + processor
+                + ", " + "'" + filePath + "')";
         state.executeUpdate(sql);
     }
 

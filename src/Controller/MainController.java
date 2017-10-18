@@ -38,7 +38,6 @@ public class MainController {
     protected void handleOcrButtonAction(ActionEvent event) throws IOException, SQLException {
         clearText();
         app.getFile().setFileContents("");
-        app.getFile().ocr();
         inputArea.setText(app.getFile().getFileContents());
     }
     

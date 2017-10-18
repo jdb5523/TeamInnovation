@@ -52,7 +52,7 @@ public class FileController {
         }
     }
     
-    public String processImage() {
+    public String getPath() {
         imageFileChooser.getExtensionFilters().addAll(
                 new ExtensionFilter("JPEG Images", "*.jpg"));
         file = imageFileChooser.showOpenDialog(app.getStage());
@@ -61,20 +61,25 @@ public class FileController {
     /**
      * Allows user to select an image file to be processed by tesseract. After
      * image file is selected, .txt file is generated on the desktop.
+     * @param parameters Takes in the parameters for the image file to be OCR'd
      * @throws IOException Throws error if file is unable to be found or read
      * @throws java.sql.SQLException Throws error if the DatabaseController fails
      * to create record in Ocr table
      */
-    public String[] ocr() throws IOException, SQLException {
-        String [] results = new String[2];
-        imageFileChooser.getExtensionFilters().addAll(
-                new ExtensionFilter("JPEG Images", "*.jpg"));
-        file = imageFileChooser.showOpenDialog(app.getStage());
-        Date date = new Date();
-        String fileName = "C:\\Users\\Jared\\Desktop\\OCR_" + app.getDb().getNextOcrId();
+    public void ocr(String[] parameters) throws IOException, SQLException {
+        if (!parameters[0].isEmpty()) { 
+            app.getDb().imageEntry(Integer.parseInt(parameters[0]), parameters[1], 
+                Integer.parseInt(parameters[2]), Integer.parseInt(parameters[3]), parameters[4]);
+        } else {
+            app.getDb().imageEntry(parameters[1], Integer.parseInt(parameters[2]), 
+                    Integer.parseInt(parameters[3]), parameters[4]);
+        }
+        /*String fileName = "C:\\Users\\Jared\\Desktop\\OCR_" + app.getDb().getNextOcrId();
         String command = "tesseract " + file.getAbsolutePath() + " " + fileName;
         Process process = Runtime.getRuntime().exec(command);
-        app.getDb().ocrEntry(0, fileName, 0, 0, fileName, fileContents);
+        app.getDb().ocrEntry(Integer.parseInt(parameters[0]), parameters[1],  
+                Integer.parseInt(parameters[2]),  Integer.parseInt(parameters[3]),  
+                parameters[4],  parameters[5]);
         TimerTask task = new TimerTask() {
         @Override
         public void run() {
@@ -93,8 +98,7 @@ public class FileController {
     };
     Timer timer = new Timer("Timer");
     long delay = 3000L;
-    timer.schedule(task, delay);
-        return null;
+    timer.schedule(task, delay);*/
     }
      
     public void saveOutput() throws IOException {

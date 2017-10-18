@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -24,7 +23,7 @@ public class ProcessImageViewController implements Initializable {
     @FXML private TextField photographerField;
     @FXML private TextField caseIdField;
     @FXML private Label errorLabel;
-    private String imageParameters[] = new String[6];
+    private String imageParameters[] = new String[5];
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -33,25 +32,24 @@ public class ProcessImageViewController implements Initializable {
     
     @FXML
     protected void handleBrowseButtonAction() throws IOException, SQLException {
-        pathField.setText(app.getFile().processImage());
+        pathField.setText(app.getFile().getPath());
     }
     
     @FXML
-    protected void handleProcessButtonAction() {
+    protected void handleProcessButtonAction() throws IOException, SQLException {
         if (pathField.getText().isEmpty() || monthField.getText().isEmpty() || 
                 dayField.getText().isEmpty() || yearField.getText().isEmpty() ||
             photographerField.getText().isEmpty()) {
             errorLabel.setVisible(true);
         } else {
-            imageParameters[0] = pathField.getText();
-            imageParameters[1] = monthField.getText();
-            imageParameters[2] = dayField.getText();
-            imageParameters[3] = yearField.getText();
-            imageParameters[4] = photographerField.getText();
-            imageParameters[5] = caseIdField.getText();
-            for (String s : imageParameters) {
-                System.out.println(s);
-            }
+            String formattedDate = "'" + yearField.getText() + "-" + 
+                    monthField.getText() + "-" + dayField.getText() + "'";
+            imageParameters[0] = caseIdField.getText();
+            imageParameters[1] = formattedDate;
+            imageParameters[2] = photographerField.getText();
+            imageParameters[3] = String.valueOf(app.getCurrentUserID());
+            imageParameters[4] = pathField.getText();
+            app.getFile().ocr(imageParameters);
         }
     }
         
