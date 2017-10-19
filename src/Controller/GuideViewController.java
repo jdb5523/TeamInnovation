@@ -59,15 +59,17 @@ public class GuideViewController implements Initializable {
             break;
             case 2: helpText.setText(instance.getReset());
             break;
-            case 3: helpText.setText(instance.getMain());
+            case 3: helpText.setText(instance.getOption());
             break;
-            case 4: helpText.setText(instance.getOcr());
+            case 4: helpText.setText(instance.getImage());
             break;
-            case 5: helpText.setText(instance.getImporting());
+            case 5: helpText.setText(instance.getOcr());
             break;
-            case 6: helpText.setText(instance.getDecrypt());
+            case 6: helpText.setText(instance.getImporting());
             break;
-            case 7: helpText.setText(instance.getSave());
+            case 7: helpText.setText(instance.getDecrypt());
+            break;
+            case 8: helpText.setText(instance.getSave());
             break;
         }
     }
@@ -112,7 +114,8 @@ public class GuideViewController implements Initializable {
         items.add("Introduction");
         items.add("Login Screen");
         items.add("Resetting Password");
-        items.add("Main Screen");
+        items.add("Option menu");
+        items.add("Image Selection");
         items.add("OCR Process");
         items.add("Importing Text");
         items.add("Decrypting Text");
