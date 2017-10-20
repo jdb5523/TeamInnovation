@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.AboutText;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import javafx.scene.input.KeyEvent;
 public class AboutViewController implements Initializable {
 
     AppController app;
+    AboutText instance = AboutText.getInstance();
     @FXML private ImageView logo;
     @FXML private Button closeButton;
     @FXML private TextArea aboutArea;
@@ -48,10 +50,6 @@ public class AboutViewController implements Initializable {
     }
     
     public void loadText() {
-        aboutArea.setText("Nautilus Decryption Application ver. 0.1a"
-                + "\nDeveloped by Team Innovation (2017)"
-                + "\n\nUtilizes Tesseract OCR which is licensed under the Apache License, "
-                + "Version 2.0\nhttp://www.apache.org/licenses/LICENSE-2.0"
-                + "\nRepository: https://github.com/tesseract-ocr/tesseract");
+        aboutArea.setText(instance.getAbout());
     }
 }

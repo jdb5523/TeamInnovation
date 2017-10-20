@@ -25,7 +25,7 @@ public class OptionViewController implements Initializable {
     
     @FXML 
     protected void handleHistoryButtonAction() throws IOException {
-        //app.showHistory();
+        app.showHistory();
     }
     
     public void handleKeyPressed(KeyEvent key) throws IOException {

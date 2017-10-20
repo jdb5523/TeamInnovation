@@ -10,9 +10,9 @@ public final class GuideText {
     private static String option;
     private static String image;
     private static String ocr;
-    private static String importing;
+    private static String history;
     private static String decrypt;
-    private static String save;
+    private static String detail;
     
     public GuideText() {
         initialize();
@@ -53,6 +53,19 @@ public final class GuideText {
                 + "which contains the information entered on the image selection screen.\n2. An OCR record"
                 + " is inserted which contains the results of the OCR process and other automatically"
                 + " generated information.";
+        history = "The Historical Log retrieves and displays past records from the database. Records are "
+                + "pulled from the Decrypt table. You may enter in a search query to obtain specific "
+                + "results.";
+        detail = "The Detail page can also be accessed from here. The detail page provides " 
+                + "more specific information on each record.\n\nFrom this screen, additional notes may be added "
+                + "to the image record currently being viewed.";
+        decrypt = "After an image file has been selected and successfully processed by Tesseract, the "
+                + "coded text will be ready for decryption.  Optionally, the user may make adjustments "
+                + "to the text in the Input window before decrypting.\n\nOnce the Decrypt button is selected "
+                + ", the algorithms will begin to decode the text.  Output will be shown in the Output "
+                + "window. The Google Language API can determine the language of the decrypted text.\n\n"
+                + "Once decryption is finished, separate database records will be created for the result of "
+                + "each cipher.\n\nThe User Guide and Historical Log can also be accessed from this screen.";
     }
 
     public String getIntro() {
@@ -75,16 +88,16 @@ public final class GuideText {
         return ocr;
     }
 
-    public String getImporting() {
-        return importing;
+    public String getHistory() {
+        return history;
     }
 
     public String getDecrypt() {
         return decrypt;
     }
 
-    public String getSave() {
-        return save;
+    public String getDetail() {
+        return detail;
     }
     
     public static GuideText getInstance() {

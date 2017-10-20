@@ -12,6 +12,8 @@ public class AppController {
     private MainController main;
     private LoginViewController login;
     private ResetPasswordViewController reset;
+    HistoryViewController history;
+    DetailViewController detail;
     GuideViewController guide;
     AboutViewController about;
     OptionViewController option;
@@ -21,9 +23,11 @@ public class AppController {
     private Stage stage;
     Stage guideStage;
     Stage aboutStage;
+    Stage detailStage;
     private String currentUser;
     private int currentUserID;
     FXMLLoader loader;
+    Scene scene;
 
     /**
      *Default constructor for the AppController
@@ -50,7 +54,7 @@ public class AppController {
         root = loader.load();
         login = (LoginViewController) loader.getController();
         login.setUp(this);
-        Scene scene = new Scene(root);
+        scene = new Scene(root);
         stage.setTitle("Login");
         stage.setScene(scene);
         stage.setResizable(false);
@@ -62,7 +66,7 @@ public class AppController {
         root = loader.load();
         option = (OptionViewController) loader.getController();
         option.setUp(this);
-        Scene scene = new Scene(root);
+        scene = new Scene(root);
         stage.setTitle("Option Menu");
         stage.setScene(scene);
         stage.setResizable(false);
@@ -74,7 +78,7 @@ public class AppController {
         root = loader.load();
         image = (ProcessImageViewController) loader.getController();
         image.setUp(this);
-        Scene scene = new Scene(root);
+        scene = new Scene(root);
         stage.setTitle("Import Image");
         stage.setResizable(false);
         stage.setScene(scene);
@@ -92,7 +96,7 @@ public class AppController {
         main = (MainController) loader.getController();
         main.setUp(this);
         stage.setTitle("Nautilus ALPHA BUILD -- Welcome, " + getCurrentUser());
-        Scene scene = new Scene(root);
+        scene = new Scene(root);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
@@ -110,12 +114,38 @@ public class AppController {
         reset = (ResetPasswordViewController) loader.getController();
         reset.setUp(this);
         stage.setTitle("Reset Password");
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
+    
+    public void showHistory() throws IOException {
+        loader = new FXMLLoader(getClass().getResource("/View/HistoryView.fxml"));
+        root = loader.load();
+        history = (HistoryViewController) loader.getController();
+        history.setUp(this);
+        stage.setTitle("History Log");
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
     }
     
+    public void showDetail() throws IOException {
+        loader = new FXMLLoader(getClass().getResource("/View/DetailView.fxml"));
+        root = loader.load();
+        detail = (DetailViewController) loader.getController();
+        detail.setUp(this);
+        scene = new Scene(root);
+        detailStage = new Stage();
+        detailStage.setX(1500);
+        detailStage.setY(180);
+        detailStage.setTitle("Detail View");
+        detailStage.setScene(scene);
+        detailStage.setResizable(false);
+        detailStage.show();
+    }
     public void showUserGuide() throws IOException {
         loader = new FXMLLoader(getClass().getResource("/View/GuideView.fxml"));
         root = loader.load();
@@ -125,7 +155,7 @@ public class AppController {
         guideStage.setX(1500);
         guideStage.setY(180);
         guideStage.setTitle("User Guide");
-        Scene scene = new Scene(root);
+        scene = new Scene(root);
         guideStage.setScene(scene);
         guideStage.setResizable(false);
         guideStage.show();
@@ -140,7 +170,7 @@ public class AppController {
         aboutStage.setX(500);
         aboutStage.setY(180);
         aboutStage.setTitle("About Nautilus");
-        Scene scene = new Scene(root);
+        scene = new Scene(root);
         aboutStage.setScene(scene);
         aboutStage.setResizable(false);
         aboutStage.show();
@@ -152,6 +182,10 @@ public class AppController {
    
     public void closeAbout() {
         aboutStage.close();
+    }
+    
+    public void closeDetail() {
+        detailStage.close();
     }
     public MainController getMain() {
         return main;

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="496.0" prefWidth="514.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controller.DecryptViewController">
+  <children>
+    <Pane layoutX="0.0" layoutY="0.0" prefHeight="496.0" prefWidth="514.0">
+      <children>
+        <Label layoutX="212.0" layoutY="21.0" text="Photographer ID:" />
+        <Label layoutX="19.0" layoutY="21.0" text="Image Capture Date:" />
+        <Label layoutX="391.0" layoutY="21.0" text="Reference Case ID:" />
+        <TextField layoutX="381.0" layoutY="41.0" prefWidth="119.0" />
+        <TextField layoutX="198.0" layoutY="41.0" prefWidth="119.0" />
+        <TextField layoutX="14.0" layoutY="41.0" prefWidth="119.0" />
+        <TextArea layoutX="14.0" layoutY="105.0" prefHeight="334.0390625" prefWidth="236.0" wrapText="true" />
+        <TextArea layoutX="264.0" layoutY="105.0" prefHeight="334.0390625" prefWidth="236.0" wrapText="true" />
+        <Label layoutX="19.0" layoutY="89.0" text="Input:">
+          <font>
+            <Font name="System Bold" size="12.0" fx:id="x1" />
+          </font>
+        </Label>
+        <Label font="$x1" layoutX="273.0" layoutY="89.0" text="Output:" />
+        <Button layoutX="74.0" layoutY="449.0" mnemonicParsing="false" prefWidth="109.0" text="Decrypt" />
+        <Button layoutX="267.0" layoutY="450.0" mnemonicParsing="false" text="View Historical Log" />
+        <Button layoutX="421.0" layoutY="450.0" mnemonicParsing="false" text="User Guide" />
+      </children>
+    </Pane>
+  </children>
+</AnchorPane>

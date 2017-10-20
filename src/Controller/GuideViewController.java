@@ -12,9 +12,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -65,11 +62,11 @@ public class GuideViewController implements Initializable {
             break;
             case 5: helpText.setText(instance.getOcr());
             break;
-            case 6: helpText.setText(instance.getImporting());
+            case 6: helpText.setText(instance.getHistory());
             break;
-            case 7: helpText.setText(instance.getDecrypt());
+            case 7: helpText.setText(instance.getDetail());
             break;
-            case 8: helpText.setText(instance.getSave());
+            case 8: helpText.setText(instance.getDecrypt());
             break;
         }
     }
@@ -80,7 +77,7 @@ public class GuideViewController implements Initializable {
         if (code == KeyCode.ENTER && closeButton.isFocused()) {
             handleCloseButtonAction();
         } else if (code == KeyCode.DOWN) {
-            if (selectedItem < 7) {
+            if (selectedItem < 8) {
                 selectedItem += 1;
             }
             handleItemSelection();
@@ -106,10 +103,6 @@ public class GuideViewController implements Initializable {
         this.app = app;
     }
     
-    public void showIntroduction() {
-        helpText.setText("INTRODUCTION BLAH BLAH BLAH");
-    }
-    
     public void addItems() {
         items.add("Introduction");
         items.add("Login Screen");
@@ -117,8 +110,8 @@ public class GuideViewController implements Initializable {
         items.add("Option menu");
         items.add("Image Selection");
         items.add("OCR Process");
-        items.add("Importing Text");
+        items.add("Historical Log");
+        items.add("Detail View");
         items.add("Decrypting Text");
-        items.add("Saving Results");
     }
 }

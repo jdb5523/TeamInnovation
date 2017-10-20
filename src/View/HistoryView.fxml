@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="544.0" prefWidth="504.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controller.HistoryViewController">
+  <children>
+    <Pane layoutX="0.0" layoutY="0.0" prefHeight="544.0" prefWidth="504.0">
+      <children>
+        <Button fx:id="searchButton" layoutX="413.0" layoutY="14.0" mnemonicParsing="false" prefWidth="77.0" text="Search" />
+        <TextField fx:id="searchField" layoutX="202.0" layoutY="14.0" prefWidth="200.0" promptText="Search" />
+        <TableView layoutX="14.0" layoutY="46.0" prefHeight="442.0" prefWidth="476.0" tableMenuButtonVisible="false">
+          <columns>
+            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="94.0" text="Decrypt Date" />
+            <TableColumn prefWidth="75.0" text="Decrypt ID" />
+            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="230.0" text="Results" />
+            <TableColumn prefWidth="75.0" text="Rating" />
+          </columns>
+        </TableView>
+        <Button onAction="#handleDetailViewButtonAction" layoutX="14.0" layoutY="510.0" mnemonicParsing="false" text="View Details" />
+        <Button onAction="#handleProcessButtonAction" layoutX="190.0" layoutY="510.0" mnemonicParsing="false" text="Process New Image" />
+        <Button onAction="#handleGuideButtonAction" layoutX="411.0" layoutY="510.0" mnemonicParsing="false" text="User Guide" />
+      </children>
+    </Pane>
+  </children>
+</AnchorPane>

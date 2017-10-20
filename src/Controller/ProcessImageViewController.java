@@ -52,6 +52,11 @@ public class ProcessImageViewController implements Initializable {
             app.getFile().ocr(imageParameters);
         }
     }
+    
+    @FXML
+    protected void handleBackButtonAction() throws IOException {
+        app.showOption();
+    }
         
     @FXML 
     protected void handleKeyPressed(KeyEvent key) throws IOException, SQLException {
