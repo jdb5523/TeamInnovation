@@ -20,9 +20,9 @@
             <TableColumn prefWidth="75.0" text="Rating" />
           </columns>
         </TableView>
-        <Button onAction="#handleDetailViewButtonAction" layoutX="14.0" layoutY="510.0" mnemonicParsing="false" text="View Details" />
-        <Button onAction="#handleProcessButtonAction" layoutX="190.0" layoutY="510.0" mnemonicParsing="false" text="Process New Image" />
-        <Button onAction="#handleGuideButtonAction" layoutX="411.0" layoutY="510.0" mnemonicParsing="false" text="User Guide" />
+        <Button fx:id="detailsButton" onAction="#handleDetailViewButtonAction" onKeyPressed="#handleKeyPressed" layoutX="14.0" layoutY="510.0" mnemonicParsing="false" text="View Details" />
+        <Button fx:id="processButton" onAction="#handleProcessButtonAction" onKeyPressed="#handleKeyPressed" layoutX="190.0" layoutY="510.0" mnemonicParsing="false" text="Process New Image" />
+        <Button fx:id="guideButton" onAction="#handleGuideButtonAction" onKeyPressed="#handleKeyPressed" layoutX="411.0" layoutY="510.0" mnemonicParsing="false" text="User Guide" />
       </children>
     </Pane>
   </children>

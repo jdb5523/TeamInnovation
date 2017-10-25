@@ -18,6 +18,7 @@ public class AppController {
     AboutViewController about;
     OptionViewController option;
     ProcessImageViewController image;
+    DecryptViewController decrypt;
     private FileController file;
     private DatabaseController db;
     private Stage stage;
@@ -84,6 +85,19 @@ public class AppController {
         stage.setScene(scene);
         stage.show();
     }
+    
+    public void showDecrypt(String[] parameters, String fileContents) throws IOException {
+        loader = new FXMLLoader(getClass().getResource("/View/DecryptView.fxml"));
+        root = loader.load();
+        decrypt = (DecryptViewController) loader.getController();
+        decrypt.setUp(this, parameters, fileContents);
+        scene = new Scene(root);
+        stage.setTitle("Decryption");
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
+    
     /**
      * Upon successful authentication, the instance of the AppController object will
      * change the JavaFX stage from the login view to the main view
@@ -146,6 +160,7 @@ public class AppController {
         detailStage.setResizable(false);
         detailStage.show();
     }
+    
     public void showUserGuide() throws IOException {
         loader = new FXMLLoader(getClass().getResource("/View/GuideView.fxml"));
         root = loader.load();

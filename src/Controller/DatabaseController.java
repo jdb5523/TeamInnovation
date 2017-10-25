@@ -157,12 +157,14 @@ public class DatabaseController {
      *
      * @param caseId
      * @param captureDate
+     * @param photographer
      * @param processor
      * @param filePath
+     * @return 
      * @throws java.sql.SQLException Throws exception if the SQL INSERT
      * statement fails
      */
-    public void imageEntry(int caseId, String captureDate, int photographer, 
+    public int imageEntry(int caseId, String captureDate, int photographer, 
             int processor, String filePath) throws SQLException {
         sql = "INSERT INTO Image (CASE_ID, CAPTURE_DATE, PHOTOGRAPHER, PROCESSED_BY"
                 + ", FILE_PATH) "
@@ -170,30 +172,43 @@ public class DatabaseController {
                 + captureDate + ", " + photographer + ", " + processor
                 + ", " + "'" + filePath + "')";
         state.executeUpdate(sql);
+        sql = "SELECT MAX(IMAGE_ID) FROM Image";
+        result = state.executeQuery(sql);
+        while (result.next()) {
+            return result.getInt(1);
+        }
+        return 0;
     }
     
-    public void imageEntry(String captureDate, int photographer, 
+    public int imageEntry(String captureDate, int photographer, 
             int processor, String filePath) throws SQLException {
         sql = "INSERT INTO Image (CAPTURE_DATE, PHOTOGRAPHER, PROCESSED_BY"
                 + ", FILE_PATH) "
                 + "VALUES (" + captureDate + ", " + photographer + ", " + processor
                 + ", " + "'" + filePath + "')";
         state.executeUpdate(sql);
+        sql = "SELECT MAX(IMAGE_ID) FROM Image";
+        result = state.executeQuery(sql);
+        while (result.next()) {
+            return result.getInt(1);
+        }
+        return 0;
     }
 
     /**
      * Creates OCR entry in SQL Server database
      *
-     * @param path The file pathway to the resultant text file of the OCR
-     * process
+     * @param imageId
+     * @param result
      * @param date The date on which the OCR was completed
-     * @param userID The user_id of whom initiated the OCR process
+     * @param processor
+     * @param error
      * @throws SQLException Throws exception if the SQL INSERT statement fails
      */
-    public void ocrEntry(String path, String date, int userID) throws SQLException {
-        sql = "INSERT INTO Ocr (file_path, ocr_timestamp, user_id) "
-                + "VALUES ('" + path + "', "
-                + "'" + date + "'" + ", " + userID + ")";
+    public void ocrEntry(int imageId, String result, String date, 
+            int processor, int error) throws SQLException {
+        sql = "INSERT INTO OCR (IMAGE_ID, OCR_RESULT, OCR_DATE, PROCESSED_BY, OCR_ERROR) "
+                + "VALUES (" + imageId + ", '" + result + "', '" + date + "', " + processor + ", " + error + ")";
         state.executeUpdate(sql);
     }
     
@@ -208,9 +223,9 @@ public class DatabaseController {
     }
     
     public int getNextOcrId() throws SQLException {
-        sql = "SELECT ocr_id FROM OCR";
+        sql = "SELECT OCR_ID FROM OCR";
         ResultSet ocrID = state.executeQuery(sql);
-        while (ocrID.last()) {
+        while (ocrID.next()) {
             return ocrID.getInt("ocr_id") + 1;
         }
         return 0;

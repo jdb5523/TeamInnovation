@@ -5,7 +5,7 @@ public final class AboutText {
     private static final AboutText INSTANCE = new AboutText();
     private static String about;
     
-    public AboutText() {
+    private AboutText() {
         initialize();
     }
     

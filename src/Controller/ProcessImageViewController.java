@@ -16,6 +16,7 @@ public class ProcessImageViewController implements Initializable {
     AppController app;
     @FXML private Button browseButton;
     @FXML private Button processButton;
+    @FXML private Button backButton;
     @FXML private TextField pathField;
     @FXML private TextField monthField;
     @FXML private TextField dayField;
@@ -60,21 +61,19 @@ public class ProcessImageViewController implements Initializable {
         
     @FXML 
     protected void handleKeyPressed(KeyEvent key) throws IOException, SQLException {
-        KeyCode code = key.getCode();
-        if (code != null) {
+        Boolean isEnter = key.getCode() == KeyCode.ENTER;
+        if (key.getCode() != null) {
             errorLabel.setVisible(false);
         }
-        else if (code == KeyCode.ENTER && browseButton.isFocused()) {
+        if (isEnter && browseButton.isFocused()) {
             handleBrowseButtonAction();
-        } else if (code == KeyCode.ENTER && processButton.isFocused()) {
+        } else if (isEnter && processButton.isFocused()) {
             handleProcessButtonAction();
+        } else if (isEnter && backButton.isFocused()) {
+            handleBackButtonAction();
         }
     }
     
-    public void showError() {
-        
-    }
- 
     public void setUp(AppController app) {
         this.app = app;
     }

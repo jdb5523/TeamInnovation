@@ -14,10 +14,10 @@
         <Label layoutX="212.0" layoutY="21.0" text="Photographer ID:" />
         <Label layoutX="19.0" layoutY="21.0" text="Image Capture Date:" />
         <Label layoutX="391.0" layoutY="21.0" text="Reference Case ID:" />
-        <TextField layoutX="381.0" layoutY="41.0" prefWidth="119.0" />
-        <TextField layoutX="198.0" layoutY="41.0" prefWidth="119.0" />
-        <TextField layoutX="14.0" layoutY="41.0" prefWidth="119.0" />
-        <TextArea layoutX="14.0" layoutY="105.0" prefHeight="334.0390625" prefWidth="236.0" wrapText="true" />
+        <TextField fx:id="caseField" editable="false" layoutX="381.0" layoutY="41.0" opacity="0.7" prefWidth="119.0" />
+        <TextField fx:id="photogField" editable="false" layoutX="198.0" layoutY="41.0" opacity="0.7" prefWidth="119.0" />
+        <TextField fx:id="dateField" editable="false" layoutX="15.0" layoutY="41.0" opacity="0.7" prefWidth="119.0" />
+        <TextArea fx:id="inputArea" layoutX="14.0" layoutY="105.0" prefHeight="334.0390625" prefWidth="236.0" wrapText="true" />
         <TextArea layoutX="264.0" layoutY="105.0" prefHeight="334.0390625" prefWidth="236.0" wrapText="true" />
         <Label layoutX="19.0" layoutY="89.0" text="Input:">
           <font>

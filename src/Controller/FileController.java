@@ -9,10 +9,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
+
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
@@ -67,22 +69,19 @@ public class FileController {
      * to create record in Ocr table
      */
     public void ocr(String[] parameters) throws IOException, SQLException {
+        int imageId;
         if (!parameters[0].isEmpty()) { 
-            app.getDb().imageEntry(Integer.parseInt(parameters[0]), parameters[1], 
+            imageId = app.getDb().imageEntry(Integer.parseInt(parameters[0]), parameters[1], 
                 Integer.parseInt(parameters[2]), Integer.parseInt(parameters[3]), parameters[4]);
         } else {
-            app.getDb().imageEntry(parameters[1], Integer.parseInt(parameters[2]), 
+            imageId = app.getDb().imageEntry(parameters[1], Integer.parseInt(parameters[2]), 
                     Integer.parseInt(parameters[3]), parameters[4]);
         }
-        /*String fileName = "C:\\Users\\Jared\\Desktop\\OCR_" + app.getDb().getNextOcrId();
+        String fileName = "C:\\Users\\Jared\\Desktop\\OCR_" + app.getDb().getNextOcrId();
         String command = "tesseract " + file.getAbsolutePath() + " " + fileName;
         Process process = Runtime.getRuntime().exec(command);
-        app.getDb().ocrEntry(Integer.parseInt(parameters[0]), parameters[1],  
-                Integer.parseInt(parameters[2]),  Integer.parseInt(parameters[3]),  
-                parameters[4],  parameters[5]);
-        TimerTask task = new TimerTask() {
-        @Override
-        public void run() {
+
+        
             File textFile = new File(fileName + ".txt");
             try (BufferedReader reader = new BufferedReader(new FileReader(textFile))) {
                 String text = "";
@@ -90,15 +89,17 @@ public class FileController {
                     System.out.println(text);
                     fileContents += text;
                 }
-                app.getMain().getInputArea().setText(fileContents);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    };
-    Timer timer = new Timer("Timer");
-    long delay = 3000L;
-    timer.schedule(task, delay);*/
+            String formattedDate = df.format(new Date());
+            try {
+                app.getDb().ocrEntry(imageId, fileContents, formattedDate, app.getCurrentUserID(), 0);
+            } catch (SQLException ex) {
+                Logger.getLogger(FileController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            app.showDecrypt(parameters, fileContents);
+        
     }
      
     public void saveOutput() throws IOException {
