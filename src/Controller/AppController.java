@@ -17,8 +17,8 @@ public class AppController {
     GuideViewController guide;
     AboutViewController about;
     OptionViewController option;
-    ProcessImageViewController image;
-    DecryptViewController decrypt;
+    ImageSelectionViewController image;
+    private DecryptViewController decrypt;
     private FileController file;
     private DatabaseController db;
     private Stage stage;
@@ -74,10 +74,10 @@ public class AppController {
         stage.show();
     }
     
-    public final void showProcessImage() throws IOException {
-        loader = new FXMLLoader(getClass().getResource("/View/ProcessImageView.fxml"));
+    public final void showImageSelection() throws IOException {
+        loader = new FXMLLoader(getClass().getResource("/View/ImageSelectionView.fxml"));
         root = loader.load();
-        image = (ProcessImageViewController) loader.getController();
+        image = (ImageSelectionViewController) loader.getController();
         image.setUp(this);
         scene = new Scene(root);
         stage.setTitle("Import Image");
@@ -86,33 +86,15 @@ public class AppController {
         stage.show();
     }
     
-    public void showDecrypt(String[] parameters, String fileContents) throws IOException {
+    public void showDecrypt(String[] parameters) throws IOException {
         loader = new FXMLLoader(getClass().getResource("/View/DecryptView.fxml"));
         root = loader.load();
         decrypt = (DecryptViewController) loader.getController();
-        decrypt.setUp(this, parameters, fileContents);
+        decrypt.setUp(this, parameters);
         scene = new Scene(root);
         stage.setTitle("Decryption");
         stage.setResizable(false);
         stage.setScene(scene);
-        stage.show();
-    }
-    
-    /**
-     * Upon successful authentication, the instance of the AppController object will
-     * change the JavaFX stage from the login view to the main view
-     * @throws java.io.IOException Throws error if the MainView fxml doc cannot
-     * be loaded
-    **/
-    public void showMain() throws IOException {
-        loader = new FXMLLoader(getClass().getResource("/View/MainView.fxml"));
-        root = loader.load();
-        main = (MainController) loader.getController();
-        main.setUp(this);
-        stage.setTitle("Nautilus ALPHA BUILD -- Welcome, " + getCurrentUser());
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setResizable(false);
         stage.show();
     }
     
@@ -161,11 +143,11 @@ public class AppController {
         detailStage.show();
     }
     
-    public void showUserGuide() throws IOException {
+    public void showUserGuide(int i) throws IOException {
         loader = new FXMLLoader(getClass().getResource("/View/GuideView.fxml"));
         root = loader.load();
         guide = (GuideViewController) loader.getController();
-        guide.setUp(this);
+        guide.setUp(this, i);
         guideStage = new Stage();
         guideStage.setX(1500);
         guideStage.setY(180);
@@ -264,5 +246,9 @@ public class AppController {
 
     public void setCurrentUserID(int currentUserID) {
         this.currentUserID = currentUserID;
+    }
+
+    public DecryptViewController getDecrypt() {
+        return decrypt;
     }
 }

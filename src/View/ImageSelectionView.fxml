@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="292.0" prefWidth="398.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ImageSelectionViewController">
+    <children>
+        <Pane layoutX="0.0" layoutY="0.0" prefHeight="292.0" prefWidth="398.0">
+            <children>
+                <Label layoutX="14.0" layoutY="36.0" prefWidth="28.0" text="File:" />
+                <TextField fx:id="pathField" editable="false" layoutX="42.0" layoutY="33.0" onKeyPressed="#handleKeyPressed" prefWidth="247.00002207031503" />
+                <Button fx:id="browseButton" layoutX="303.0" layoutY="33.0" minHeight="15.9609375" mnemonicParsing="false" onAction="#handleBrowseButtonAction" onKeyPressed="#handleKeyPressed" prefHeight="21.9609375" prefWidth="81.0" text="Browse" />
+                <Label layoutX="14.0" layoutY="91.0" text="Image Capture Date: " />
+                <Label layoutX="14.0" layoutY="130.0" text="Photographer User ID: " />
+                <TextField fx:id="photographerField" layoutX="341.0" layoutY="127.0" onKeyPressed="#handleKeyPressed" prefHeight="25.0" prefWidth="43.0" promptText="####" />
+                <Label layoutX="14.0" layoutY="169.0" text="Reference Case ID (optional):" />
+                <TextField fx:id="caseIdField" layoutX="303.0" layoutY="166.0" prefHeight="25.0" prefWidth="81.0" promptText="#########" />
+                <Button fx:id="processButton" layoutX="271.0" layoutY="245.0" mnemonicParsing="false" onAction="#handleProcessButtonAction" onKeyPressed="#handleKeyPressed" prefWidth="113.0" text="Process Image" />
+                <Label fx:id="errorLabel" layoutX="94.0" layoutY="211.0" text="One or more required fields are missing" textFill="RED" />
+                <Button fx:id="backButton" layoutX="54.0" layoutY="246.0" mnemonicParsing="false" onAction="#handleBackButtonAction" onKeyPressed="#handleKeyPressed" prefWidth="81.0" text="Back" />
+            <ImageView fx:id="helpIcon" fitHeight="20.0" fitWidth="20.0" layoutX="14.0" layoutY="248.0" onMouseClicked="#handleHelpButtonAction" pickOnBounds="true" preserveRatio="true" />
+            <DatePicker fx:id="captureDate" editable="false" layoutX="210.0" layoutY="87.0" />
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>

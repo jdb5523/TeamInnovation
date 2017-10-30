@@ -118,7 +118,7 @@ public class LoginViewController implements Initializable {
     
     @FXML
     protected void handleGuideButtonAction() throws IOException {
-        app.showUserGuide();
+        app.showUserGuide(1);
     }
     
     @FXML protected void handleKeyPressed(KeyEvent keyEvent) throws IOException, SQLException {

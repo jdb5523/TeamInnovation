@@ -1,5 +1,6 @@
 package Controller;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -11,44 +12,70 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 
 public class ResetPasswordViewController implements Initializable {
 
-    @FXML private TextField usernameField;
-    @FXML private TextField idField;
-    @FXML private Button submitButton;
-    @FXML private Label userLabel;
-    @FXML private TextArea questionArea;
-    @FXML private TextField responseField;
-    @FXML private Button responseButton;
-    @FXML private PasswordField newField;
-    @FXML private PasswordField confirmField;
-    @FXML private Button saveButton;
-    @FXML private Label matchLabel;
-    @FXML private Label responseLabel;
-    @FXML private Label newLabel;
-    @FXML private Label confirmLabel;
-    @FXML private Button backButton;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private TextField idField;
+    @FXML
+    private Button submitButton;
+    @FXML
+    private Label userLabel;
+    @FXML
+    private TextArea questionArea;
+    @FXML
+    private TextField responseField;
+    @FXML
+    private Button responseButton;
+    @FXML
+    private PasswordField newField;
+    @FXML
+    private PasswordField confirmField;
+    @FXML
+    private Button saveButton;
+    @FXML
+    private Label matchLabel;
+    @FXML
+    private Label responseLabel;
+    @FXML
+    private Label newLabel;
+    @FXML
+    private Label confirmLabel;
+    @FXML
+    private Button backButton;
+    @FXML
+    private ImageView helpIcon;
+
     AppController app;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }    
-    
+        try {
+            Image image = new Image(new FileInputStream("images/helpicon.png"));
+            helpIcon.setImage(image);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public void setUp(AppController app) {
         this.app = app;
     }
-    
+
     public Boolean passwordsMatch() {
         return newField.getText().equals(confirmField.getText());
     }
-    
+
     @FXML
-    protected void handleSubmitButtonAction() throws SQLException {  
-        if (app.getDb().isUserValid(usernameField.getText(), 
+    protected void handleSubmitButtonAction() throws SQLException {
+        if (app.getDb().isUserValid(usernameField.getText(),
                 Integer.parseInt(idField.getText()))) {
             secondSection();
             userLabel.setText("Username/ID combination found");
@@ -62,7 +89,7 @@ public class ResetPasswordViewController implements Initializable {
             userLabel.setVisible(true);
         }
     }
-    
+
     @FXML
     protected void handleResponseButtonAction() throws SQLException {
         if (responseField.getText().equals(app.getDb().getChallengeResponse(
@@ -75,20 +102,32 @@ public class ResetPasswordViewController implements Initializable {
             responseLabel.setVisible(true);
         }
     }
-    
-    @FXML protected void handleSaveButtonAction() throws IOException, SQLException {
+
+    @FXML
+    protected void handleSaveButtonAction() throws IOException, SQLException {
         if (passwordsMatch()) {
             matchLabel.setText("Password updated");
             matchLabel.setTextFill(Color.GREEN);
+            matchLabel.setVisible(true);
             passwordSaved();
             app.getDb().setNewPassword(confirmField.getText(), app.getCurrentUserID());
         } else {
             matchLabel.setVisible(true);
         }
     }
-    
-    @FXML protected void handleBackButtonAction() throws IOException {
+
+    @FXML
+    protected void handleBackButtonAction() throws IOException {
         app.showLogin();
+    }
+
+    @FXML
+    protected void handleHelpButtonAction() {
+        try {
+            app.showUserGuide(2);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     
     private void secondSection() {
@@ -109,7 +148,7 @@ public class ResetPasswordViewController implements Initializable {
         responseButton.setVisible(true);
         responseButton.setFocusTraversable(true);
     }
-    
+
     private void thirdSection() {
         questionArea.setOpacity(.25);
         responseField.setOpacity(.25);
@@ -130,28 +169,30 @@ public class ResetPasswordViewController implements Initializable {
         saveButton.setVisible(true);
         saveButton.setFocusTraversable(true);
     }
-    
+
     private void passwordSaved() {
         newField.setEditable(false);
         newField.setOpacity(.25);
         confirmField.setEditable(false);
         confirmField.setOpacity(.25);
         saveButton.setDisable(true);
+        saveButton.setOpacity(.25);
         matchLabel.setOpacity(.5);
     }
-    
-    @FXML protected void handleKeyPressed (KeyEvent keyEvent) throws IOException, SQLException {
-        if (keyEvent.getCode() == KeyCode.ENTER && 
-                (usernameField.isFocused() || idField.isFocused() || submitButton.isFocused())) {
+
+    @FXML
+    protected void handleKeyPressed(KeyEvent keyEvent) throws IOException, SQLException {
+        if (keyEvent.getCode() == KeyCode.ENTER
+                && (usernameField.isFocused() || idField.isFocused() || submitButton.isFocused())) {
             handleSubmitButtonAction();
-        } else if(keyEvent.getCode() == KeyCode.ENTER && 
-                (responseField.isFocused() || responseButton.isFocused())) {
+        } else if (keyEvent.getCode() == KeyCode.ENTER
+                && (responseField.isFocused() || responseButton.isFocused())) {
             handleResponseButtonAction();
-        } else if (keyEvent.getCode() == KeyCode.ENTER && 
-                (newField.isFocused() || confirmField.isFocused() || saveButton.isFocused())) {
+        } else if (keyEvent.getCode() == KeyCode.ENTER
+                && (newField.isFocused() || confirmField.isFocused() || saveButton.isFocused())) {
             handleSaveButtonAction();
         } else if (keyEvent.getCode() == KeyCode.ENTER && backButton.isFocused()) {
             handleBackButtonAction();
-        } 
+        }
     }
 }

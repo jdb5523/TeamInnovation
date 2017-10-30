@@ -99,8 +99,11 @@ public class GuideViewController implements Initializable {
         app.closeGuide();
     }
     
-    public void setUp (AppController app) {
+    public void setUp (AppController app, int i) {
         this.app = app;
+        selectedItem = i;
+        helpItems.getSelectionModel().select(i);
+        handleItemSelection();
     }
     
     public void addItems() {

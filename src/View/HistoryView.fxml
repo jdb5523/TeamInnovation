@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="544.0" prefWidth="504.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controller.HistoryViewController">
+<AnchorPane id="AnchorPane" prefHeight="544.0" prefWidth="504.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.HistoryViewController">
   <children>
     <Pane layoutX="0.0" layoutY="0.0" prefHeight="544.0" prefWidth="504.0">
       <children>
@@ -20,9 +21,9 @@
             <TableColumn prefWidth="75.0" text="Rating" />
           </columns>
         </TableView>
-        <Button fx:id="detailsButton" onAction="#handleDetailViewButtonAction" onKeyPressed="#handleKeyPressed" layoutX="14.0" layoutY="510.0" mnemonicParsing="false" text="View Details" />
-        <Button fx:id="processButton" onAction="#handleProcessButtonAction" onKeyPressed="#handleKeyPressed" layoutX="190.0" layoutY="510.0" mnemonicParsing="false" text="Process New Image" />
-        <Button fx:id="guideButton" onAction="#handleGuideButtonAction" onKeyPressed="#handleKeyPressed" layoutX="411.0" layoutY="510.0" mnemonicParsing="false" text="User Guide" />
+        <Button fx:id="detailsButton" layoutX="212.0" layoutY="510.0" mnemonicParsing="false" onAction="#handleDetailViewButtonAction" onKeyPressed="#handleKeyPressed" text="View Details" />
+        <Button fx:id="processButton" layoutX="370.0" layoutY="510.0" mnemonicParsing="false" onAction="#handleProcessButtonAction" onKeyPressed="#handleKeyPressed" text="Process New Image" />
+            <ImageView fx:id="helpIcon" fitHeight="20.0" fitWidth="20.0" layoutX="14.0" layoutY="513.0" onMouseClicked="#handleHelpButtonAction" pickOnBounds="true" preserveRatio="true" />
       </children>
     </Pane>
   </children>

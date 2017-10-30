@@ -168,9 +168,10 @@ public class DatabaseController {
             int processor, String filePath) throws SQLException {
         sql = "INSERT INTO Image (CASE_ID, CAPTURE_DATE, PHOTOGRAPHER, PROCESSED_BY"
                 + ", FILE_PATH) "
-                + "VALUES (" + caseId + ", "
-                + captureDate + ", " + photographer + ", " + processor
+                + "VALUES (" + caseId + ", '"
+                + captureDate + "', " + photographer + ", " + processor
                 + ", " + "'" + filePath + "')";
+        System.out.println(sql);
         state.executeUpdate(sql);
         sql = "SELECT MAX(IMAGE_ID) FROM Image";
         result = state.executeQuery(sql);
@@ -184,7 +185,7 @@ public class DatabaseController {
             int processor, String filePath) throws SQLException {
         sql = "INSERT INTO Image (CAPTURE_DATE, PHOTOGRAPHER, PROCESSED_BY"
                 + ", FILE_PATH) "
-                + "VALUES (" + captureDate + ", " + photographer + ", " + processor
+                + "VALUES ('" + captureDate + "', " + photographer + ", " + processor
                 + ", " + "'" + filePath + "')";
         state.executeUpdate(sql);
         sql = "SELECT MAX(IMAGE_ID) FROM Image";

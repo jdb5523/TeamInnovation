@@ -2,7 +2,7 @@ package Model;
 
 public final class GuideText {
     
-    private static final GuideText instance = new GuideText();
+    private static final GuideText INSTANCE = new GuideText();
     
     private static String intro;
     private static String login;
@@ -56,7 +56,7 @@ public final class GuideText {
         history = "The Historical Log retrieves and displays past records from the database. Records are "
                 + "pulled from the Decrypt table. You may enter in a search query to obtain specific "
                 + "results.";
-        detail = "The Detail page can also be accessed from here. The detail page provides " 
+        detail = "The detail page provides " 
                 + "more specific information on each record.\n\nFrom this screen, additional notes may be added "
                 + "to the image record currently being viewed.";
         decrypt = "After an image file has been selected and successfully processed by Tesseract, the "
@@ -101,7 +101,7 @@ public final class GuideText {
     }
     
     public static GuideText getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     public String getOption() {

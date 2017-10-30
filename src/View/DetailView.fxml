@@ -7,7 +7,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="492.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controller.DetailViewController">
+<AnchorPane id="AnchorPane" prefHeight="492.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DetailViewController">
   <children>
     <Pane layoutX="0.0" layoutY="0.0" prefHeight="492.0" prefWidth="600.0">
       <children>
@@ -22,8 +22,9 @@
         <TextField layoutX="99.0" layoutY="348.0" prefWidth="193.0" />
         <TextField layoutX="99.0" layoutY="381.0" prefWidth="193.0" />
         <TextField layoutX="99.0" layoutY="411.0" prefWidth="193.0" />
-        <Button fx:id="closeButton" onKeyPressed="#handleKeyPressed" onAction="#handleCloseButtonAction" layoutX="125.0" layoutY="450.0" mnemonicParsing="false" prefWidth="73.0" text="Close" />
+        <Button fx:id="closeButton" layoutX="125.0" layoutY="450.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" onKeyPressed="#handleKeyPressed" prefWidth="73.0" text="Close" />
         <Button layoutX="358.0" layoutY="450.0" mnemonicParsing="false" prefWidth="170.0" text="Save Additional Notes" />
+            <ImageView fx:id="helpIcon" fitHeight="20.0" fitWidth="20.0" layoutX="15.0" layoutY="453.0" onMouseClicked="#handleHelpButtonAction" pickOnBounds="true" preserveRatio="true" />
       </children>
     </Pane>
   </children>

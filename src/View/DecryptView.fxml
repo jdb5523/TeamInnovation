@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -7,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="496.0" prefWidth="514.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controller.DecryptViewController">
+<AnchorPane id="AnchorPane" prefHeight="496.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DecryptViewController">
   <children>
     <Pane layoutX="0.0" layoutY="0.0" prefHeight="496.0" prefWidth="514.0">
       <children>
@@ -25,9 +26,9 @@
           </font>
         </Label>
         <Label font="$x1" layoutX="273.0" layoutY="89.0" text="Output:" />
-        <Button layoutX="74.0" layoutY="449.0" mnemonicParsing="false" prefWidth="109.0" text="Decrypt" />
-        <Button layoutX="267.0" layoutY="450.0" mnemonicParsing="false" text="View Historical Log" />
-        <Button layoutX="421.0" layoutY="450.0" mnemonicParsing="false" text="User Guide" />
+        <Button layoutX="80.0" layoutY="449.0" mnemonicParsing="false" prefWidth="109.0" text="Decrypt" />
+        <Button layoutX="324.0" layoutY="449.0" mnemonicParsing="false" text="View Historical Log" onAction="#handleHistoryButtonAction" />
+            <ImageView fx:id="helpIcon" fitHeight="20.0" fitWidth="20.0" layoutX="15.0" layoutY="452.0" onMouseClicked="#handleHelpButtonAction" pickOnBounds="true" preserveRatio="true" />
       </children>
     </Pane>
   </children>
