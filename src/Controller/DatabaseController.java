@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.Image;
+import Model.ImageList;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,7 +14,7 @@ import java.util.Date;
 public class DatabaseController {
 
     private AppController app;
-    private final String url = "jdbc:sqlserver://DESKTOP-C3ACMOB;"
+    private final String url = "jdbc:sqlserver://DESKTOP-TF4DGV3;"
             + "integratedSecurity=true;databaseName=Nautilus";
     private String sql = "";
     ResultSet result;
@@ -194,6 +196,19 @@ public class DatabaseController {
             return result.getInt(1);
         }
         return 0;
+    }
+    
+    public ImageList createImageList() throws SQLException {
+        ImageList images = new ImageList();
+        sql = "SELECT * FROM Image";
+        result = state.executeQuery(sql);
+        while (result.next()) {
+            Image image = new Image(result.getInt(1), result.getInt(2), 
+                    result.getString(3), result.getInt(4), result.getInt(5), 
+                    result.getString(6), result.getString(7));
+            images.addImage(image);
+        }
+        return images;
     }
 
     /**

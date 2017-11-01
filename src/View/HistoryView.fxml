@@ -13,12 +13,12 @@
       <children>
         <Button fx:id="searchButton" layoutX="413.0" layoutY="14.0" mnemonicParsing="false" prefWidth="77.0" text="Search" />
         <TextField fx:id="searchField" layoutX="202.0" layoutY="14.0" prefWidth="200.0" promptText="Search" />
-        <TableView layoutX="14.0" layoutY="46.0" prefHeight="442.0" prefWidth="476.0" tableMenuButtonVisible="false">
+        <TableView fx:id="historyTable" layoutX="14.0" layoutY="46.0" prefHeight="442.0" prefWidth="476.0" tableMenuButtonVisible="false">
           <columns>
-            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="94.0" text="Decrypt Date" />
-            <TableColumn prefWidth="75.0" text="Decrypt ID" />
-            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="230.0" text="Results" />
-            <TableColumn prefWidth="75.0" text="Rating" />
+            <TableColumn fx:id="idColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="94.0" text="Image ID" />
+            <TableColumn fx:id="dateColumn" prefWidth="118.0" text="Capture Date" />
+            <TableColumn fx:id="photographerColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="187.0" text="Photographer" />
+            <TableColumn fx:id="processorColumn" prefWidth="75.0" text="Processor" />
           </columns>
         </TableView>
         <Button fx:id="detailsButton" layoutX="212.0" layoutY="510.0" mnemonicParsing="false" onAction="#handleDetailViewButtonAction" onKeyPressed="#handleKeyPressed" text="View Details" />

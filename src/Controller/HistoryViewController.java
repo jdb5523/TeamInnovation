@@ -3,10 +3,13 @@ package Controller;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -19,6 +22,9 @@ public class HistoryViewController implements Initializable {
     @FXML private Button processButton;
     @FXML private Button guideButton;
     @FXML private ImageView helpIcon;
+    @FXML private TableView<Model.Image> historyTable;
+    @FXML private TableColumn<Model.Image, Integer> idColumn;
+    @FXML private TableColumn<Model.Image, String> dateColumn;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -27,7 +33,7 @@ public class HistoryViewController implements Initializable {
             helpIcon.setImage(image);
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
+        } 
     }    
     
     @FXML
@@ -44,8 +50,11 @@ public class HistoryViewController implements Initializable {
     protected void handleHelpButtonAction() throws IOException {
         app.showUserGuide(6);
     }
-    void setUp(AppController app) {
+    
+    public void setUp(AppController app) throws SQLException {
         this.app = app;
+        historyTable = new TableView<>();
+        historyTable.setItems(app.getDb().createImageList().getImageList());
     }
     
     @FXML
