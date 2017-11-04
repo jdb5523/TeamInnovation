@@ -19,7 +19,9 @@ public final class AboutText {
                 + "Version 2.0\nhttp://www.apache.org/licenses/LICENSE-2.0"
                 + "\nRepository: https://github.com/tesseract-ocr/tesseract\n\n"
                 + "SQL Server 2016 by Microsoft © 2017 Microsoft Corporation\nLicensing "
-                + "provided by Kivuto Solutions";
+                + "provided by Kivuto Solutions\n\n"
+                + "Google Translation API Version 2 by Google and provided "
+                + "through the Google Cloud Platform";
     }
     
     public String getAbout() {
