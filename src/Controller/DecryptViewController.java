@@ -3,6 +3,7 @@ package Controller;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -41,7 +42,7 @@ public class DecryptViewController implements Initializable {
     }
     
     @FXML
-    protected void handleHistoryButtonAction() {
+    protected void handleHistoryButtonAction() throws SQLException {
         try {
             app.showHistory();
         } catch (IOException ex) {

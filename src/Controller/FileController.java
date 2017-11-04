@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -93,7 +92,6 @@ public class FileController {
                 try (BufferedReader reader = new BufferedReader(new FileReader(textFile))) {
                     String text = "";
                     while ((text = reader.readLine()) != null) {
-                        System.out.println(text);
                         fileContents += text;
                     }
                 } catch (IOException e) {

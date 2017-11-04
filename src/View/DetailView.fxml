@@ -9,22 +9,24 @@
 
 <AnchorPane id="AnchorPane" prefHeight="492.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DetailViewController">
   <children>
-    <Pane layoutX="0.0" layoutY="0.0" prefHeight="492.0" prefWidth="600.0">
+    <Pane prefHeight="492.0" prefWidth="600.0">
       <children>
-        <TitledPane animated="false" collapsible="false" content="$null" contentDisplay="CENTER" layoutX="300.0" layoutY="7.0" prefHeight="287.0" prefWidth="286.0" text="Results" />
-        <TitledPane animated="false" collapsible="false" content="$null" contentDisplay="CENTER" layoutX="300.0" layoutY="294.0" prefHeight="138.9609375" prefWidth="286.0" text="Additional Notes" textAlignment="CENTER" />
+        <TitledPane animated="false" collapsible="false" content="$null" contentDisplay="CENTER" layoutX="300.0" layoutY="7.0" prefHeight="20.0" prefWidth="286.0" text="Results" />
+        <TitledPane animated="false" collapsible="false" content="$null" contentDisplay="CENTER" layoutX="300.0" layoutY="289.0" prefHeight="25.0" prefWidth="286.0" text="Additional Notes" textAlignment="CENTER" />
         <ImageView fitHeight="286.0" fitWidth="276.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="false" />
         <Label layoutX="15.0" layoutY="321.0" text="Image Date:" />
         <Label layoutX="15.0" layoutY="351.0" text="Decrypt Date:" />
         <Label layoutX="14.0" layoutY="384.0" text="Cipher Name:" />
         <Label layoutX="14.0" layoutY="414.0" text="Results Rating:" />
-        <TextField layoutX="99.0" layoutY="318.0" prefWidth="193.0" />
-        <TextField layoutX="99.0" layoutY="348.0" prefWidth="193.0" />
-        <TextField layoutX="99.0" layoutY="381.0" prefWidth="193.0" />
-        <TextField layoutX="99.0" layoutY="411.0" prefWidth="193.0" />
+        <TextField fx:id="dateField" layoutX="99.0" layoutY="318.0" prefWidth="193.0" />
+        <TextField fx:id="decryptField" layoutX="99.0" layoutY="348.0" prefWidth="193.0" />
+        <TextField fx:id="cipherField" layoutX="99.0" layoutY="381.0" prefWidth="193.0" />
+        <TextField fx:id="ratingField" layoutX="99.0" layoutY="411.0" prefWidth="193.0" />
         <Button fx:id="closeButton" layoutX="125.0" layoutY="450.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" onKeyPressed="#handleKeyPressed" prefWidth="73.0" text="Close" />
         <Button layoutX="358.0" layoutY="450.0" mnemonicParsing="false" prefWidth="170.0" text="Save Additional Notes" />
             <ImageView fx:id="helpIcon" fitHeight="20.0" fitWidth="20.0" layoutX="15.0" layoutY="453.0" onMouseClicked="#handleHelpButtonAction" pickOnBounds="true" preserveRatio="true" />
+            <TextArea fx:id="resultsArea" editable="false" layoutX="300.0" layoutY="32.0" prefHeight="254.0" prefWidth="286.0" />
+            <TextArea fx:id="notesArea" layoutX="300.0" layoutY="313.0" prefHeight="125.0" prefWidth="286.0" />
       </children>
     </Pane>
   </children>

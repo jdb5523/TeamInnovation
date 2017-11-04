@@ -8,27 +8,27 @@ import javafx.beans.property.StringProperty;
 
 public class Image {
     
-    private IntegerProperty IMAGE_ID;
+    private int IMAGE_ID;
     private IntegerProperty CASE_ID;
-    private StringProperty CAPTURE_DATE;
-    private IntegerProperty PHOTOGRAPHER;
-    private IntegerProperty PROCESSED_BY;
+    private String CAPTURE_DATE;
+    private int PHOTOGRAPHER;
+    private int PROCESSED_BY;
     private StringProperty FILE_PATH;
     private StringProperty ADDITIONAL_NOTES;
     
     public Image(int IMAGE_ID, int CASE_ID, String CAPTURE_DATE, int PHOTOGRAPHER,
             int PROCESSED_BY, String FILE_PATH, String ADDITIONAL_NOTES) {
         
-        this.IMAGE_ID = new SimpleIntegerProperty(IMAGE_ID);
+        this.IMAGE_ID = IMAGE_ID;
         this.CASE_ID = new SimpleIntegerProperty(CASE_ID);
-        this.CAPTURE_DATE = new SimpleStringProperty(CAPTURE_DATE);
-        this.PHOTOGRAPHER = new SimpleIntegerProperty(PHOTOGRAPHER);
-        this.PROCESSED_BY = new SimpleIntegerProperty(PROCESSED_BY);
+        this.CAPTURE_DATE = CAPTURE_DATE;
+        this.PHOTOGRAPHER = PHOTOGRAPHER;
+        this.PROCESSED_BY = PROCESSED_BY;
         this.FILE_PATH = new SimpleStringProperty(FILE_PATH);
         this.ADDITIONAL_NOTES = new SimpleStringProperty(ADDITIONAL_NOTES);
     }
     
-    public IntegerProperty getIMAGE_ID() {
+    public int getIMAGE_ID() {
         return IMAGE_ID;
     }
 
@@ -36,15 +36,15 @@ public class Image {
         return CASE_ID;
     }
 
-    public StringProperty getCAPTURE_DATE() {
+    public String getCAPTURE_DATE() {
         return CAPTURE_DATE;
     }
 
-    public IntegerProperty getPHOTOGRAPHER() {
+    public int getPHOTOGRAPHER() {
         return PHOTOGRAPHER;
     }
 
-    public IntegerProperty getPROCESSED_BY() {
+    public int getPROCESSED_BY() {
         return PROCESSED_BY;
     }
 

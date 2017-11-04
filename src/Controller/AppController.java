@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -116,23 +117,23 @@ public class AppController {
         stage.show();
     }
     
-    public void showHistory() throws IOException {
+    public void showHistory() throws IOException, SQLException {
         loader = new FXMLLoader(getClass().getResource("/View/HistoryView.fxml"));
         root = loader.load();
         history = (HistoryViewController) loader.getController();
         history.setUp(this);
         stage.setTitle("History Log");
-        Scene scene = new Scene(root);
+        scene = new Scene(root);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
     }
     
-    public void showDetail() throws IOException {
+    public void showDetail(int imageId) throws IOException, SQLException {
         loader = new FXMLLoader(getClass().getResource("/View/DetailView.fxml"));
         root = loader.load();
         detail = (DetailViewController) loader.getController();
-        detail.setUp(this);
+        detail.setUp(this, imageId);
         scene = new Scene(root);
         detailStage = new Stage();
         detailStage.setX(1500);

@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,7 +37,7 @@ public class OptionViewController implements Initializable {
     }
     
     @FXML 
-    protected void handleHistoryButtonAction() throws IOException {
+    protected void handleHistoryButtonAction() throws IOException, SQLException {
         app.showHistory();
     }
     
@@ -49,7 +50,7 @@ public class OptionViewController implements Initializable {
         }
     }
     
-    public void handleKeyPressed(KeyEvent key) throws IOException {
+    public void handleKeyPressed(KeyEvent key) throws IOException, SQLException {
         if (key.getCode() == KeyCode.ENTER && processButton.isFocused()) {
             handleProcessButtonAction();
         } else if (key.getCode() == KeyCode.ENTER && historyButton.isFocused()) {

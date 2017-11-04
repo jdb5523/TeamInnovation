@@ -173,7 +173,6 @@ public class DatabaseController {
                 + "VALUES (" + caseId + ", '"
                 + captureDate + "', " + photographer + ", " + processor
                 + ", " + "'" + filePath + "')";
-        System.out.println(sql);
         state.executeUpdate(sql);
         sql = "SELECT MAX(IMAGE_ID) FROM Image";
         result = state.executeQuery(sql);
@@ -245,6 +244,34 @@ public class DatabaseController {
             return ocrID.getInt("ocr_id") + 1;
         }
         return 0;
+    }
+    
+    public String[] getRecordDetails(int imageId) throws SQLException {
+        String[] results = new String[6];
+        sql = "SELECT Image.CAPTURE_DATE, Decrypt.DECRYPT_DATE, Cipher.CIPHER_NAME, " +
+                "Decrypt.RATING, OCR.OCR_RESULT, Image.ADDITIONAL_NOTES " 
+                + "FROM Image JOIN OCR ON Image.IMAGE_ID = OCR.IMAGE_ID "
+                + "JOIN DECRYPT ON OCR.OCR_ID = DECRYPT.OCR_ID " 
+                + "JOIN CIPHER ON DECRYPT.CIPHER = CIPHER.CIPHER_ID WHERE "
+                + "Image.IMAGE_ID = " + imageId;
+        System.out.println(sql);
+        result = state.executeQuery(sql);
+        while (result.next()) {
+            results[0] = result.getString(1);
+            results[1] = result.getString(2);
+            results[2] = result.getString(3);
+            results[3] = result.getString(4);
+            results[4] = result.getString(5);
+            results[5] = result.getString(6);
+            System.out.println(results[0]);
+            System.out.println(results[1]);
+            System.out.println(results[2]);
+            System.out.println(results[3]);
+            System.out.println(results[4]);
+            System.out.println(results[5]);
+            
+        }
+        return results;
     }
     
     public void lockAccount(String username) throws SQLException {
