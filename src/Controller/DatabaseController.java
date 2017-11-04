@@ -249,7 +249,7 @@ public class DatabaseController {
     public String[] getRecordDetails(int imageId) throws SQLException {
         String[] results = new String[6];
         sql = "SELECT Image.CAPTURE_DATE, Decrypt.DECRYPT_DATE, Cipher.CIPHER_NAME, " +
-                "Decrypt.RATING, OCR.OCR_RESULT, Image.ADDITIONAL_NOTES " 
+                "Decrypt.RATING, DECRYPT.RESULT, Image.ADDITIONAL_NOTES " 
                 + "FROM Image JOIN OCR ON Image.IMAGE_ID = OCR.IMAGE_ID "
                 + "JOIN DECRYPT ON OCR.OCR_ID = DECRYPT.OCR_ID " 
                 + "JOIN CIPHER ON DECRYPT.CIPHER = CIPHER.CIPHER_ID WHERE "
@@ -272,6 +272,17 @@ public class DatabaseController {
             
         }
         return results;
+    }
+    
+    public Boolean saveNotes(String notes, int imageId) throws SQLException {
+        Boolean notesSaved = false;
+        sql = "UPDATE IMAGE SET ADDITIONAL_NOTES='" + notes + "' WHERE IMAGE_ID"
+                + "=" + imageId;
+        if (state.executeUpdate(sql) != 0) {
+            notesSaved = true;
+        }
+        System.out.println(notesSaved);
+        return notesSaved;
     }
     
     public void lockAccount(String username) throws SQLException {

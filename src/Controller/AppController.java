@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 public class AppController {
 
     Parent root;
-    private MainController main;
     private LoginViewController login;
     private ResetPasswordViewController reset;
     HistoryViewController history;
@@ -184,13 +183,6 @@ public class AppController {
     
     public void closeDetail() {
         detailStage.close();
-    }
-    public MainController getMain() {
-        return main;
-    }
-
-    public void setMain(MainController main) {
-        this.main = main;
     }
 
     public FileController getFile() {

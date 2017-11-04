@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -107,17 +106,6 @@ public class FileController {
             }
         }, 3 * 1000);
         app.showDecrypt(parameters);
-    }
-
-    public void saveOutput() throws IOException {
-        File outputFile = textFileChooser.showSaveDialog(app.getStage());
-        try {
-            FileWriter writer = new FileWriter(outputFile);
-            writer.write(app.getMain().getOutputText());
-            writer.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
 
     public File getFile() {

@@ -18,6 +18,7 @@ import javafx.scene.input.KeyEvent;
 public class DetailViewController implements Initializable {
 
     AppController app;
+    int imageId;
     @FXML private Button closeButton;
     @FXML private ImageView helpIcon;
     @FXML private TextField dateField;
@@ -38,6 +39,12 @@ public class DetailViewController implements Initializable {
     }    
     
     @FXML
+    protected void handleSaveButtonAction() throws SQLException {
+        String newNotes = notesArea.getText();
+        app.getDb().saveNotes(newNotes, imageId);
+    }
+    
+    @FXML
     protected void handleHelpButtonAction() {
         try {
             app.showUserGuide(7);
@@ -53,14 +60,16 @@ public class DetailViewController implements Initializable {
             handleCloseButtonAction();
         } 
     }
+    
     @FXML
     protected void handleCloseButtonAction() {
         app.closeDetail();
     }
     
-    public void setUp(AppController app, int selectedItem) throws SQLException {
+    public void setUp(AppController app, int imageId) throws SQLException {
         this.app = app;
-        String[] results = app.getDb().getRecordDetails(selectedItem);
+        this.imageId = imageId;
+        String[] results = app.getDb().getRecordDetails(imageId);
         dateField.setText(results[0]);
         decryptField.setText(results[1]);
         cipherField.setText(results[2]);
