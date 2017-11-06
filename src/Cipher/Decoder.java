@@ -1,5 +1,8 @@
 package Cipher;
-
+/**
+ *
+ * @author Stephanie
+ */
 public class Decoder {
 
     public String decryptMessage(String informedcode) {
@@ -8,19 +11,19 @@ public class Decoder {
         String result;
         StringBuilder resultPool;
         Caesar caesarCipher;
-        Caesar caesarCipher2;
+        Atbash atbashCipher;
         
         allResults = new String("");
         
         message = informedcode;
         caesarCipher = new Caesar();
-        caesarCipher2 = new Caesar();
+        atbashCipher = new Atbash();
         
         result = caesarCipher.decryptCaesar(message);
         resultPool = new StringBuilder(result);
-        
-        result = caesarCipher2.decryptCaesar(message);
+        result = atbashCipher.decryptAtbash(informedcode);
         resultPool.append(result);
+        
         
         allResults = resultPool.toString();
         
