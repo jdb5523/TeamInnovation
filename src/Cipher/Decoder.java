@@ -13,6 +13,7 @@ public class Decoder {
         Caesar caesarCipher;
         Atbash atbashCipher;
         Affine affineCipher;
+        Baconian baconCipher;
         
         allResults = new String("");
         
@@ -20,12 +21,15 @@ public class Decoder {
         caesarCipher = new Caesar();
         atbashCipher = new Atbash();
         affineCipher = new Affine();
+        baconCipher = new Baconian();
         
         result = caesarCipher.decryptCaesar(message);
         resultPool = new StringBuilder(result);
         result = atbashCipher.decryptAtbash(informedcode);
         resultPool.append(result);
         result = affineCipher.decryptAffine(informedcode);
+        resultPool.append(result);
+        result = baconCipher.decryptBaconian(informedcode);
         resultPool.append(result);
 
         
