@@ -4,9 +4,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -20,6 +23,7 @@ public class DecryptViewController implements Initializable {
     @FXML private TextField caseField;
     @FXML private TextArea inputArea;
     @FXML private ImageView helpIcon;
+    private String cipherName = "";
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -31,6 +35,21 @@ public class DecryptViewController implements Initializable {
         }
         inputArea.setText("Processing image...");
     }    
+    
+    @FXML 
+    protected void handleDecryptButtonAction() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("The decryption process may take a while.  Do you wish to proceed?");
+        Optional<ButtonType> confirm = alert.showAndWait();
+        if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
+            System.out.println("DECRYPT");
+            Alert decrypt = new Alert(Alert.AlertType.NONE);
+            decrypt.setContentText("Running " + getCipherName() + " Cipher");
+            decrypt.show();
+        }
+        
+        
+    }
     
     @FXML
     protected void handleHelpButtonAction() {
@@ -59,5 +78,12 @@ public class DecryptViewController implements Initializable {
     
     public void finishSetUp(String fileContents) {
         inputArea.setText(fileContents);
+    }
+
+    /**
+     * @return the cipherName
+     */
+    public String getCipherName() {
+        return cipherName;
     }
 }

@@ -60,6 +60,13 @@ public class DatabaseController {
         return result;
     }
     
+    /**
+     * Retrieves the USER_ID of the username given as a parameter. Used in the 
+     * password reset process
+     * @param user The username for which the database will be searched for
+     * @return
+     * @throws SQLException 
+     */
     public int getUserId(String user) throws SQLException {
         sql = "SELECT USER_ID FROM [USER] WHERE USER_NAME='" + user + "'";
         result = state.executeQuery(sql);
@@ -68,6 +75,7 @@ public class DatabaseController {
         }
         return 0;
     }
+    
     /**
      * This method increments the user's LOGIN_ATTEMPT's field by 1 whenever an
      * incorrect password is submitted.  If the counter is already at 3, the LOCKED 
@@ -81,22 +89,49 @@ public class DatabaseController {
         state.executeUpdate(sql);     
     }
     
+    /**
+     * Resets the LOGIN_ATTEMPTS attribute of the user. Called when the user successfully
+     * logs in
+     * @param user The user for whom the attempts are being reset
+     * @throws SQLException 
+     */
     public void resetLoginAttempts(String user) throws SQLException {
         sql = "UPDATE [USER] SET LOGIN_ATTEMPT=0 "
                 + "WHERE USER_NAME = '" + user + "'";
         state.executeUpdate(sql);
     }
     
+    /**
+     * Removes the account lock on a user.  This method is called after the 
+     * predetermined amount of time has passed
+     * @param user The USERNAME of the user for whom the lock is being removed
+     * @throws SQLException 
+     */
     public void removeLock(String user) throws SQLException {
         sql = "UPDATE [USER] SET LOGIN_ATTEMPT=0,LOCKED=0, LOCKOUT_DATE=null "
                 + "WHERE USER_NAME = '" + user + "'";
         state.executeUpdate(sql);
     }
+        
+    /**
+     * Locks the user account and prevents subsequent login attempts. Called when 
+     * the user commits too many incorrect login attempts
+     * @param username The username for the user USER for whom the lock is being applied 
+     * @throws SQLException 
+     */
+    public void lockAccount(String username) throws SQLException {
+        Date date = new Date();
+        sql = "UPDATE [USER] SET LOCKED=1, LOCKOUT_DATE ='" + df.format(date) 
+                + "'" + " WHERE USER_NAME='" + username + "'";
+        state.executeUpdate(sql);
+        app.getLoginView().setLockedFlag(1);
+    }
+    
     /**
      * Performs the validation for the password reset page
-     * @param username The username of the user attempting to reset password
-     * @param userID The user_id of the user attempting to reset password
-     * @return Returns true if the username/user_id combination is found in DB
+     * @param username The USERNAME of the user attempting to reset password
+     * @param userID The USER_ID of the user attempting to reset password
+     * @return Returns true if the USERNAME/USER_ID combination is found in DB
      * @throws SQLException Throws error if SQL query is invalid
      */
     public Boolean isUserValid(String username, int userID) throws SQLException {
@@ -110,9 +145,10 @@ public class DatabaseController {
         }
         return isComboValid;
     }
+    
     /**
      * Method for obtaining the challenge question associated with the User entity
-     * @param id The user_id of the user for whom the question is being requested
+     * @param id The USER_ID of the user for whom the question is being requested
      * @return Returns a String object of the challenge question
      * @throws SQLException Throws error if SQL query is invalid
      */
@@ -126,6 +162,7 @@ public class DatabaseController {
         }
         return question;
     }
+    
     /**
      * Method for obtaining the corresponding answer to the challenge question
      * @param id The user_id of the user whose challenge response is being requested
@@ -142,11 +179,12 @@ public class DatabaseController {
         }
         return response;
     }
+    
     /**
      * Updates the password for a user
      * @param password The new password to be used
      * @param id The user_id of the user whose password is being updated
-     * @throws SQLException Throwss error is SQL update is invalid
+     * @throws SQLException Throws error is SQL update is invalid
      */
     public void setNewPassword(String password, int id) throws SQLException {
         sql = "UPDATE [USER] SET PASSWORD='" + password + "'" +" WHERE USER_ID="
@@ -155,14 +193,14 @@ public class DatabaseController {
     }
     
     /**
-     * Creates entry in SQL Server database
+     * Creates Image table entry in SQL Server database
      *
-     * @param caseId
-     * @param captureDate
-     * @param photographer
-     * @param processor
-     * @param filePath
-     * @return 
+     * @param caseId The related CASE_ID for the image being processed
+     * @param captureDate The date on which the image was captured
+     * @param photographer The USER_ID of the user who captured the image
+     * @param processor The USER_ID of the currently logged-in user
+     * @param filePath The absolute filepath of the image file
+     * @return Returns the next IMAGE_ID seed value
      * @throws java.sql.SQLException Throws exception if the SQL INSERT
      * statement fails
      */
@@ -182,6 +220,15 @@ public class DatabaseController {
         return 0;
     }
     
+    /**
+     * Creates Image table entry in the database.  Used when the case id is null
+     * @param captureDate The date on which the image was captured
+     * @param photographer The USER_ID of the user who captured the image
+     * @param processor The USER_ID of the currently logged-in user
+     * @param filePath The absolute filepath of the image file
+     * @return Returns the next IMAGE_ID seed value
+     * @throws java.sql.SQLException Throws exception if the SQL INSERT
+     */
     public int imageEntry(String captureDate, int photographer, 
             int processor, String filePath) throws SQLException {
         sql = "INSERT INTO Image (CAPTURE_DATE, PHOTOGRAPHER, PROCESSED_BY"
@@ -197,6 +244,11 @@ public class DatabaseController {
         return 0;
     }
     
+    /**
+     * Used to create the image list which populates the the history log table
+     * @return
+     * @throws SQLException 
+     */
     public ImageList createImageList() throws SQLException {
         ImageList images = new ImageList();
         sql = "SELECT * FROM Image";
@@ -211,13 +263,14 @@ public class DatabaseController {
     }
 
     /**
-     * Creates OCR entry in SQL Server database
+     * Creates OCR entry in the database
      *
-     * @param imageId
-     * @param result
+     * @param imageId The FK of the Image entry
+     * @param result The result of the OCR process
      * @param date The date on which the OCR was completed
-     * @param processor
-     * @param error
+     * @param processor The USER_ID of the currently logged-in user
+     * @param error Bit field used to indicate if an error occurred in the OCR
+     * process
      * @throws SQLException Throws exception if the SQL INSERT statement fails
      */
     public void ocrEntry(int imageId, String result, String date, 
@@ -227,25 +280,27 @@ public class DatabaseController {
         state.executeUpdate(sql);
     }
     
-    public void ocrEntry(int caseId, String captureDate, int photographer, 
-            int processor, String filePath, String additionalNotes) throws SQLException {
-        sql = "INSERT INTO OCR (CASE_ID, CAPTURE_DATE, PHOTOGRAPHER, PROCESSED_BY"
-                + ", FILE_PATH, ADDITIONAL_NOTES) "
-                + "VALUES ('" + caseId + "', "
-                + "'" + captureDate + "'" + ", " + photographer + ", " + processor
-                + ", " + "'" + filePath + "', '" + additionalNotes + "'\")";
-        state.executeUpdate(sql);
-    }
-    
+    /**
+     * Gets the next OCR_ID. Used for creating the .txt filenames for the OCR
+     * results
+     * @return Returns the number of the next OCR_ID
+     * @throws SQLException 
+     */
     public int getNextOcrId() throws SQLException {
-        sql = "SELECT OCR_ID FROM OCR";
+        sql = "SELECT MAX(OCR_ID) FROM OCR";
         ResultSet ocrID = state.executeQuery(sql);
         while (ocrID.next()) {
-            return ocrID.getInt("ocr_id") + 1;
+            return ocrID.getInt(1) + 1;
         }
-        return 0;
+        return 1;
     }
     
+    /**
+     * Used to populate the fields in the detail screen.  
+     * @param imageId The IMAGE_ID for which the details are being requested
+     * @return Returns a String array containing all the needed results
+     * @throws SQLException 
+     */
     public String[] getRecordDetails(int imageId) throws SQLException {
         String[] results = new String[6];
         sql = "SELECT Image.CAPTURE_DATE, Decrypt.DECRYPT_DATE, Cipher.CIPHER_NAME, " +
@@ -263,17 +318,18 @@ public class DatabaseController {
             results[3] = result.getString(4);
             results[4] = result.getString(5);
             results[5] = result.getString(6);
-            System.out.println(results[0]);
-            System.out.println(results[1]);
-            System.out.println(results[2]);
-            System.out.println(results[3]);
-            System.out.println(results[4]);
-            System.out.println(results[5]);
-            
         }
         return results;
     }
     
+    /**
+     * Method to save notes to the ADDITIONAL_NOTES attribute of images being
+     * viewed in the detail screen
+     * @param notes The notes being saved to the image entry
+     * @param imageId The IMAGE_ID of the image currently being viewed
+     * @return Returns true if the notes are successfully saved
+     * @throws SQLException 
+     */
     public Boolean saveNotes(String notes, int imageId) throws SQLException {
         Boolean notesSaved = false;
         sql = "UPDATE IMAGE SET ADDITIONAL_NOTES='" + notes + "' WHERE IMAGE_ID"
@@ -281,16 +337,6 @@ public class DatabaseController {
         if (state.executeUpdate(sql) != 0) {
             notesSaved = true;
         }
-        System.out.println(notesSaved);
         return notesSaved;
     }
-    
-    public void lockAccount(String username) throws SQLException {
-        Date date = new Date();
-        sql = "UPDATE [USER] SET LOCKED=1, LOCKOUT_DATE ='" + df.format(date) 
-                + "'" + " WHERE USER_NAME='" + username + "'";
-        state.executeUpdate(sql);
-        app.getLoginView().setLockedFlag(1);
-    }
-
 }

@@ -62,6 +62,11 @@ public class AppController {
         stage.show();
     }
     
+    /**
+     * Shows the main option menu where the user can either start a new OCR/
+     * Decryption process or view the history log
+     * @throws IOException 
+     */
     public final void showOption() throws IOException {
         loader = new FXMLLoader(getClass().getResource("/View/OptionView.fxml"));
         root = loader.load();
@@ -74,6 +79,10 @@ public class AppController {
         stage.show();
     }
     
+    /**
+     * Displays the screen where the user can begin the OCR process. 
+     * @throws IOException 
+     */
     public final void showImageSelection() throws IOException {
         loader = new FXMLLoader(getClass().getResource("/View/ImageSelectionView.fxml"));
         root = loader.load();
@@ -86,6 +95,13 @@ public class AppController {
         stage.show();
     }
     
+    /**
+     * Displays the screen where the resultant text from the OCR process can be
+     * decrypted.
+     * @param parameters The parameters are from the image selection screen and
+     * they contain the file path, photographer, capture date, and case ID
+     * @throws IOException 
+     */
     public void showDecrypt(String[] parameters) throws IOException {
         loader = new FXMLLoader(getClass().getResource("/View/DecryptView.fxml"));
         root = loader.load();
@@ -116,6 +132,12 @@ public class AppController {
         stage.show();
     }
     
+    /**
+     * This displays the history log which is a TableView of all past processed
+     * images.  Users can select an entry and view more details about it
+     * @throws IOException
+     * @throws SQLException 
+     */
     public void showHistory() throws IOException, SQLException {
         loader = new FXMLLoader(getClass().getResource("/View/HistoryView.fxml"));
         root = loader.load();
@@ -128,6 +150,14 @@ public class AppController {
         stage.show();
     }
     
+    /**
+     * The detail page pulls up more detailed information from the db about each 
+     * image including results from the image's related OCR and decryption records.
+     * @param imageId Takes in the IMAGE_ID PK of the image selected on the history
+     * log screen
+     * @throws IOException
+     * @throws SQLException 
+     */
     public void showDetail(int imageId) throws IOException, SQLException {
         loader = new FXMLLoader(getClass().getResource("/View/DetailView.fxml"));
         root = loader.load();
@@ -143,6 +173,12 @@ public class AppController {
         detailStage.show();
     }
     
+    /**
+     * This displays the user guide which contains several tabs each containing
+     * brief information and instructions on each screen of the application
+     * @param i
+     * @throws IOException 
+     */
     public void showUserGuide(int i) throws IOException {
         loader = new FXMLLoader(getClass().getResource("/View/GuideView.fxml"));
         root = loader.load();
@@ -158,6 +194,11 @@ public class AppController {
         guideStage.show();
     }
     
+    /**
+     * This displays the about page which contains copyright and license info
+     * of all the software used to create Nautilus
+     * @throws IOException 
+     */
     public void showAbout() throws IOException {
         loader = new FXMLLoader(getClass().getResource("/View/AboutView.fxml"));
         root = loader.load();

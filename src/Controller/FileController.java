@@ -1,5 +1,6 @@
 package Controller;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,6 +25,8 @@ public class FileController {
     FileChooser textFileChooser = new FileChooser();
     FileChooser imageFileChooser = new FileChooser();
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    BufferedImage master;
+    BufferedImage greyscale;
 
     /**
      * Default constructor for FileController
@@ -82,12 +85,14 @@ public class FileController {
         }
         String fileName = "C:\\Users\\Jared\\Desktop\\OCR_" + app.getDb().getNextOcrId();
         String command = "tesseract " + file.getAbsolutePath() + " " + fileName;
+        System.out.println(file.getAbsolutePath());
         Process process = Runtime.getRuntime().exec(command);
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 File textFile = new File(fileName + ".txt");
+                fileContents = "";
                 try (BufferedReader reader = new BufferedReader(new FileReader(textFile))) {
                     String text = "";
                     while ((text = reader.readLine()) != null) {
