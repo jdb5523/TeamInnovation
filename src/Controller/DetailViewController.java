@@ -21,6 +21,7 @@ public class DetailViewController implements Initializable {
     int imageId;
     @FXML private Button closeButton;
     @FXML private ImageView helpIcon;
+    @FXML private ImageView google;
     @FXML private TextField dateField;
     @FXML private TextField decryptField;
     @FXML private TextField cipherField;
@@ -33,6 +34,8 @@ public class DetailViewController implements Initializable {
         try {
             Image image = new Image(new FileInputStream("images/helpicon.png"));
             helpIcon.setImage(image);
+            Image logo = new Image(new FileInputStream("images/google.png"));
+            google.setImage(logo);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

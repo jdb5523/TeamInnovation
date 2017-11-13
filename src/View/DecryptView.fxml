@@ -26,9 +26,10 @@
           </font>
         </Label>
         <Label font="$x1" layoutX="273.0" layoutY="89.0" text="Output:" />
-        <Button layoutX="80.0" layoutY="449.0" mnemonicParsing="false" prefWidth="109.0" text="Decrypt" onAction="#handleDecryptButtonAction" />
-        <Button layoutX="324.0" layoutY="449.0" mnemonicParsing="false" text="View Historical Log" onAction="#handleHistoryButtonAction" />
+        <Button layoutX="80.0" layoutY="449.0" mnemonicParsing="false" onAction="#handleDecryptButtonAction" prefWidth="109.0" text="Decrypt" />
+        <Button layoutX="324.0" layoutY="449.0" mnemonicParsing="false" onAction="#handleHistoryButtonAction" text="View Historical Log" />
             <ImageView fx:id="helpIcon" fitHeight="20.0" fitWidth="20.0" layoutX="15.0" layoutY="452.0" onMouseClicked="#handleHelpButtonAction" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="google" fitHeight="20.0" fitWidth="120.0" layoutX="197.0" layoutY="472.0" pickOnBounds="true" preserveRatio="true" />
       </children>
     </Pane>
   </children>

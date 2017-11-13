@@ -23,6 +23,7 @@ public class DecryptViewController implements Initializable {
     @FXML private TextField caseField;
     @FXML private TextArea inputArea;
     @FXML private ImageView helpIcon;
+    @FXML private ImageView google;
     private String cipherName = "";
     
     @Override
@@ -30,6 +31,8 @@ public class DecryptViewController implements Initializable {
         try {
             Image image = new Image(new FileInputStream("images/helpicon.png"));
             helpIcon.setImage(image);
+            Image logo = new Image(new FileInputStream("images/google.png"));
+            google.setImage(logo);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

@@ -24,6 +24,7 @@ public class HistoryViewController implements Initializable {
     @FXML private Button processButton;
     @FXML private Button guideButton;
     @FXML private ImageView helpIcon;
+    @FXML private ImageView google;
     @FXML private TableView<Model.Image> historyTable;
     @FXML private TableColumn<Model.Image, Integer> idColumn;
     @FXML private TableColumn<Model.Image, String> dateColumn;
@@ -35,6 +36,8 @@ public class HistoryViewController implements Initializable {
         try {
             Image image = new Image(new FileInputStream("images/helpicon.png"));
             helpIcon.setImage(image);
+            Image logo = new Image(new FileInputStream("images/google.png"));
+            google.setImage(logo);
         } catch (IOException ex) {
             ex.printStackTrace();
         } 

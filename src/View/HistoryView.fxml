@@ -7,13 +7,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="544.0" prefWidth="504.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.HistoryViewController">
+<AnchorPane id="AnchorPane" prefHeight="509.0" prefWidth="504.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.HistoryViewController">
   <children>
-    <Pane layoutX="0.0" layoutY="0.0" prefHeight="544.0" prefWidth="504.0">
+    <Pane prefHeight="529.0" prefWidth="504.0">
       <children>
-        <Button fx:id="searchButton" layoutX="413.0" layoutY="14.0" mnemonicParsing="false" prefWidth="77.0" text="Search" />
-        <TextField fx:id="searchField" layoutX="202.0" layoutY="14.0" prefWidth="200.0" promptText="Search" />
-        <TableView fx:id="historyTable" layoutX="14.0" layoutY="46.0" prefHeight="442.0" prefWidth="476.0" tableMenuButtonVisible="false">
+        <TableView fx:id="historyTable" layoutX="14.0" prefHeight="465.0" prefWidth="476.0" tableMenuButtonVisible="false">
           <columns>
             <TableColumn fx:id="idColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="94.0" text="Image ID" />
             <TableColumn fx:id="dateColumn" prefWidth="118.0" text="Capture Date" />
@@ -21,9 +19,10 @@
             <TableColumn fx:id="processorColumn" prefWidth="75.0" text="Processor" />
           </columns>
         </TableView>
-        <Button fx:id="detailsButton" layoutX="212.0" layoutY="510.0" mnemonicParsing="false" onAction="#handleDetailViewButtonAction" onKeyPressed="#handleKeyPressed" text="View Details" />
-        <Button fx:id="processButton" layoutX="370.0" layoutY="510.0" mnemonicParsing="false" onAction="#handleProcessButtonAction" onKeyPressed="#handleKeyPressed" text="Process New Image" />
-            <ImageView fx:id="helpIcon" fitHeight="20.0" fitWidth="20.0" layoutX="14.0" layoutY="513.0" onMouseClicked="#handleHelpButtonAction" pickOnBounds="true" preserveRatio="true" />
+        <Button fx:id="detailsButton" layoutX="47.0" layoutY="473.0" mnemonicParsing="false" onAction="#handleDetailViewButtonAction" onKeyPressed="#handleKeyPressed" text="View Details" />
+        <Button fx:id="processButton" layoutX="370.0" layoutY="472.0" mnemonicParsing="false" onAction="#handleProcessButtonAction" onKeyPressed="#handleKeyPressed" text="Process New Image" />
+            <ImageView fx:id="helpIcon" fitHeight="20.0" fitWidth="20.0" layoutX="14.0" layoutY="475.0" onMouseClicked="#handleHelpButtonAction" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="google" fitHeight="20.0" fitWidth="120.0" layoutX="182.0" layoutY="505.0" pickOnBounds="true" preserveRatio="true" />
       </children>
     </Pane>
   </children>
