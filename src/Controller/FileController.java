@@ -83,7 +83,8 @@ public class FileController {
             imageId = app.getDb().imageEntry(parameters[1], Integer.parseInt(parameters[2]),
                     Integer.parseInt(parameters[3]), parameters[4]);
         }
-        String fileName = "C:\\Users\\Jared\\Desktop\\OCR_" + app.getDb().getNextOcrId();
+        int ocrId = app.getDb().getNextOcrId();
+        String fileName = "C:\\Users\\Jared\\Desktop\\OCR_" + Integer.toString(ocrId);
         String command = "tesseract " + file.getAbsolutePath() + " " + fileName;
         System.out.println(file.getAbsolutePath());
         Process process = Runtime.getRuntime().exec(command);
@@ -107,7 +108,7 @@ public class FileController {
                 } catch (SQLException ex) {
                     Logger.getLogger(FileController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                app.getDecrypt().finishSetUp(fileContents);
+                app.getDecrypt().finishSetUp(fileContents, ocrId);
             }
         }, 3 * 1000);
         app.showDecrypt(parameters);

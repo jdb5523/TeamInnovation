@@ -84,7 +84,6 @@ public class ResetPasswordViewController implements Initializable {
             app.setCurrentUserID(Integer.parseInt(idField.getText()));
             questionArea.setText(app.getDb().getChallengeQuestion(
                     app.getCurrentUserID()));
-            System.out.println(app.getDb().getChallengeQuestion(1));
         } else {
             userLabel.setVisible(true);
         }

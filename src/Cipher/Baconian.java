@@ -5,8 +5,9 @@
  */
 package Cipher;
 
-import javax.swing.JTextArea;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Locale;
+
 
 /**
  *
@@ -21,11 +22,11 @@ public class Baconian {
     int characterCount[],wordAmt;
     String result,processW[],processed;
     GoogleTranslate trans;
-    JTextArea allResults;
+    ArrayList<String> allResults;
     String words[], ltrcode[],digcode[];
     
     
-    public String decryptBaconian(String informedcode) {
+    public ArrayList<String> decryptBaconian(String informedcode) {
         
         message = informedcode;
         message = message.toLowerCase();
@@ -38,12 +39,12 @@ public class Baconian {
 
         decryptedMessage = new StringBuilder();
         decryptChars = new StringBuilder();
-        finalResult = new String("");
-        language = new String("");
-        langName = new String("");
-        result = new String("");
+        finalResult = "";
+        language = "";
+        langName = "";
+        result = "";
         trans = new GoogleTranslate();
-        allResults = new JTextArea("");
+        allResults = new ArrayList();
         
         ltrcode = new String[] {"aaaaa","aaaab","aaaba","aaabb","aabaa","aabab","aabba",
         "aabbb","abaaa","abaab","ababa","ababb","abbaa","abbab","abbba","abbbb",
@@ -113,18 +114,18 @@ public class Baconian {
 
             if ("LOW RATIO".equals(finalResult))
             {
-                allResults.append("");
+                allResults.add("");
             }
             else{
-                allResults.append("Baconian Cipher "+ ":\n"+"Decrypted Message: " + decryptedMessage + "\n"
+                allResults.add("Baconian Cipher "+ ":\n"+"Decrypted Message: " + decryptedMessage + "\n"
                     + "Language: "+ langName +"\n"+" - FINAL RESULT: "+ finalResult+"\n"+"\n"+"\n");
             } 
         
         }
         else{
-            allResults.append("try again");
+            allResults.add("try again");
         }
-        return allResults.getText();
+        return allResults;
 //}
 }
     }

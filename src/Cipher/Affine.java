@@ -1,8 +1,7 @@
 package Cipher;
 
+import java.util.ArrayList;
 import java.util.Locale;
-import javax.swing.JTextArea;
-
 /**
  *
  * @author Stephanie
@@ -13,25 +12,27 @@ public class Affine {
     String message, decryptedMessage, finalResult, language, langName;
     char character, decryptCharacter;
     int valA[], valB[], valInvVarA[];
-    StringBuilder result;
+    String result;
     GoogleTranslate trans;
-    JTextArea allResults;
+    ArrayList<String> allResults;
     int varA, varB, varbX, varM, inv, invVarA, c = 0;
 
-    public String decryptAffine(String informedcode) {
-
-        message = informedcode.toLowerCase();
-        decryptedMessage = new String("");
-        finalResult = new String("");
-        language = new String("");
-        langName = new String("");
-        result = new StringBuilder();
+    public Affine() {
+        
+        decryptedMessage = "";
+        finalResult = "";
+        language = "";
+        langName = "";
+        result = "";
         trans = new GoogleTranslate();
-        allResults = new JTextArea("");
+        allResults = new ArrayList();
         valA = new int[]{1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25};
         valInvVarA = new int[]{1, 9, 21, 15, 3, 19, 7, 23, 11, 5, 17, 25};
-
-//x = a^-1 (c - b) (mod m)
+    }
+    
+    public ArrayList<String> decryptAffine(String informedcode) {
+        message = informedcode.toLowerCase();
+        //x = a^-1 (c - b) (mod m)
         for (int h = 0; h < valA.length; ++h) {
 
             varA = valA[h];
@@ -42,62 +43,91 @@ public class Affine {
                 decryptedMessage = "";
 
                 for (int k = 0; k < message.length(); k++) {
-                    /*Applying decryption formula a^-1 ( c - b ) mod m 
-          
+                    /*Applying decryption formula a^-1 ( c - b ) mod m
+
                      */
                     character = message.charAt(k);
-                    if (character == 'a') {
-                        c = 0;
-                    } else if (character == 'b') {
-                        c = 1;
-                    } else if (character == 'c') {
-                        c = 2;
-                    } else if (character == 'd') {
-                        c = 3;
-                    } else if (character == 'e') {
-                        c = 4;
-                    } else if (character == 'f') {
-                        c = 5;
-                    } else if (character == 'g') {
-                        c = 6;
-                    } else if (character == 'h') {
-                        c = 7;
-                    } else if (character == 'i') {
-                        c = 8;
-                    } else if (character == 'j') {
-                        c = 9;
-                    } else if (character == 'k') {
-                        c = 10;
-                    } else if (character == 'l') {
-                        c = 11;
-                    } else if (character == 'm') {
-                        c = 12;
-                    } else if (character == 'n') {
-                        c = 13;
-                    } else if (character == 'o') {
-                        c = 14;
-                    } else if (character == 'p') {
-                        c = 15;
-                    } else if (character == 'q') {
-                        c = 16;
-                    } else if (character == 'r') {
-                        c = 17;
-                    } else if (character == 's') {
-                        c = 18;
-                    } else if (character == 't') {
-                        c = 19;
-                    } else if (character == 'u') {
-                        c = 20;
-                    } else if (character == 'v') {
-                        c = 21;
-                    } else if (character == 'w') {
-                        c = 22;
-                    } else if (character == 'x') {
-                        c = 23;
-                    } else if (character == 'y') {
-                        c = 24;
-                    } else if (character == 'z') {
-                        c = 25;
+                    switch (character) {
+                        case 'a':
+                            c = 0;
+                            break;
+                        case 'b':
+                            c = 1;
+                            break;
+                        case 'c':
+                            c = 2;
+                            break;
+                        case 'd':
+                            c = 3;
+                            break;
+                        case 'e':
+                            c = 4;
+                            break;
+                        case 'f':
+                            c = 5;
+                            break;
+                        case 'g':
+                            c = 6;
+                            break;
+                        case 'h':
+                            c = 7;
+                            break;
+                        case 'i':
+                            c = 8;
+                            break;
+                        case 'j':
+                            c = 9;
+                            break;
+                        case 'k':
+                            c = 10;
+                            break;
+                        case 'l':
+                            c = 11;
+                            break;
+                        case 'm':
+                            c = 12;
+                            break;
+                        case 'n':
+                            c = 13;
+                            break;
+                        case 'o':
+                            c = 14;
+                            break;
+                        case 'p':
+                            c = 15;
+                            break;
+                        case 'q':
+                            c = 16;
+                            break;
+                        case 'r':
+                            c = 17;
+                            break;
+                        case 's':
+                            c = 18;
+                            break;
+                        case 't':
+                            c = 19;
+                            break;
+                        case 'u':
+                            c = 20;
+                            break;
+                        case 'v':
+                            c = 21;
+                            break;
+                        case 'w':
+                            c = 22;
+                            break;
+                        case 'x':
+                            c = 23;
+                            break;
+                        case 'y':
+                            c = 24;
+                            break;
+                        case 'z':
+                            c = 25;
+                            break;
+                        default:
+                            break;
                     }
 
                     System.out.println(varA + " " + varB);
@@ -120,13 +150,13 @@ public class Affine {
                 finalResult = trans.runProcess(language, decryptedMessage, langName);
 
                 if ("LOW RATIO".equals(finalResult)) {
-                    allResults.append("");
+                    allResults.add("");
                 } else {
-                    allResults.append("Affine Cipher Key [" + varA + "," + varB + "]" + ":\n" + "Decrypted Message: " + decryptedMessage + "\n"
+                    allResults.add("Affine Cipher Key [" + varA + "," + varB + "]" + ":\n" + "Decrypted Message: " + decryptedMessage + "\n"
                             + "Language: " + langName + "\n" + " - FINAL RESULT: " + finalResult + "\n" + "\n" + "\n");
                 }
             }
         }
-        return allResults.getText();
+        return allResults;
     }
 }

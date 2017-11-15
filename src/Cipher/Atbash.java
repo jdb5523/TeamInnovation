@@ -1,7 +1,7 @@
 package Cipher;
 
-import java.util.*;
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  *
@@ -13,17 +13,17 @@ public class Atbash {
     StringBuilder result;
     String message, decryptedMessage, finalResult, language, langName;
     GoogleTranslate trans;
-    JTextArea allResults;
+    ArrayList<String> allResults;
 
-    public String decryptAtbash(String informedcode) {
+    public ArrayList<String> decryptAtbash(String informedcode) {
         message = informedcode;
-        decryptedMessage = new String("");
-        finalResult = new String("");
-        language = new String("");
-        langName = new String("");
+        decryptedMessage = "";
+        finalResult = "";
+        language = "";
+        langName = "";
         result = new StringBuilder();
         trans = new GoogleTranslate();
-        allResults = new JTextArea("");
+        allResults = new ArrayList();
 
         for (int i = 0; i < message.length(); ++i) {
             character = message.charAt(i);
@@ -39,12 +39,12 @@ public class Atbash {
         finalResult = trans.runProcess(language, decryptedMessage, langName);
 
         if ("LOW RATIO".equals(finalResult)) {
-            allResults.append("");
+            allResults.add("");
         } else {
-            allResults.append("Atbash Cipher " + ":\n" + "Decrypted Message: " + decryptedMessage + "\n"
+            allResults.add("Atbash Cipher " + ":\n" + "Decrypted Message: " + decryptedMessage + "\n"
                     + "Language: " + langName + "\n" + " - FINAL RESULT: " + finalResult + "\n" + "\n" + "\n");
         }
 
-        return allResults.getText();
+        return allResults;
     }
 }

@@ -50,7 +50,6 @@ public class LoginViewController implements Initializable {
     @FXML
     protected void handleLoginButtonAction() throws IOException, SQLException {
         if(authentication(usernameField.getText(), passwordField.getText())) {
-            System.out.println("Login successful");
             app.setCurrentUser(usernameField.getText());
             app.setCurrentUserID(app.getDb().getUserId(app.getCurrentUser()));
             app.showOption();

@@ -175,7 +175,6 @@ public class DatabaseController {
         ResultSet result = state.executeQuery(sql);
         while (result.next()) {
             response = result.getString("CHALLENGE_ANSWER");
-            System.out.println(response);
         }
         return response;
     }
@@ -309,7 +308,6 @@ public class DatabaseController {
                 + "JOIN DECRYPT ON OCR.OCR_ID = DECRYPT.OCR_ID " 
                 + "JOIN CIPHER ON DECRYPT.CIPHER = CIPHER.CIPHER_ID WHERE "
                 + "Image.IMAGE_ID = " + imageId;
-        System.out.println(sql);
         result = state.executeQuery(sql);
         while (result.next()) {
             results[0] = result.getString(1);
@@ -339,4 +337,8 @@ public class DatabaseController {
         }
         return notesSaved;
     }
+    
+    public void writeDecryptResult(String result, String language, int ocrId) {
+        
+    } 
 }

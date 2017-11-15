@@ -1,5 +1,6 @@
 package Controller;
 
+import Cipher.Decoder;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -18,6 +19,7 @@ import javafx.scene.image.ImageView;
 public class DecryptViewController implements Initializable {
 
     AppController app;
+    private int ocrId;
     @FXML private TextField dateField;
     @FXML private TextField photogField;
     @FXML private TextField caseField;
@@ -25,6 +27,7 @@ public class DecryptViewController implements Initializable {
     @FXML private ImageView helpIcon;
     @FXML private ImageView google;
     private String cipherName = "";
+    Decoder decoder = new Decoder();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -45,7 +48,7 @@ public class DecryptViewController implements Initializable {
         alert.setContentText("The decryption process may take a while.  Do you wish to proceed?");
         Optional<ButtonType> confirm = alert.showAndWait();
         if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
-            System.out.println("DECRYPT");
+            
             Alert decrypt = new Alert(Alert.AlertType.NONE);
             decrypt.setContentText("Running " + getCipherName() + " Cipher");
             decrypt.show();
@@ -79,8 +82,9 @@ public class DecryptViewController implements Initializable {
         caseField.setText(parameters[0]);
     }
     
-    public void finishSetUp(String fileContents) {
+    public void finishSetUp(String fileContents, int ocrId) {
         inputArea.setText(fileContents);
+        this.ocrId = ocrId;
     }
 
     /**
