@@ -11,10 +11,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Window;
 
 public class DecryptViewController implements Initializable {
 
@@ -24,6 +27,10 @@ public class DecryptViewController implements Initializable {
     @FXML private TextField photogField;
     @FXML private TextField caseField;
     @FXML private TextArea inputArea;
+    @FXML private CheckBox affineBox;
+    @FXML private CheckBox atbashBox;
+    @FXML private CheckBox baconianBox;
+    @FXML private CheckBox caesarBox;
     @FXML private ImageView helpIcon;
     @FXML private ImageView google;
     private String cipherName = "";
@@ -48,10 +55,26 @@ public class DecryptViewController implements Initializable {
         alert.setContentText("The decryption process may take a while.  Do you wish to proceed?");
         Optional<ButtonType> confirm = alert.showAndWait();
         if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
-            
-            Alert decrypt = new Alert(Alert.AlertType.NONE);
-            decrypt.setContentText("Running " + getCipherName() + " Cipher");
-            decrypt.show();
+            Dialog<?> dialog = new Dialog();
+            Window window = dialog.getDialogPane().getScene().getWindow();
+            dialog.show();
+            if (affineBox.isSelected()) {
+                decoder.affineDecrypt("abc");
+                dialog.setContentText("Running Affine Cipher");
+            }
+            if (atbashBox.isSelected()) {
+                decoder.atbashDecrypt("abc");
+                dialog.setContentText("Running Atbash Cipher");
+            }
+            if (baconianBox.isSelected()) {
+                decoder.baconianDecrypt("abc");
+                dialog.setContentText("Running Baconian Cipher");
+            }
+            if (caesarBox.isSelected()) {
+                decoder.caesarDecrypt("abc");
+                dialog.setContentText("Running Caesar Cipher");
+            } 
+            window.hide();
         }
         
         

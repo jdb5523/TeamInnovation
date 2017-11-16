@@ -139,7 +139,7 @@ public class DatabaseController {
         sql = "SELECT * FROM [USER] WHERE USER_ID=" + userID;
         ResultSet result = state.executeQuery(sql);
         while (result.next()) {
-            if (result.getString("USER_NAME").equals(username)) {
+            if (result.getString("USER_NAME").equals(username) && result.getInt("Locked") == 0) {
                 isComboValid = true;
             } 
         }

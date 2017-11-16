@@ -6,38 +6,38 @@ import java.util.ArrayList;
  *
  * @author Stephanie
  */
-public class Decoder implements Runnable {
+public class Decoder {
 
-    String decryptedMessage = "";
-    ArrayList<String> result;
-    ArrayList<ArrayList<String>> resultPool;
     Caesar caesarCipher;
     Atbash atbashCipher;
     Affine affineCipher;
-    Baconian baconCipher;
-
-    public ArrayList<ArrayList<String>> decryptMessage(String informedCode) {
-
-        resultPool = new ArrayList();
-        caesarCipher = new Caesar();
-        atbashCipher = new Atbash();
-        affineCipher = new Affine();
-        baconCipher = new Baconian();
-
-        result = caesarCipher.decryptCaesar(informedCode);
-        resultPool.add(result);
-        result = atbashCipher.decryptAtbash(informedCode);
-        resultPool.add(result);
-        //result = affineCipher.decryptAffine(informedCode);
-        //resultPool.add(result);
-        result = baconCipher.decryptBaconian(informedCode);
-        resultPool.add(result);
-
-        return resultPool;
+    Baconian baconianCipher;
+    
+    public Decoder() {
+        
     }
-
-    @Override
-    public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    public ArrayList<String> affineDecrypt(String code) {
+        affineCipher = new Affine();
+        ArrayList<String> affineResults = affineCipher.decryptAffine(code);
+        return affineResults;
+    }
+    
+    public ArrayList<String> atbashDecrypt(String code) {
+        atbashCipher = new Atbash();
+        ArrayList<String> atbashResults = atbashCipher.decryptAtbash(code);
+        return atbashResults;
+    }
+    
+    public ArrayList<String> baconianDecrypt(String code) {
+        baconianCipher = new Baconian();
+        ArrayList<String> baconianResults = baconianCipher.decryptBaconian(code);
+        return baconianResults;
+    }
+    
+    public ArrayList<String> caesarDecrypt(String code) {
+        caesarCipher = new Caesar();
+        ArrayList<String> caesarResults = caesarCipher.decryptCaesar(code);
+        return caesarResults;
     }
 }

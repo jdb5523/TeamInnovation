@@ -10,7 +10,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="496.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DecryptViewController">
   <children>
-    <Pane layoutX="0.0" layoutY="0.0" prefHeight="496.0" prefWidth="514.0">
+    <Pane prefHeight="563.0" prefWidth="514.0">
       <children>
         <Label layoutX="212.0" layoutY="21.0" text="Photographer ID:" />
         <Label layoutX="19.0" layoutY="21.0" text="Image Capture Date:" />
@@ -26,10 +26,14 @@
           </font>
         </Label>
         <Label font="$x1" layoutX="273.0" layoutY="89.0" text="Output:" />
-        <Button layoutX="80.0" layoutY="449.0" mnemonicParsing="false" onAction="#handleDecryptButtonAction" prefWidth="109.0" text="Decrypt" />
-        <Button layoutX="324.0" layoutY="449.0" mnemonicParsing="false" onAction="#handleHistoryButtonAction" text="View Historical Log" />
-            <ImageView fx:id="helpIcon" fitHeight="20.0" fitWidth="20.0" layoutX="15.0" layoutY="452.0" onMouseClicked="#handleHelpButtonAction" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="google" fitHeight="20.0" fitWidth="120.0" layoutX="197.0" layoutY="472.0" pickOnBounds="true" preserveRatio="true" />
+        <Button layoutX="78.0" layoutY="504.0" mnemonicParsing="false" onAction="#handleDecryptButtonAction" prefWidth="109.0" text="Decrypt" />
+        <Button layoutX="323.0" layoutY="504.0" mnemonicParsing="false" onAction="#handleHistoryButtonAction" text="View Historical Log" />
+            <ImageView fx:id="helpIcon" fitHeight="20.0" fitWidth="20.0" layoutX="9.0" layoutY="529.0" onMouseClicked="#handleHelpButtonAction" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="google" fitHeight="20.0" fitWidth="120.0" layoutX="197.0" layoutY="539.0" pickOnBounds="true" preserveRatio="true" />
+            <CheckBox fx:id="caesarBox" layoutX="14.0" layoutY="475.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="65.0" text="Caesar" />
+            <CheckBox fx:id="affineBox" layoutX="14.0" layoutY="449.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="65.0" text="Affine" />
+            <CheckBox fx:id="baconianBox" layoutX="177.0" layoutY="449.0" mnemonicParsing="false" text="Baconian" />
+            <CheckBox fx:id="atbashBox" layoutX="91.0" layoutY="449.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="69.0" text="Atbash" />
       </children>
     </Pane>
   </children>
