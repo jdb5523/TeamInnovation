@@ -5,6 +5,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -33,8 +37,9 @@ public class DecryptViewController implements Initializable {
     @FXML private CheckBox caesarBox;
     @FXML private ImageView helpIcon;
     @FXML private ImageView google;
-    private String cipherName = "";
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     Decoder decoder = new Decoder();
+    ArrayList<String> results;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -50,7 +55,7 @@ public class DecryptViewController implements Initializable {
     }    
     
     @FXML 
-    protected void handleDecryptButtonAction() {
+    protected void handleDecryptButtonAction() throws SQLException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setContentText("The decryption process may take a while.  Do you wish to proceed?");
         Optional<ButtonType> confirm = alert.showAndWait();
@@ -58,26 +63,31 @@ public class DecryptViewController implements Initializable {
             Dialog<?> dialog = new Dialog();
             Window window = dialog.getDialogPane().getScene().getWindow();
             dialog.show();
+            String date = df.format(new Date());
             if (affineBox.isSelected()) {
-                decoder.affineDecrypt("abc");
-                dialog.setContentText("Running Affine Cipher");
+                results = decoder.affineDecrypt(inputArea.getText());
+                for (String result : results) {
+                    app.getDb().writeDecryptResult(1, result, "en", ocrId, date);
+                }
             }
             if (atbashBox.isSelected()) {
-                decoder.atbashDecrypt("abc");
-                dialog.setContentText("Running Atbash Cipher");
+                results = decoder.atbashDecrypt(inputArea.getText());
+                for (String result : results) {
+                    app.getDb().writeDecryptResult(2, result, "en", ocrId, date);
+                }
             }
             if (baconianBox.isSelected()) {
-                decoder.baconianDecrypt("abc");
-                dialog.setContentText("Running Baconian Cipher");
+                for (String result : decoder.baconianDecrypt(inputArea.getText())) {
+                    app.getDb().writeDecryptResult(3, result, "en", ocrId, date);
+                }
             }
             if (caesarBox.isSelected()) {
-                decoder.caesarDecrypt("abc");
-                dialog.setContentText("Running Caesar Cipher");
+                for (String result : decoder.caesarDecrypt(inputArea.getText())) {
+                    app.getDb().writeDecryptResult(4, result, "en", ocrId, date);
+                }
             } 
             window.hide();
-        }
-        
-        
+        }      
     }
     
     @FXML
@@ -108,12 +118,5 @@ public class DecryptViewController implements Initializable {
     public void finishSetUp(String fileContents, int ocrId) {
         inputArea.setText(fileContents);
         this.ocrId = ocrId;
-    }
-
-    /**
-     * @return the cipherName
-     */
-    public String getCipherName() {
-        return cipherName;
     }
 }

@@ -301,21 +301,24 @@ public class DatabaseController {
      * @throws SQLException 
      */
     public String[] getRecordDetails(int imageId) throws SQLException {
-        String[] results = new String[6];
+        String[] results = new String[7];
         sql = "SELECT Image.CAPTURE_DATE, Decrypt.DECRYPT_DATE, Cipher.CIPHER_NAME, " +
-                "Decrypt.RATING, DECRYPT.RESULT, Image.ADDITIONAL_NOTES " 
+                "Decrypt.RATING, DECRYPT.RESULT, Image.ADDITIONAL_NOTES, Image.FILE_PATH " 
                 + "FROM Image JOIN OCR ON Image.IMAGE_ID = OCR.IMAGE_ID "
                 + "JOIN DECRYPT ON OCR.OCR_ID = DECRYPT.OCR_ID " 
                 + "JOIN CIPHER ON DECRYPT.CIPHER = CIPHER.CIPHER_ID WHERE "
                 + "Image.IMAGE_ID = " + imageId;
         result = state.executeQuery(sql);
+        String decryptResult = "";
         while (result.next()) {
+            decryptResult = decryptResult + result.getString(5) + "\n";
             results[0] = result.getString(1);
             results[1] = result.getString(2);
             results[2] = result.getString(3);
             results[3] = result.getString(4);
-            results[4] = result.getString(5);
+            results[4] = decryptResult;
             results[5] = result.getString(6);
+            results[6] = result.getString(7);
         }
         return results;
     }
@@ -338,7 +341,12 @@ public class DatabaseController {
         return notesSaved;
     }
     
-    public void writeDecryptResult(String result, String language, int ocrId) {
-        
+    public void writeDecryptResult(int cipherId, String result, String langId, int ocrId,
+            String date) throws SQLException {
+        sql = "INSERT INTO Decrypt VALUES (" + ocrId + ", " + cipherId + ", '" + langId
+                + "', " + app.getCurrentUserID() + ", '" + date + "', '" + result + "', "
+                + 50.00 + ", "+ 1 + ")";
+        System.out.println(sql);
+        state.executeUpdate(sql);
     } 
 }

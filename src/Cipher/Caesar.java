@@ -46,8 +46,10 @@ public class Caesar {
                 }
 
             }
+            
+            allResults.add(decryptedMessage);
 
-            language = trans.detectLanguage(decryptedMessage);
+            /*language = trans.detectLanguage(decryptedMessage);
 
             Locale loc = new Locale(language);
             langName = loc.getDisplayLanguage(loc);
@@ -59,7 +61,7 @@ public class Caesar {
             } else {
                 allResults.add("Caesar Cipher Key " + key + ":\n" + "Decrypted Message: " + decryptedMessage + "\n"
                         + "Language: " + langName + "\n" + " - FINAL RESULT: " + finalResult + "\n" + "\n" + "\n");
-            }
+            }*/
 
         }
         return allResults;

@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -19,9 +20,11 @@ public class DetailViewController implements Initializable {
 
     AppController app;
     int imageId;
+    private Image text;
     @FXML private Button closeButton;
     @FXML private ImageView helpIcon;
     @FXML private ImageView google;
+    @FXML private ImageView textImage;
     @FXML private TextField dateField;
     @FXML private TextField decryptField;
     @FXML private TextField cipherField;
@@ -69,7 +72,7 @@ public class DetailViewController implements Initializable {
         app.closeDetail();
     }
     
-    public void setUp(AppController app, int imageId) throws SQLException {
+    public void setUp(AppController app, int imageId) throws SQLException, FileNotFoundException {
         this.app = app;
         this.imageId = imageId;
         String[] results = app.getDb().getRecordDetails(imageId);
@@ -79,5 +82,7 @@ public class DetailViewController implements Initializable {
         ratingField.setText(results[3]);
         resultsArea.setText(results[4]);
         notesArea.setText(results[5]);
+        text = new Image(new FileInputStream(results[6]));
+        textImage.setImage(text);
     }
 }
