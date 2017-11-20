@@ -1,6 +1,7 @@
 package Controller;
 
 import Cipher.Decoder;
+import Cipher.GoogleTranslate;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -14,6 +15,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
@@ -31,14 +33,17 @@ public class DecryptViewController implements Initializable {
     @FXML private TextField photogField;
     @FXML private TextField caseField;
     @FXML private TextArea inputArea;
+    @FXML private TextArea outputArea;
     @FXML private CheckBox affineBox;
     @FXML private CheckBox atbashBox;
     @FXML private CheckBox baconianBox;
     @FXML private CheckBox caesarBox;
     @FXML private ImageView helpIcon;
     @FXML private ImageView google;
+    @FXML private Button decryptButton;
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     Decoder decoder = new Decoder();
+    GoogleTranslate translator = new GoogleTranslate();
     ArrayList<String> results;
     
     @Override
@@ -56,38 +61,69 @@ public class DecryptViewController implements Initializable {
     
     @FXML 
     protected void handleDecryptButtonAction() throws SQLException {
+        String output = "";
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setContentText("The decryption process may take a while.  Do you wish to proceed?");
         Optional<ButtonType> confirm = alert.showAndWait();
         if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
             Dialog<?> dialog = new Dialog();
             Window window = dialog.getDialogPane().getScene().getWindow();
-            dialog.show();
             String date = df.format(new Date());
+            
             if (affineBox.isSelected()) {
+                output += "--AFFINE--\n\n";
+                dialog.setContentText("Running Atbash Cipher");
+                dialog.show();
                 results = decoder.affineDecrypt(inputArea.getText());
                 for (String result : results) {
-                    app.getDb().writeDecryptResult(1, result, "en", ocrId, date);
+                    app.getDb().insertDecryptRecord(1, result, translator.
+                            detectLanguage(result), ocrId, date);
+                    output += result + "\n";
                 }
+                output += "--END AFFINE--\n\n";
+                dialog.close();
             }
             if (atbashBox.isSelected()) {
+                output += "--ATBASH--\n\n";
+                dialog.setContentText("Running Atbash Cipher");
                 results = decoder.atbashDecrypt(inputArea.getText());
                 for (String result : results) {
-                    app.getDb().writeDecryptResult(2, result, "en", ocrId, date);
+                    app.getDb().insertDecryptRecord(2, result, translator.
+                            detectLanguage(result), ocrId, date);
+                    output += result + "\n";
                 }
+                output += "\n--END ATBASH--\n\n";
             }
             if (baconianBox.isSelected()) {
-                for (String result : decoder.baconianDecrypt(inputArea.getText())) {
-                    app.getDb().writeDecryptResult(3, result, "en", ocrId, date);
+                output += "--BACONIAN--\n\n";
+                dialog.setContentText("Running Baconian Cipher");
+                results = decoder.baconianDecrypt(inputArea.getText());
+                for (String result : results) {
+                    app.getDb().insertDecryptRecord(3, result, 
+                            translator.detectLanguage(result), ocrId, date);
+                    output += result + "\n";
                 }
+                output += "\n--END BACONIAN--\n\n";
             }
             if (caesarBox.isSelected()) {
-                for (String result : decoder.caesarDecrypt(inputArea.getText())) {
-                    app.getDb().writeDecryptResult(4, result, "en", ocrId, date);
+                output += "--CAESAR--\n\n";
+                dialog.setContentText("Running Caesar Cipher");
+                dialog.show();
+                results = decoder.caesarDecrypt(inputArea.getText());
+                for (String result : results) {
+                    app.getDb().insertDecryptRecord(4, result, translator.
+                            detectLanguage(result), ocrId, date);
+                    output += result + "\n";
                 }
+                output += "\n--END CAESAR--";
             } 
+            outputArea.setText(output);
             window.hide();
         }      
+        decryptButton.setDisable(true);
+        decryptButton.setOpacity(.25);
+        inputArea.setEditable(false);
+        inputArea.setOpacity(.4);
     }
     
     @FXML

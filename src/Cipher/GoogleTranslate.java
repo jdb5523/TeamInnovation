@@ -14,19 +14,17 @@ import java.text.DecimalFormat;
  */
 public class GoogleTranslate {
 
-    final String key = new String("AIzaSyCpmO6K7eRBBqqPA9emEYU4RzcTW5oDy-A");
-    final String name = new String("translateproject");
+    final String key = "AIzaSyCpmO6K7eRBBqqPA9emEYU4RzcTW5oDy-A";
+    final String name = "translateproject";
 
     public String detectLanguage(String decodeText) {
         StringBuilder resultPool;
         System.out.println(decodeText);
-        String result;
-        result = new String("");
         resultPool = new StringBuilder("");
         try {
             Translate t = new Translate.Builder(
                     com.google.api.client.googleapis.javanet.GoogleNetHttpTransport.newTrustedTransport(),
-                     com.google.api.client.json.gson.GsonFactory.getDefaultInstance(), null)
+                    com.google.api.client.json.gson.GsonFactory.getDefaultInstance(), null)
                     .setApplicationName(this.name)
                     .build();
             Translate.Translations.List list = t.new Translations().list(
@@ -42,20 +40,16 @@ public class GoogleTranslate {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        result = resultPool.toString();
-        return result;
+        return resultPool.toString();
     }
 
     public String translateLanguage(String decodeText, String detectLang) {
         StringBuilder resultPool;
-        String result, language;
-        result = new String("");
         resultPool = new StringBuilder("");
-
         try {
             Translate t = new Translate.Builder(
                     com.google.api.client.googleapis.javanet.GoogleNetHttpTransport.newTrustedTransport(),
-                     com.google.api.client.json.gson.GsonFactory.getDefaultInstance(), null)
+                    com.google.api.client.json.gson.GsonFactory.getDefaultInstance(), null)
                     .setApplicationName(this.name)
                     .build();
             Translate.Translations.List list = t.new Translations().list(
@@ -71,8 +65,7 @@ public class GoogleTranslate {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        result = resultPool.toString();
-        return result;
+        return resultPool.toString();
     }
 
     public String checkEnglish(String word) {
@@ -108,19 +101,16 @@ public class GoogleTranslate {
     public String runProcess(String informedLanguage, String decryptedMessage, String informedName) {
         int key, k;
         double ratio, ratTotal, length;
-        String check, transMessage, finalTrans, finalResult;
+        String check= "";
+        String transMessage = ""; 
+        String finalTrans = "";
+        String finalResult = "";
         StringBuilder resultPool = new StringBuilder("");
 
         String language = informedLanguage;
         String langName = informedName;
         k = 0;
-        length = 0;
-        ratio = 0;
         ratTotal = 0;
-        check = new String("");
-        transMessage = new String("");
-        finalTrans = new String("");
-        finalResult = new String("");
 
         DecimalFormat twoDForm = new DecimalFormat("#.00");
 

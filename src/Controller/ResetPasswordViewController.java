@@ -20,38 +20,22 @@ import javafx.scene.paint.Color;
 
 public class ResetPasswordViewController implements Initializable {
 
-    @FXML
-    private TextField usernameField;
-    @FXML
-    private TextField idField;
-    @FXML
-    private Button submitButton;
-    @FXML
-    private Label userLabel;
-    @FXML
-    private TextArea questionArea;
-    @FXML
-    private TextField responseField;
-    @FXML
-    private Button responseButton;
-    @FXML
-    private PasswordField newField;
-    @FXML
-    private PasswordField confirmField;
-    @FXML
-    private Button saveButton;
-    @FXML
-    private Label matchLabel;
-    @FXML
-    private Label responseLabel;
-    @FXML
-    private Label newLabel;
-    @FXML
-    private Label confirmLabel;
-    @FXML
-    private Button backButton;
-    @FXML
-    private ImageView helpIcon;
+    @FXML private TextField usernameField;
+    @FXML private TextField idField;
+    @FXML private Button submitButton;
+    @FXML private Label userLabel;
+    @FXML private TextArea questionArea;
+    @FXML private TextField responseField;
+    @FXML private Button responseButton;
+    @FXML private PasswordField newField;
+    @FXML private PasswordField confirmField;
+    @FXML private Button saveButton;
+    @FXML private Label matchLabel;
+    @FXML private Label responseLabel;
+    @FXML private Label newLabel;
+    @FXML private Label confirmLabel;
+    @FXML private Button backButton;
+    @FXML private ImageView helpIcon;
 
     AppController app;
 
@@ -128,7 +112,7 @@ public class ResetPasswordViewController implements Initializable {
             ex.printStackTrace();
         }
     }
-    
+
     private void secondSection() {
         usernameField.setOpacity(.25);
         usernameField.setFocusTraversable(false);
@@ -155,6 +139,7 @@ public class ResetPasswordViewController implements Initializable {
         responseField.setEditable(false);
         responseLabel.setOpacity(.5);
         submitButton.setOpacity(.25);
+        responseButton.setOpacity(.25);
         responseButton.setDisable(true);
         newLabel.setOpacity(100);
         newField.setOpacity(100);

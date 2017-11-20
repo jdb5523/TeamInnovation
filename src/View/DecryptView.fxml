@@ -19,14 +19,14 @@
         <TextField fx:id="photogField" editable="false" layoutX="198.0" layoutY="41.0" opacity="0.7" prefWidth="119.0" />
         <TextField fx:id="dateField" editable="false" layoutX="15.0" layoutY="41.0" opacity="0.7" prefWidth="119.0" />
         <TextArea fx:id="inputArea" layoutX="14.0" layoutY="105.0" prefHeight="334.0390625" prefWidth="236.0" wrapText="true" />
-        <TextArea layoutX="264.0" layoutY="105.0" prefHeight="334.0390625" prefWidth="236.0" wrapText="true" />
+        <TextArea fx:id="outputArea" layoutX="264.0" layoutY="105.0" prefHeight="334.0390625" prefWidth="236.0" wrapText="true" />
         <Label layoutX="19.0" layoutY="89.0" text="Input:">
           <font>
             <Font name="System Bold" size="12.0" fx:id="x1" />
           </font>
         </Label>
         <Label font="$x1" layoutX="273.0" layoutY="89.0" text="Output:" />
-        <Button layoutX="78.0" layoutY="504.0" mnemonicParsing="false" onAction="#handleDecryptButtonAction" prefWidth="109.0" text="Decrypt" />
+        <Button fx:id="decryptButton" layoutX="78.0" layoutY="504.0" mnemonicParsing="false" onAction="#handleDecryptButtonAction" prefWidth="109.0" text="Decrypt" />
         <Button layoutX="323.0" layoutY="504.0" mnemonicParsing="false" onAction="#handleHistoryButtonAction" text="View Historical Log" />
             <ImageView fx:id="helpIcon" fitHeight="20.0" fitWidth="20.0" layoutX="9.0" layoutY="529.0" onMouseClicked="#handleHelpButtonAction" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="google" fitHeight="20.0" fitWidth="120.0" layoutX="197.0" layoutY="539.0" pickOnBounds="true" preserveRatio="true" />

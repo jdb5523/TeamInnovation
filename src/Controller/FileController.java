@@ -80,7 +80,7 @@ public class FileController {
             imageId = app.getDb().imageEntry(Integer.parseInt(parameters[0]), parameters[1],
                     Integer.parseInt(parameters[2]), Integer.parseInt(parameters[3]), parameters[4]);
         } else {
-            imageId = app.getDb().imageEntry(parameters[1], Integer.parseInt(parameters[2]),
+            imageId = app.getDb().insertImageRecord(parameters[1], Integer.parseInt(parameters[2]),
                     Integer.parseInt(parameters[3]), parameters[4]);
         }
         int ocrId = app.getDb().getNextOcrId();
@@ -104,7 +104,7 @@ public class FileController {
                 }
                 String formattedDate = df.format(new Date());
                 try {
-                    app.getDb().ocrEntry(imageId, fileContents, formattedDate, app.getCurrentUserID(), 0);
+                    app.getDb().insertOcrRecord(imageId, fileContents, formattedDate, app.getCurrentUserID(), 0);
                 } catch (SQLException ex) {
                     Logger.getLogger(FileController.class.getName()).log(Level.SEVERE, null, ex);
                 }

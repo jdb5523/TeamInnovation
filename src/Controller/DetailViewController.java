@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -31,6 +32,7 @@ public class DetailViewController implements Initializable {
     @FXML private TextField ratingField;
     @FXML private TextArea resultsArea;
     @FXML private TextArea notesArea;
+    @FXML private Label savedLabel;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -48,6 +50,7 @@ public class DetailViewController implements Initializable {
     protected void handleSaveButtonAction() throws SQLException {
         String newNotes = notesArea.getText();
         app.getDb().saveNotes(newNotes, imageId);
+        savedLabel.setVisible(true);
     }
     
     @FXML
@@ -79,10 +82,9 @@ public class DetailViewController implements Initializable {
         dateField.setText(results[0]);
         decryptField.setText(results[1]);
         cipherField.setText(results[2]);
-        ratingField.setText(results[3]);
-        resultsArea.setText(results[4]);
-        notesArea.setText(results[5]);
-        text = new Image(new FileInputStream(results[6]));
+        resultsArea.setText(results[3]);
+        notesArea.setText(results[4]);
+        text = new Image(new FileInputStream(results[5]));
         textImage.setImage(text);
     }
 }
