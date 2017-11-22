@@ -110,7 +110,7 @@ public class FileController {
                 }
                 app.getDecrypt().finishSetUp(fileContents, ocrId);
             }
-        }, 3 * 1000);
+        }, 15 * 1000);
         app.showDecrypt(parameters);
     }
 

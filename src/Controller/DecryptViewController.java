@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -41,6 +42,9 @@ public class DecryptViewController implements Initializable {
     @FXML private ImageView helpIcon;
     @FXML private ImageView google;
     @FXML private Button decryptButton;
+    @FXML private Button translateButton;
+    @FXML private Button historyButton;
+    @FXML private Label cipherWarning;
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     Decoder decoder = new Decoder();
     GoogleTranslate translator = new GoogleTranslate();
@@ -61,69 +65,86 @@ public class DecryptViewController implements Initializable {
     
     @FXML 
     protected void handleDecryptButtonAction() throws SQLException {
-        String output = "";
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText("The decryption process may take a while.  Do you wish to proceed?");
-        Optional<ButtonType> confirm = alert.showAndWait();
-        if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
-            Dialog<?> dialog = new Dialog();
-            Window window = dialog.getDialogPane().getScene().getWindow();
-            String date = df.format(new Date());
+        if(!affineBox.isSelected() && !atbashBox.isSelected() && !baconianBox.isSelected()
+                && !caesarBox.isSelected()) {
+            cipherWarning.setVisible(true);
+        }
+        else {
+            cipherWarning.setVisible(false);
+            String output = "";
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText("The decryption process may take a while.  Do you wish to proceed?");
+            Optional<ButtonType> confirm = alert.showAndWait();
+            if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
+                Dialog<?> dialog = new Dialog();
+                Window window = dialog.getDialogPane().getScene().getWindow();
+                String date = df.format(new Date());
+
+                if (affineBox.isSelected()) {
+                    output += "--AFFINE--\n\n";
+                    dialog.setContentText("Running Atbash Cipher");
+                    dialog.show();
+                    results = decoder.affineDecrypt(inputArea.getText());
+                    for (String result : results) {
+                        app.getDb().insertDecryptRecord(1, result, translator.
+                                detectLanguage(result), ocrId, date);
+                        output += result + "\n";
+                    }
+                    output += "--END AFFINE--\n\n";
+                    dialog.close();
+                }
+                if (atbashBox.isSelected()) {
+                    output += "----ATBASH----\n\n";
+                    dialog.setContentText("Running Atbash Cipher");
+                    results = decoder.atbashDecrypt(inputArea.getText());
+                    for (String result : results) {
+                        app.getDb().insertDecryptRecord(2, result, translator.
+                                detectLanguage(result), ocrId, date);
+                        output += result + "\n";
+                    }
+                    output += "\n----END ATBASH----\n\n";
+                }
+                if (baconianBox.isSelected()) {
+                    output += "--BACONIAN--\n\n";
+                    dialog.setContentText("Running Baconian Cipher");
+                    results = decoder.baconianDecrypt(inputArea.getText());
+                    for (String result : results) {
+                        app.getDb().insertDecryptRecord(3, result, 
+                                translator.detectLanguage(result), ocrId, date);
+                        output += result + "\n";
+                    }
+                    output += "\n----END BACONIAN----\n\n";
+                }
+                if (caesarBox.isSelected()) {
+                    output += "----CAESAR----\n\n";
+                    dialog.setContentText("Running Caesar Cipher");
+                    dialog.show();
+                    results = decoder.caesarDecrypt(inputArea.getText());
+                    for (String result : results) {
+                        app.getDb().insertDecryptRecord(4, result, translator.
+                                detectLanguage(result), ocrId, date);
+                        output += result + "\n";
+                    }
+                    output += "\n--END CAESAR--";
+                } 
+                outputArea.setText(output);
+                window.hide();
+                translateButton.setDisable(false);
+                translateButton.setOpacity(1);
+                decryptButton.setDisable(true);
+                decryptButton.setOpacity(.25);
+                inputArea.setEditable(false);
+                inputArea.setOpacity(.5);
+            }      
             
-            if (affineBox.isSelected()) {
-                output += "--AFFINE--\n\n";
-                dialog.setContentText("Running Atbash Cipher");
-                dialog.show();
-                results = decoder.affineDecrypt(inputArea.getText());
-                for (String result : results) {
-                    app.getDb().insertDecryptRecord(1, result, translator.
-                            detectLanguage(result), ocrId, date);
-                    output += result + "\n";
-                }
-                output += "--END AFFINE--\n\n";
-                dialog.close();
-            }
-            if (atbashBox.isSelected()) {
-                output += "--ATBASH--\n\n";
-                dialog.setContentText("Running Atbash Cipher");
-                results = decoder.atbashDecrypt(inputArea.getText());
-                for (String result : results) {
-                    app.getDb().insertDecryptRecord(2, result, translator.
-                            detectLanguage(result), ocrId, date);
-                    output += result + "\n";
-                }
-                output += "\n--END ATBASH--\n\n";
-            }
-            if (baconianBox.isSelected()) {
-                output += "--BACONIAN--\n\n";
-                dialog.setContentText("Running Baconian Cipher");
-                results = decoder.baconianDecrypt(inputArea.getText());
-                for (String result : results) {
-                    app.getDb().insertDecryptRecord(3, result, 
-                            translator.detectLanguage(result), ocrId, date);
-                    output += result + "\n";
-                }
-                output += "\n--END BACONIAN--\n\n";
-            }
-            if (caesarBox.isSelected()) {
-                output += "--CAESAR--\n\n";
-                dialog.setContentText("Running Caesar Cipher");
-                dialog.show();
-                results = decoder.caesarDecrypt(inputArea.getText());
-                for (String result : results) {
-                    app.getDb().insertDecryptRecord(4, result, translator.
-                            detectLanguage(result), ocrId, date);
-                    output += result + "\n";
-                }
-                output += "\n--END CAESAR--";
-            } 
-            outputArea.setText(output);
-            window.hide();
-        }      
-        decryptButton.setDisable(true);
-        decryptButton.setOpacity(.25);
-        inputArea.setEditable(false);
-        inputArea.setOpacity(.4);
+        }
+        
+    }
+    
+    @FXML 
+    protected void handleTranslateButtonAction() {
+        historyButton.setDisable(false);
+        historyButton.setOpacity(1);
     }
     
     @FXML
@@ -152,7 +173,10 @@ public class DecryptViewController implements Initializable {
     }
     
     public void finishSetUp(String fileContents, int ocrId) {
+        inputArea.setEditable(true);
         inputArea.setText(fileContents);
         this.ocrId = ocrId;
+        decryptButton.setDisable(false);
+        decryptButton.setOpacity(1);
     }
 }

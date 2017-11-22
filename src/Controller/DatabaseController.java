@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class DatabaseController {
@@ -308,12 +309,18 @@ public class DatabaseController {
                 + "JOIN DECRYPT ON OCR.OCR_ID = DECRYPT.OCR_ID " 
                 + "JOIN CIPHER ON DECRYPT.CIPHER = CIPHER.CIPHER_ID WHERE "
                 + "Image.IMAGE_ID = " + imageId;
+        result = state.executeQuery(sql);
         String decryptResult = "";
+        String ciphers = "";
         while (result.next()) {
+            if(!ciphers.contains(result.getString(3))) {
+                ciphers += result.getString(3) + " ";
+                decryptResult += "----" + result.getString(3).toUpperCase() + "----\n";
+            }
             decryptResult += result.getString(4) + " (" + result.getString(7) + ")" + "\n";
             results[0] = result.getString(1);
             results[1] = result.getString(2);
-            results[2] = result.getString(3);
+            results[2] = ciphers;
             results[3] = decryptResult;
             results[4] = result.getString(5);
             results[5] = result.getString(6);
@@ -344,7 +351,16 @@ public class DatabaseController {
         sql = "INSERT INTO Decrypt VALUES (" + ocrId + ", " + cipherId + ", '" + langId
                 + "', " + app.getCurrentUserID() + ", '" + date + "', '" + result + "', "
                 + 1 + ")";
-        System.out.println(sql);
         state.executeUpdate(sql);
     } 
+    
+    public ArrayList<String> translateResults(int decryptId, String languageId) throws SQLException {
+        ArrayList<String> translations = new ArrayList();
+        sql = "SELECT * FROM TRANSLATION JOIN DECRYPT ON TRANSLATION.DECRYPT_ID = "
+                + "DECRYPT.DECRYPT_ID WHERE DECRYPT.DECRYPT_ID = " + decryptId +
+                " AND DECRYPT.LANGUAGE_ID = '" + languageId + "'";
+        state.execute(sql);
+        
+        return translations;
+    }
 }

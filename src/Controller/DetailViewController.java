@@ -29,8 +29,8 @@ public class DetailViewController implements Initializable {
     @FXML private TextField dateField;
     @FXML private TextField decryptField;
     @FXML private TextField cipherField;
-    @FXML private TextField ratingField;
-    @FXML private TextArea resultsArea;
+    @FXML private TextArea rawResultsArea;
+    @FXML private TextArea transResultsArea;
     @FXML private TextArea notesArea;
     @FXML private Label savedLabel;
     
@@ -82,8 +82,9 @@ public class DetailViewController implements Initializable {
         dateField.setText(results[0]);
         decryptField.setText(results[1]);
         cipherField.setText(results[2]);
-        resultsArea.setText(results[3]);
+        rawResultsArea.setText(results[3]);
         notesArea.setText(results[4]);
+        System.out.println(results[5]);
         text = new Image(new FileInputStream(results[5]));
         textImage.setImage(text);
     }
