@@ -86,7 +86,6 @@ public class FileController {
         int ocrId = app.getDb().getNextOcrId();
         String fileName = "C:\\Users\\Jared\\Desktop\\OCR_" + Integer.toString(ocrId);
         String command = "tesseract " + file.getAbsolutePath() + " " + fileName;
-        System.out.println(file.getAbsolutePath());
         Process process = Runtime.getRuntime().exec(command);
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -110,7 +109,7 @@ public class FileController {
                 }
                 app.getDecrypt().finishSetUp(fileContents, ocrId);
             }
-        }, 15 * 1000);
+        }, 3 * 1000);
         app.showDecrypt(parameters);
     }
 

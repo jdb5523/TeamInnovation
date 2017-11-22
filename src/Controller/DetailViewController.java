@@ -84,7 +84,7 @@ public class DetailViewController implements Initializable {
         cipherField.setText(results[2]);
         rawResultsArea.setText(results[3]);
         notesArea.setText(results[4]);
-        System.out.println(results[5]);
+        
         text = new Image(new FileInputStream(results[5]));
         textImage.setImage(text);
     }

@@ -34,7 +34,7 @@
             <CheckBox fx:id="affineBox" layoutX="14.0" layoutY="432.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="65.0" text="Affine" />
             <CheckBox fx:id="baconianBox" layoutX="177.0" layoutY="432.0" mnemonicParsing="false" text="Baconian" />
             <CheckBox fx:id="atbashBox" layoutX="93.0" layoutY="432.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="69.0" text="Atbash" />
-            <Button fx:id="translateButton" disable="true" layoutX="339.0" layoutY="437.0" mnemonicParsing="false" opacity="0.25" text="Translate Results" />
+            <Button onAction="#handleTranslateButtonAction" fx:id="translateButton" disable="true" layoutX="339.0" layoutY="437.0" mnemonicParsing="false" opacity="0.25" text="Translate Results" />
             <Label fx:id="cipherWarning" layoutX="75.0" layoutY="505.0" text="No cipher(s) selected" textFill="RED" visible="false">
                <font>
                   <Font name="System Bold" size="12.0" />

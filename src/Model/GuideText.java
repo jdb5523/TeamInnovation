@@ -54,7 +54,8 @@ public final class GuideText {
                 + " is inserted which contains the results of the OCR process and other automatically"
                 + " generated information.";
         history = "The Historical Log retrieves and displays past records from the database. Records are "
-                + "pulled from the Decrypt table.";
+                + "pulled from the Decrypt table.\n\nTo view more details about each image record, select"
+                + " a row from the table and then select the View Details button.";
         detail = "The detail page provides " 
                 + "more specific information on each record.\n\nFrom this screen, additional notes may be added "
                 + "to the image record currently being viewed.";

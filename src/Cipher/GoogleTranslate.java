@@ -19,7 +19,6 @@ public class GoogleTranslate {
 
     public String detectLanguage(String decodeText) {
         StringBuilder resultPool;
-        System.out.println(decodeText);
         resultPool = new StringBuilder("");
         try {
             Translate t = new Translate.Builder(

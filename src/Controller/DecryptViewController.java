@@ -136,9 +136,7 @@ public class DecryptViewController implements Initializable {
                 inputArea.setEditable(false);
                 inputArea.setOpacity(.5);
             }      
-            
         }
-        
     }
     
     @FXML 

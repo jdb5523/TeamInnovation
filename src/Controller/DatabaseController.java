@@ -310,6 +310,7 @@ public class DatabaseController {
                 + "JOIN CIPHER ON DECRYPT.CIPHER = CIPHER.CIPHER_ID WHERE "
                 + "Image.IMAGE_ID = " + imageId;
         result = state.executeQuery(sql);
+        System.out.println(sql);
         String decryptResult = "";
         String ciphers = "";
         while (result.next()) {
