@@ -123,7 +123,7 @@ public class Baconian {
         
         }
         else{
-            allResults.add("try again");
+            allResults.add("not a baconian cipher, message is not a multiple of 5");
         }
         return allResults;
 //}
