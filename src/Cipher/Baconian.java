@@ -104,7 +104,7 @@ public class Baconian {
             flag = 1;
         }
         
-        /*if (flag == 0){
+        if (flag == 0){
             
             language = trans.detectLanguage(decryptedMessage.toString());
             
@@ -126,10 +126,8 @@ public class Baconian {
         else{
             allResults.add("not a baconian cipher, message is not a multiple of 5");
         }
+        
         return allResults;
-//}
-}
     }
+}
 
-     
-    //return "";}
