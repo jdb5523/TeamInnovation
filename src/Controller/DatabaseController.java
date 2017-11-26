@@ -310,7 +310,6 @@ public class DatabaseController {
                 + "JOIN CIPHER ON DECRYPT.CIPHER = CIPHER.CIPHER_ID WHERE "
                 + "Image.IMAGE_ID = " + imageId;
         result = state.executeQuery(sql);
-        System.out.println(sql);
         String decryptResult = "";
         String ciphers = "";
         while (result.next()) {
@@ -318,7 +317,7 @@ public class DatabaseController {
                 ciphers += result.getString(3) + " ";
                 decryptResult += "----" + result.getString(3).toUpperCase() + "----\n";
             }
-            decryptResult += result.getString(4) + " (" + result.getString(7) + ")" + "\n";
+            decryptResult += result.getString(4) + " (" + result.getString(7) + ")" + "\n\n";
             results[0] = result.getString(1);
             results[1] = result.getString(2);
             results[2] = ciphers;
@@ -347,11 +346,16 @@ public class DatabaseController {
         return notesSaved;
     }
     
+    public void updateInput(String input, int ocrId) throws SQLException {
+        sql = "UPDATE OCR SET OCR_RESULT='" + input + "' WHERE OCR_ID=" + ocrId;
+        state.executeUpdate(sql);
+    }
+    
     public void insertDecryptRecord(int cipherId, String result, String langId, int ocrId,
             String date) throws SQLException {
         sql = "INSERT INTO Decrypt VALUES (" + ocrId + ", " + cipherId + ", '" + langId
                 + "', " + app.getCurrentUserID() + ", '" + date + "', '" + result + "', "
-                + 1 + ")";
+                + 1 + ", null)";
         state.executeUpdate(sql);
     } 
     

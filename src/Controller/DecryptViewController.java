@@ -79,7 +79,7 @@ public class DecryptViewController implements Initializable {
                 Dialog<?> dialog = new Dialog();
                 Window window = dialog.getDialogPane().getScene().getWindow();
                 String date = df.format(new Date());
-
+                app.getDb().updateInput(inputArea.getText(), ocrId);
                 if (affineBox.isSelected()) {
                     output += "--AFFINE--\n\n";
                     dialog.setContentText("Running Atbash Cipher");
@@ -88,7 +88,7 @@ public class DecryptViewController implements Initializable {
                     for (String result : results) {
                         app.getDb().insertDecryptRecord(1, result, translator.
                                 detectLanguage(result), ocrId, date);
-                        output += result + "\n";
+                        output += result + "\n\n";
                     }
                     output += "--END AFFINE--\n\n";
                     dialog.close();
@@ -100,7 +100,7 @@ public class DecryptViewController implements Initializable {
                     for (String result : results) {
                         app.getDb().insertDecryptRecord(2, result, translator.
                                 detectLanguage(result), ocrId, date);
-                        output += result + "\n";
+                        output += result + "\n\n";
                     }
                     output += "\n----END ATBASH----\n\n";
                 }
@@ -111,7 +111,7 @@ public class DecryptViewController implements Initializable {
                     for (String result : results) {
                         app.getDb().insertDecryptRecord(3, result, 
                                 translator.detectLanguage(result), ocrId, date);
-                        output += result + "\n";
+                        output += result + "\n\n";
                     }
                     output += "\n----END BACONIAN----\n\n";
                 }
@@ -123,7 +123,7 @@ public class DecryptViewController implements Initializable {
                     for (String result : results) {
                         app.getDb().insertDecryptRecord(4, result, translator.
                                 detectLanguage(result), ocrId, date);
-                        output += result + "\n";
+                        output += result + "\n\n";
                     }
                     output += "\n--END CAESAR--";
                 } 

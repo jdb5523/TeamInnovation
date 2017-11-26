@@ -19,7 +19,7 @@ public class Caesar {
         trans = new GoogleTranslate();
         language = "";
         String langName = "";
-        finalResult = new String("");
+        finalResult = "";
 
         for (key = 1; key < 27; ++key) {
             decryptedMessage = "";
@@ -47,22 +47,20 @@ public class Caesar {
 
             }
             
-            allResults.add(decryptedMessage);
-
-            /*language = trans.detectLanguage(decryptedMessage);
+            language = trans.detectLanguage(decryptedMessage);
 
             Locale loc = new Locale(language);
             langName = loc.getDisplayLanguage(loc);
+            finalResult = "Key: " + key + "\n" + decryptedMessage + 
+                    "\nDetected language: " + langName;
+            allResults.add(finalResult);
 
-            finalResult = trans.runProcess(language, decryptedMessage, langName);
-
-            if ("LOW RATIO".equals(finalResult)) {
-                allResults.add("");
+            /*if ("LOW RATIO".equals(finalResult)) {
+                allResults.add("Key " + key + ":\nNo language recognized");
             } else {
-                allResults.add("Caesar Cipher Key " + key + ":\n" + "Decrypted Message: " + decryptedMessage + "\n"
-                        + "Language: " + langName + "\n" + " - FINAL RESULT: " + finalResult + "\n" + "\n" + "\n");
+                allResults.add("Key " + key + ":\n" + "Decrypted Message: " + decryptedMessage + "\n"
+                        + "Language: " + langName);
             }*/
-
         }
         return allResults;
     }

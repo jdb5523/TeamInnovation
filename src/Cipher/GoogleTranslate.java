@@ -99,7 +99,9 @@ public class GoogleTranslate {
 
     public String runProcess(String informedLanguage, String decryptedMessage, String informedName) {
         int key, k;
-        double ratio, ratTotal, length;
+        double ratio;
+        double ratTotal;
+        double length;
         String check= "";
         String transMessage = ""; 
         String finalTrans = "";
@@ -113,44 +115,34 @@ public class GoogleTranslate {
 
         DecimalFormat twoDForm = new DecimalFormat("#.00");
 
-        if ("English".equals(langName)) {
+        if ("en".equals(language)) {
 
             String[] splitMessage = decryptedMessage.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
             length = splitMessage.length;
 
             for (int i = 0; i < splitMessage.length; i++) {
-
                 check = checkEnglish(splitMessage[i]);
-
                 if ("WORD FOUND".equals(check)) {
                     ratTotal++;
                 }
-
                 resultPool.append(transMessage + " ");
                 k++;
             }
-
             ratio = ratTotal / length;
 
-            if (ratio == 0.7) {
+            if (ratio >= 0.7) {
                 resultPool.append("Ratio: " + twoDForm.format(ratio));
                 finalResult = resultPool.toString();
-            } else if (ratio > 0.7) {
-                resultPool.append("Ratio: " + twoDForm.format(ratio));
-                finalResult = resultPool.toString();
-            } else if (ratio < 0.7) {
+            } else {
                 finalResult = ("LOW RATIO");
             }
+            
         } else {
             finalTrans = translateLanguage(decryptedMessage, language);
-
             String[] splitMessage = finalTrans.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
             length = splitMessage.length;
-
             for (int i = 0; i < splitMessage.length; i++) {
-
                 check = checkEnglish(splitMessage[i]);
-
                 if ("WORD FOUND".equals(check)) {
                     ratTotal++;
                 }
@@ -165,9 +157,9 @@ public class GoogleTranslate {
                 finalResult = resultPool.toString();
             } else {
                 finalResult = ("LOW RATIO");
-            }
-
+            }  
         }
+        finalResult += Double.toString(ratio);
         return finalResult;
     }
 

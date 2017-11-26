@@ -31,7 +31,7 @@ public class Atbash {
             character = (char) (character + 'a');
             decryptedMessage += character;
         }
-        language = trans.detectLanguage(decryptedMessage);
+        /*language = trans.detectLanguage(decryptedMessage);
 
         Locale loc = new Locale(language);
         langName = loc.getDisplayLanguage(loc);
@@ -43,8 +43,8 @@ public class Atbash {
         } else {
             allResults.add("Atbash Cipher " + ":\n" + "Decrypted Message: " + decryptedMessage + "\n"
                     + "Language: " + langName + "\n" + " - FINAL RESULT: " + finalResult + "\n" + "\n" + "\n");
-        }
-
+        }*/
+        allResults.add(decryptedMessage);
         return allResults;
     }
 }

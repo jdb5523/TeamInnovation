@@ -17,7 +17,8 @@ public class Baconian {
     
     int flag = 0, spaceStart = 0, spaceEnd = 0, cInWord;
     String message, finalResult, language, langName,concatMessage;
-    StringBuilder decryptedMessage, decryptChars;
+    StringBuilder decryptChars;
+    String decryptedMessage;
     char character, decryptCharacter; 
     int characterCount[],wordAmt;
     String result,processW[],processed;
@@ -37,7 +38,7 @@ public class Baconian {
         concatMessage = message.replaceAll("\\W","");
 
 
-        decryptedMessage = new StringBuilder();
+        decryptedMessage = "";
         decryptChars = new StringBuilder();
         finalResult = "";
         language = "";
@@ -95,7 +96,7 @@ public class Baconian {
                 spaceStart = spaceEnd;
                 spaceEnd = spaceStart + cInWord;
                 processW[q] = processed.substring(spaceStart, spaceEnd)+ " ";
-                decryptedMessage.append(processW[q]);
+                decryptedMessage += processW[q];
             }
             
         }
@@ -103,7 +104,7 @@ public class Baconian {
             flag = 1;
         }
         
-        if (flag == 0){
+        /*if (flag == 0){
             
             language = trans.detectLanguage(decryptedMessage.toString());
             
