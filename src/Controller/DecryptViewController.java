@@ -10,6 +10,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -45,10 +48,14 @@ public class DecryptViewController implements Initializable {
     @FXML private Button translateButton;
     @FXML private Button historyButton;
     @FXML private Label cipherWarning;
+    @FXML private Label outputLabel;
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     Decoder decoder = new Decoder();
     GoogleTranslate translator = new GoogleTranslate();
-    ArrayList<String> results;
+    ArrayList<String> results = new ArrayList();
+    Map<String, String> toBeTranslated = new HashMap();
+    Locale locale;
+    String language;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -71,11 +78,12 @@ public class DecryptViewController implements Initializable {
         }
         else {
             cipherWarning.setVisible(false);
-            String output = "";
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setContentText("The decryption process may take a while.  Do you wish to proceed?");
             Optional<ButtonType> confirm = alert.showAndWait();
             if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
+                String detectedLang;
+                String output = "";
                 Dialog<?> dialog = new Dialog();
                 Window window = dialog.getDialogPane().getScene().getWindow();
                 String date = df.format(new Date());
@@ -86,9 +94,13 @@ public class DecryptViewController implements Initializable {
                     dialog.show();
                     results = decoder.affineDecrypt(inputArea.getText());
                     for (String result : results) {
-                        app.getDb().insertDecryptRecord(1, result, translator.
-                                detectLanguage(result), ocrId, date);
-                        output += result + "\n\n";
+                        detectedLang = translator.detectLanguage(result);
+                        locale = new Locale(detectedLang);
+                        language = locale.getDisplayLanguage();
+                        app.getDb().insertDecryptRecord(1, result, detectedLang,
+                                ocrId, date);
+                        output += result + "\nDetected Language: " + language + "\n\n";
+                        toBeTranslated.put(result, detectedLang);
                     }
                     output += "--END AFFINE--\n\n";
                     dialog.close();
@@ -98,9 +110,13 @@ public class DecryptViewController implements Initializable {
                     dialog.setContentText("Running Atbash Cipher");
                     results = decoder.atbashDecrypt(inputArea.getText());
                     for (String result : results) {
-                        app.getDb().insertDecryptRecord(2, result, translator.
-                                detectLanguage(result), ocrId, date);
-                        output += result + "\n\n";
+                        detectedLang = translator.detectLanguage(result);
+                        locale = new Locale(detectedLang);
+                        language = locale.getDisplayLanguage();
+                        app.getDb().insertDecryptRecord(2, result, detectedLang,
+                                ocrId, date);
+                        output += result + "\nDetected Language: " + language + "\n\n";
+                        toBeTranslated.put(result, detectedLang);
                     }
                     output += "\n----END ATBASH----\n\n";
                 }
@@ -109,9 +125,13 @@ public class DecryptViewController implements Initializable {
                     dialog.setContentText("Running Baconian Cipher");
                     results = decoder.baconianDecrypt(inputArea.getText());
                     for (String result : results) {
+                        detectedLang = translator.detectLanguage(result);
+                        locale = new Locale(detectedLang);
+                        language = locale.getDisplayLanguage();
                         app.getDb().insertDecryptRecord(3, result, 
-                                translator.detectLanguage(result), ocrId, date);
-                        output += result + "\n\n";
+                                detectedLang, ocrId, date);
+                        output += result + "\nDetected Language: " + language + "\n\n";
+                        toBeTranslated.put(result, detectedLang);
                     }
                     output += "\n----END BACONIAN----\n\n";
                 }
@@ -121,9 +141,16 @@ public class DecryptViewController implements Initializable {
                     dialog.show();
                     results = decoder.caesarDecrypt(inputArea.getText());
                     for (String result : results) {
-                        app.getDb().insertDecryptRecord(4, result, translator.
-                                detectLanguage(result), ocrId, date);
-                        output += result + "\n\n";
+                        int key = 1;
+                        detectedLang = translator.detectLanguage(result);
+                        locale = new Locale(detectedLang);
+                        language = locale.getDisplayLanguage();
+                        app.getDb().insertDecryptRecord(4, result, detectedLang,
+                                ocrId, date);
+                        output += "Caesar Key: " + key + "\n" + result + 
+                                "\nDetected Language: " + language + "\n\n";
+                        toBeTranslated.put(result, detectedLang);
+                        key++;
                     }
                     output += "\n--END CAESAR--";
                 } 
@@ -140,9 +167,26 @@ public class DecryptViewController implements Initializable {
     }
     
     @FXML 
-    protected void handleTranslateButtonAction() {
-        historyButton.setDisable(false);
-        historyButton.setOpacity(1);
+    protected void handleTranslateButtonAction() throws SQLException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("Start the translation process?");
+        Optional<ButtonType> confirm = alert.showAndWait();
+        if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
+            String output = "";
+            int decryptId = app.getDb().getLastDecryptId() - toBeTranslated.size() + 1;
+            for (Map.Entry<String, String> result : toBeTranslated.entrySet()) {
+                if (!result.getValue().equals("en")) {
+                String translated = translator.translateLanguage(result.getKey(), result.getValue());
+                app.getDb().insertTranslations(decryptId, translated);
+                output += "Original \\(" + result.getValue() + "): " + result.getKey() 
+                        + "\nTranslated: " + translated + "\n\n";
+                }
+            }
+            historyButton.setDisable(false);
+            historyButton.setOpacity(1);
+            outputLabel.setText("Output (Translated):");
+            outputArea.setText(output);
+        }
     }
     
     @FXML

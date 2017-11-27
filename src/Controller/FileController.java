@@ -77,7 +77,7 @@ public class FileController {
     public void ocr(String[] parameters) throws IOException, SQLException {
         int imageId;
         if (!parameters[0].isEmpty()) {
-            imageId = app.getDb().imageEntry(Integer.parseInt(parameters[0]), parameters[1],
+            imageId = app.getDb().insertImageRecord(Integer.parseInt(parameters[0]), parameters[1],
                     Integer.parseInt(parameters[2]), Integer.parseInt(parameters[3]), parameters[4]);
         } else {
             imageId = app.getDb().insertImageRecord(parameters[1], Integer.parseInt(parameters[2]),

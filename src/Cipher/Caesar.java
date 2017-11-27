@@ -24,37 +24,24 @@ public class Caesar {
         for (key = 1; key < 27; ++key) {
             decryptedMessage = "";
             for (int i = 0; i < message.length(); ++i) {
-
                 character = message.charAt(i);
                 if (character >= 'a' && character <= 'z') {
                     character = (char) (character - key);
                     if (character < 'a') {
                         character = (char) (character + 'z' - 'a' + 1);
                     }
-
                     decryptedMessage += character;
                 } else if (character >= 'A' && character <= 'Z') {
                     character = (char) (character - key);
-
                     if (character < 'A') {
                         character = (char) (character + 'Z' - 'A' + 1);
                     }
-
                     decryptedMessage += character;
                 } else {
                     decryptedMessage += character;
                 }
-
             }
-            
-            language = trans.detectLanguage(decryptedMessage);
-
-            Locale loc = new Locale(language);
-            langName = loc.getDisplayLanguage(loc);
-            finalResult = "Key: " + key + "\n" + decryptedMessage + 
-                    "\nDetected language: " + langName;
-            allResults.add(finalResult);
-
+            allResults.add(decryptedMessage);
             /*if ("LOW RATIO".equals(finalResult)) {
                 allResults.add("Key " + key + ":\nNo language recognized");
             } else {

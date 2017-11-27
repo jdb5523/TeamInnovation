@@ -25,7 +25,7 @@
             <Font name="System Bold" size="12.0" fx:id="x1" />
           </font>
         </Label>
-        <Label font="$x1" layoutX="273.0" layoutY="89.0" text="Output:" />
+        <Label fx:id="outputLabel" font="$x1" layoutX="273.0" layoutY="89.0" text="Output:" />
         <Button fx:id="decryptButton" disable="true" layoutX="78.0" layoutY="476.0" mnemonicParsing="false" onAction="#handleDecryptButtonAction" opacity="0.25" prefWidth="109.0" text="Decrypt" />
         <Button fx:id="historyButton" disable="true" layoutX="382.0" layoutY="527.0" mnemonicParsing="false" onAction="#handleHistoryButtonAction" opacity="0.25" text="View Historical Log" />
             <ImageView fx:id="helpIcon" fitHeight="20.0" fitWidth="20.0" layoutX="9.0" layoutY="529.0" onMouseClicked="#handleHelpButtonAction" pickOnBounds="true" preserveRatio="true" />
@@ -34,7 +34,7 @@
             <CheckBox fx:id="affineBox" layoutX="14.0" layoutY="432.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="65.0" text="Affine" />
             <CheckBox fx:id="baconianBox" layoutX="177.0" layoutY="432.0" mnemonicParsing="false" text="Baconian" />
             <CheckBox fx:id="atbashBox" layoutX="93.0" layoutY="432.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="69.0" text="Atbash" />
-            <Button onAction="#handleTranslateButtonAction" fx:id="translateButton" disable="true" layoutX="339.0" layoutY="437.0" mnemonicParsing="false" opacity="0.25" text="Translate Results" />
+            <Button fx:id="translateButton" disable="true" layoutX="339.0" layoutY="437.0" mnemonicParsing="false" onAction="#handleTranslateButtonAction" opacity="0.25" text="Translate Results" />
             <Label fx:id="cipherWarning" layoutX="75.0" layoutY="505.0" text="No cipher(s) selected" textFill="RED" visible="false">
                <font>
                   <Font name="System Bold" size="12.0" />

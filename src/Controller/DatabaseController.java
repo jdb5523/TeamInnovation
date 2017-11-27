@@ -204,7 +204,7 @@ public class DatabaseController {
      * @throws java.sql.SQLException Throws exception if the SQL INSERT
      * statement fails
      */
-    public int imageEntry(int caseId, String captureDate, int photographer, 
+    public int insertImageRecord(int caseId, String captureDate, int photographer, 
             int processor, String filePath) throws SQLException {
         sql = "INSERT INTO Image (CASE_ID, CAPTURE_DATE, PHOTOGRAPHER, PROCESSED_BY"
                 + ", FILE_PATH) "
@@ -359,13 +359,17 @@ public class DatabaseController {
         state.executeUpdate(sql);
     } 
     
-    public ArrayList<String> translateResults(int decryptId, String languageId) throws SQLException {
-        ArrayList<String> translations = new ArrayList();
-        sql = "SELECT * FROM TRANSLATION JOIN DECRYPT ON TRANSLATION.DECRYPT_ID = "
-                + "DECRYPT.DECRYPT_ID WHERE DECRYPT.DECRYPT_ID = " + decryptId +
-                " AND DECRYPT.LANGUAGE_ID = '" + languageId + "'";
-        state.execute(sql);
-        
-        return translations;
+    public int getLastDecryptId() throws SQLException {
+        sql = "SELECT MAX(DECRYPT_ID) FROM Decrypt";
+        result = state.executeQuery(sql);
+        while (result.next()) {
+            return result.getInt(1);
+        }
+        return 0;
+    }
+    
+    public void insertTranslations(int decryptId, String result) throws SQLException {
+       sql = "UPDATE Decrypt SET RESULT='" + result + "' WHERE DECRYPT_ID=" + decryptId;
+       state.executeUpdate(sql);
     }
 }

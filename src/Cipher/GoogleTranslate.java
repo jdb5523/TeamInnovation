@@ -115,7 +115,7 @@ public class GoogleTranslate {
 
         DecimalFormat twoDForm = new DecimalFormat("#.00");
 
-        if ("en".equals(language)) {
+        if ("English".equals(language)) {
 
             String[] splitMessage = decryptedMessage.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
             length = splitMessage.length;

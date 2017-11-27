@@ -27,8 +27,13 @@ public class Atbash {
 
         for (int i = 0; i < message.length(); ++i) {
             character = message.charAt(i);
-            character = (char) ('z' - character);
-            character = (char) (character + 'a');
+            if (character >= 'a' && character <= 'z') {
+                character = (char) ('z' - character);
+                character = (char) (character + 'a');
+            } else {
+                character = (char) ('Z' - character);
+                character = (char) (character + 'A');
+            }
             decryptedMessage += character;
         }
         /*language = trans.detectLanguage(decryptedMessage);
