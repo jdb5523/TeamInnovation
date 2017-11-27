@@ -304,7 +304,8 @@ public class DatabaseController {
     public String[] getRecordDetails(int imageId) throws SQLException {
         String[] results = new String[7];
         sql = "SELECT Image.CAPTURE_DATE, Decrypt.DECRYPT_DATE, Cipher.CIPHER_NAME, " +
-                "Decrypt.RESULT, Image.ADDITIONAL_NOTES, Image.FILE_PATH, Decrypt.TRANSLATION " 
+                "Decrypt.RESULT, Image.ADDITIONAL_NOTES, Image.FILE_PATH, Decrypt.LANGUAGE, "
+                + "Decrypt.TRANSLATION " 
                 + "FROM Image JOIN OCR ON Image.IMAGE_ID = OCR.IMAGE_ID "
                 + "JOIN DECRYPT ON OCR.OCR_ID = DECRYPT.OCR_ID " 
                 + "JOIN CIPHER ON DECRYPT.CIPHER = CIPHER.CIPHER_ID WHERE "
@@ -313,13 +314,16 @@ public class DatabaseController {
         String decryptResult = "";
         String transResult = "";
         String ciphers = "";
+        int index = 0;
         while (result.next()) {
             if(!ciphers.contains(result.getString(3))) {
                 ciphers += result.getString(3) + " ";
                 decryptResult += "----" + result.getString(3).toUpperCase() + "----\n";
+                transResult += "----" + result.getString(3).toUpperCase() + "----\n";
             }
-            decryptResult += result.getString(4) + " (" + result.getString(7) + ")" + "\n\n";
-            transResult += result.getString(7) + "\n\n";;
+            decryptResult += index +  ". " + result.getString(4) + "\n(Detected Language: " + 
+                    result.getString(7) + ")" + "\n\n";
+            transResult += index + ". " + result.getString(8) + "\n\n";;
             results[0] = result.getString(1);
             results[1] = result.getString(2);
             results[2] = ciphers;
@@ -354,12 +358,18 @@ public class DatabaseController {
         state.executeUpdate(sql);
     }
     
-    public void insertDecryptRecord(int cipherId, String result, String langId, int ocrId,
+    public int insertDecryptRecord(int cipherId, String results, String langId, int ocrId,
             String date) throws SQLException {
         sql = "INSERT INTO Decrypt VALUES (" + ocrId + ", " + cipherId + ", '" + langId
-                + "', " + app.getCurrentUserID() + ", '" + date + "', '" + result + "', "
+                + "', " + app.getCurrentUserID() + ", '" + date + "', '" + results + "', "
                 + 1 + ", null)";
         state.executeUpdate(sql);
+        sql = "SELECT MAX(DECRYPT_ID) FROM Decrypt";
+        result = state.executeQuery(sql);
+        while (result.next()) {
+            return result.getInt(1);
+        }
+        return 0;
     } 
     
     public int getLastDecryptId() throws SQLException {

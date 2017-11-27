@@ -97,7 +97,7 @@ public class GoogleTranslate {
         return result;
     }
 
-    public String runProcess(String informedLanguage, String decryptedMessage, String informedName) {
+    public double runProcess(String informedLanguage, String decryptedMessage, String informedName) {
         int key, k;
         double ratio;
         double ratTotal;
@@ -139,7 +139,7 @@ public class GoogleTranslate {
                 finalResult = ("LOW RATIO");
             }
             
-        } else {
+        } /*else {
             finalTrans = translateLanguage(decryptedMessage, language);
             String[] splitMessage = finalTrans.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
             length = splitMessage.length;
@@ -160,9 +160,8 @@ public class GoogleTranslate {
             } else {
                 finalResult = ("LOW RATIO");
             }  
-        }
-
-        return finalResult;
+        }*/
+        return ratio;
     }
 
 }

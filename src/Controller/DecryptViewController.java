@@ -10,7 +10,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -53,7 +52,9 @@ public class DecryptViewController implements Initializable {
     Decoder decoder = new Decoder();
     GoogleTranslate translator = new GoogleTranslate();
     ArrayList<String> results = new ArrayList();
-    Map<String, String> toBeTranslated = new HashMap();
+    Map<String, String> toBeTranslated;
+    ArrayList<String> untranslated;
+    ArrayList<String> languages;
     Locale locale;
     String language;
     
@@ -69,7 +70,7 @@ public class DecryptViewController implements Initializable {
         }
         inputArea.setText("Processing image...");
     }    
-    
+
     @FXML 
     protected void handleDecryptButtonAction() throws SQLException {
         if(!affineBox.isSelected() && !atbashBox.isSelected() && !baconianBox.isSelected()
@@ -88,6 +89,9 @@ public class DecryptViewController implements Initializable {
                 Window window = dialog.getDialogPane().getScene().getWindow();
                 String date = df.format(new Date());
                 app.getDb().updateInput(inputArea.getText(), ocrId);
+                untranslated = new ArrayList();
+                languages = new ArrayList();
+                
                 if (affineBox.isSelected()) {
                     output += "--AFFINE--\n\n";
                     dialog.setContentText("Running Atbash Cipher");
@@ -100,11 +104,13 @@ public class DecryptViewController implements Initializable {
                         app.getDb().insertDecryptRecord(1, result, detectedLang,
                                 ocrId, date);
                         output += result + "\nDetected Language: " + language + "\n\n";
-                        toBeTranslated.put(result, detectedLang);
+                        untranslated.add(result);
+                        languages.add(detectedLang);
                     }
                     output += "--END AFFINE--\n\n";
                     dialog.close();
                 }
+                
                 if (atbashBox.isSelected()) {
                     output += "----ATBASH----\n\n";
                     dialog.setContentText("Running Atbash Cipher");
@@ -117,10 +123,12 @@ public class DecryptViewController implements Initializable {
                         app.getDb().insertDecryptRecord(2, result, detectedLang,
                                 ocrId, date);
                         output += result + "\nDetected Language: " + language + "\n\n";
-                        toBeTranslated.put(result, detectedLang);
+                        untranslated.add(result);
+                        languages.add(detectedLang);
                     }
                     output += "\n----END ATBASH----\n\n";
                 }
+                
                 if (baconianBox.isSelected()) {
                     output += "--BACONIAN--\n\n";
                     dialog.setContentText("Running Baconian Cipher");
@@ -133,10 +141,12 @@ public class DecryptViewController implements Initializable {
                         app.getDb().insertDecryptRecord(3, result, 
                                 detectedLang, ocrId, date);
                         output += result + "\nDetected Language: " + language + "\n\n";
-                        toBeTranslated.put(result, detectedLang);
+                        untranslated.add(result);
+                        languages.add(detectedLang);
                     }
                     output += "\n----END BACONIAN----\n\n";
                 }
+                
                 if (caesarBox.isSelected()) {
                     int key = 1;
                     output += "----CAESAR----\n\n";
@@ -151,11 +161,13 @@ public class DecryptViewController implements Initializable {
                                 ocrId, date);
                         output += "Caesar Key: " + key + "\n" + result + 
                                 "\nDetected Language: " + language + "\n\n";
-                        toBeTranslated.put(result, detectedLang);
+                        untranslated.add(result);
+                        languages.add(detectedLang);
                         key++;
                     }
                     output += "\n--END CAESAR--";
                 } 
+                
                 disableFirstElementSet();
                 outputArea.setText(output);
                 window.hide();
@@ -174,19 +186,30 @@ public class DecryptViewController implements Initializable {
             dialog.setContentText("Translating...");
             dialog.show();
             String output = "";
-            int decryptId = app.getDb().getLastDecryptId() - toBeTranslated.size() + 1;
-            for (Map.Entry<String, String> result : toBeTranslated.entrySet()) {
-                if (!result.getValue().equals("en")) {
-                String translated = translator.translateLanguage(result.getKey(), result.getValue());
-                app.getDb().insertTranslations(decryptId, translated);
-                output += "Original (" + result.getValue() + "): " + result.getKey() 
-                        + "\nTranslated: " + translated + "\n\n";
+            String translated = "";
+            String languageName;
+            int index = 0;
+            for (int i = app.getDb().getLastDecryptId() - untranslated.size() + 1;
+                    i <= app.getDb().getLastDecryptId() - untranslated.size() + 26; i++) {
+                if (!languages.get(index).equals("en")) {
+                    translated = translator.translateLanguage(untranslated.get(index), 
+                            languages.get(index));
+                    output += "Original (" + languages.get(index) + "): " + untranslated.get(index) 
+                            + "\nTranslated: " + translated + "\n\n";
+                } else {
+                    translated = untranslated.get(index);
+                    output += "Not Translated - English detected:\n" + untranslated.get(index) + "\n\n";
                 }
-                decryptId++;
+                locale = new Locale(languages.get(index));
+                languageName = locale.getDisplayLanguage(locale);
+                translator.runProcess(languages.get(index), translated, languageName);
+                app.getDb().insertTranslations(i, translated);
+                index++;
             }
             disableSecondElementSet();
             outputArea.setText(output);
             window.hide();
+            System.out.println("Done");
         }
     }
     

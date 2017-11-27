@@ -139,10 +139,8 @@ public class Affine {
                     dy1 = dy1 + 'a';
                     decryptedMessage = decryptedMessage + (char) (dy1);
                 }
-
-                System.out.println(decryptedMessage);
-
-                language = trans.detectLanguage(decryptedMessage);
+                allResults.add(decryptedMessage);
+                /*language = trans.detectLanguage(decryptedMessage);
 
                 Locale loc = new Locale(language);
                 langName = loc.getDisplayLanguage(loc);
@@ -154,7 +152,7 @@ public class Affine {
                 } else {
                     allResults.add("Affine Cipher Key [" + varA + "," + varB + "]" + ":\n" + "Decrypted Message: " + decryptedMessage + "\n"
                             + "Language: " + langName + "\n" + " - FINAL RESULT: " + finalResult + "\n" + "\n" + "\n");
-                }
+                }*/
             }
         }
         return allResults;
