@@ -26,18 +26,33 @@
           </font>
         </Label>
         <Label fx:id="outputLabel" font="$x1" layoutX="273.0" layoutY="89.0" text="Output:" />
-        <Button fx:id="decryptButton" disable="true" layoutX="78.0" layoutY="476.0" mnemonicParsing="false" onAction="#handleDecryptButtonAction" opacity="0.25" prefWidth="109.0" text="Decrypt" />
+        <Button fx:id="decryptButton" disable="true" layoutX="69.0" layoutY="490.0" mnemonicParsing="false" onAction="#handleDecryptButtonAction" opacity="0.25" prefWidth="109.0" text="Decrypt" />
         <Button fx:id="historyButton" disable="true" layoutX="382.0" layoutY="527.0" mnemonicParsing="false" onAction="#handleHistoryButtonAction" opacity="0.25" text="View Historical Log" />
             <ImageView fx:id="helpIcon" fitHeight="20.0" fitWidth="20.0" layoutX="9.0" layoutY="529.0" onMouseClicked="#handleHelpButtonAction" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="google" fitHeight="20.0" fitWidth="120.0" layoutX="197.0" layoutY="539.0" pickOnBounds="true" preserveRatio="true" />
-            <CheckBox fx:id="caesarBox" layoutX="14.0" layoutY="459.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="65.0" text="Caesar" />
-            <CheckBox fx:id="affineBox" layoutX="14.0" layoutY="432.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="65.0" text="Affine" />
-            <CheckBox fx:id="baconianBox" layoutX="177.0" layoutY="432.0" mnemonicParsing="false" text="Baconian" />
-            <CheckBox fx:id="atbashBox" layoutX="93.0" layoutY="432.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="69.0" text="Atbash" />
-            <Button fx:id="translateButton" disable="true" layoutX="339.0" layoutY="437.0" mnemonicParsing="false" onAction="#handleTranslateButtonAction" opacity="0.25" text="Translate Results" />
-            <Label fx:id="cipherWarning" layoutX="75.0" layoutY="505.0" text="No cipher(s) selected" textFill="RED" visible="false">
+            <CheckBox fx:id="caesarBox" layoutX="69.0" layoutY="454.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="65.0" text="Caesar" />
+            <CheckBox fx:id="affineBox" layoutX="136.0" layoutY="454.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="65.0" text="Affine" />
+            <CheckBox fx:id="baconianBox" layoutX="136.0" layoutY="433.0" mnemonicParsing="false" text="Baconian" />
+            <CheckBox fx:id="atbashBox" layoutX="69.0" layoutY="433.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="69.0" text="Atbash" />
+            <Button fx:id="translateButton" disable="true" layoutX="346.0" layoutY="429.0" mnemonicParsing="false" onAction="#handleTranslateButtonAction" opacity="0.25" prefHeight="25.0" prefWidth="128.0" text="Translate Results" />
+            <Label fx:id="cipherWarning" layoutX="69.0" layoutY="521.0" text="No ciphers selected" textFill="RED" visible="false">
                <font>
                   <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="492.0" text="Step 2:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="296.0" layoutY="432.0" text="Step 3:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="431.0" text="Step 1:">
+               <font>
+                  <Font size="14.0" />
                </font>
             </Label>
       </children>

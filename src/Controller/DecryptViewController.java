@@ -108,6 +108,7 @@ public class DecryptViewController implements Initializable {
                 if (atbashBox.isSelected()) {
                     output += "----ATBASH----\n\n";
                     dialog.setContentText("Running Atbash Cipher");
+                    dialog.show();
                     results = decoder.atbashDecrypt(inputArea.getText());
                     for (String result : results) {
                         detectedLang = translator.detectLanguage(result);
@@ -123,6 +124,7 @@ public class DecryptViewController implements Initializable {
                 if (baconianBox.isSelected()) {
                     output += "--BACONIAN--\n\n";
                     dialog.setContentText("Running Baconian Cipher");
+                    dialog.show();
                     results = decoder.baconianDecrypt(inputArea.getText());
                     for (String result : results) {
                         detectedLang = translator.detectLanguage(result);
@@ -136,12 +138,12 @@ public class DecryptViewController implements Initializable {
                     output += "\n----END BACONIAN----\n\n";
                 }
                 if (caesarBox.isSelected()) {
+                    int key = 1;
                     output += "----CAESAR----\n\n";
                     dialog.setContentText("Running Caesar Cipher");
                     dialog.show();
                     results = decoder.caesarDecrypt(inputArea.getText());
                     for (String result : results) {
-                        int key = 1;
                         detectedLang = translator.detectLanguage(result);
                         locale = new Locale(detectedLang);
                         language = locale.getDisplayLanguage();
@@ -154,14 +156,9 @@ public class DecryptViewController implements Initializable {
                     }
                     output += "\n--END CAESAR--";
                 } 
+                disableFirstElementSet();
                 outputArea.setText(output);
                 window.hide();
-                translateButton.setDisable(false);
-                translateButton.setOpacity(1);
-                decryptButton.setDisable(true);
-                decryptButton.setOpacity(.25);
-                inputArea.setEditable(false);
-                inputArea.setOpacity(.5);
             }      
         }
     }
@@ -172,20 +169,24 @@ public class DecryptViewController implements Initializable {
         alert.setContentText("Start the translation process?");
         Optional<ButtonType> confirm = alert.showAndWait();
         if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
+            Dialog<?> dialog = new Dialog();
+            Window window = dialog.getDialogPane().getScene().getWindow();
+            dialog.setContentText("Translating...");
+            dialog.show();
             String output = "";
             int decryptId = app.getDb().getLastDecryptId() - toBeTranslated.size() + 1;
             for (Map.Entry<String, String> result : toBeTranslated.entrySet()) {
                 if (!result.getValue().equals("en")) {
                 String translated = translator.translateLanguage(result.getKey(), result.getValue());
                 app.getDb().insertTranslations(decryptId, translated);
-                output += "Original \\(" + result.getValue() + "): " + result.getKey() 
+                output += "Original (" + result.getValue() + "): " + result.getKey() 
                         + "\nTranslated: " + translated + "\n\n";
                 }
+                decryptId++;
             }
-            historyButton.setDisable(false);
-            historyButton.setOpacity(1);
-            outputLabel.setText("Output (Translated):");
+            disableSecondElementSet();
             outputArea.setText(output);
+            window.hide();
         }
     }
     
@@ -220,5 +221,30 @@ public class DecryptViewController implements Initializable {
         this.ocrId = ocrId;
         decryptButton.setDisable(false);
         decryptButton.setOpacity(1);
+    }
+    
+    private void disableFirstElementSet() {
+        translateButton.setDisable(false);
+        translateButton.setOpacity(1);
+        decryptButton.setDisable(true);
+        decryptButton.setOpacity(.25);
+        inputArea.setEditable(false);
+        inputArea.setOpacity(.5);
+        affineBox.setDisable(true);
+        affineBox.setOpacity(.25);
+        atbashBox.setDisable(true);
+        atbashBox.setOpacity(.25);
+        baconianBox.setDisable(true);
+        baconianBox.setOpacity(.25);
+        caesarBox.setDisable(true);
+        caesarBox.setOpacity(.25);
+    }
+    
+    private void disableSecondElementSet() {
+        translateButton.setDisable(true);
+        translateButton.setOpacity(.25);
+        historyButton.setDisable(false);
+        historyButton.setOpacity(1);
+        outputLabel.setText("Output (Translated):");
     }
 }

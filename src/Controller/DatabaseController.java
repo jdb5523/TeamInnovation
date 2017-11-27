@@ -302,15 +302,16 @@ public class DatabaseController {
      * @throws SQLException 
      */
     public String[] getRecordDetails(int imageId) throws SQLException {
-        String[] results = new String[6];
+        String[] results = new String[7];
         sql = "SELECT Image.CAPTURE_DATE, Decrypt.DECRYPT_DATE, Cipher.CIPHER_NAME, " +
-                "Decrypt.RESULT, Image.ADDITIONAL_NOTES, Image.FILE_PATH, Decrypt.LANGUAGE " 
+                "Decrypt.RESULT, Image.ADDITIONAL_NOTES, Image.FILE_PATH, Decrypt.TRANSLATION " 
                 + "FROM Image JOIN OCR ON Image.IMAGE_ID = OCR.IMAGE_ID "
                 + "JOIN DECRYPT ON OCR.OCR_ID = DECRYPT.OCR_ID " 
                 + "JOIN CIPHER ON DECRYPT.CIPHER = CIPHER.CIPHER_ID WHERE "
                 + "Image.IMAGE_ID = " + imageId;
         result = state.executeQuery(sql);
         String decryptResult = "";
+        String transResult = "";
         String ciphers = "";
         while (result.next()) {
             if(!ciphers.contains(result.getString(3))) {
@@ -318,12 +319,14 @@ public class DatabaseController {
                 decryptResult += "----" + result.getString(3).toUpperCase() + "----\n";
             }
             decryptResult += result.getString(4) + " (" + result.getString(7) + ")" + "\n\n";
+            transResult += result.getString(7) + "\n\n";;
             results[0] = result.getString(1);
             results[1] = result.getString(2);
             results[2] = ciphers;
             results[3] = decryptResult;
             results[4] = result.getString(5);
             results[5] = result.getString(6);
+            results[6] = transResult;
         }
         return results;
     }
@@ -369,7 +372,8 @@ public class DatabaseController {
     }
     
     public void insertTranslations(int decryptId, String result) throws SQLException {
-       sql = "UPDATE Decrypt SET RESULT='" + result + "' WHERE DECRYPT_ID=" + decryptId;
+       sql = "UPDATE Decrypt SET TRANSLATION='" + result + "' WHERE DECRYPT_ID=" + decryptId;
        state.executeUpdate(sql);
+        System.out.println(sql);
     }
 }
