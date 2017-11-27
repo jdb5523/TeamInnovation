@@ -44,10 +44,8 @@ public class DecryptViewController implements Initializable {
     @FXML private ImageView helpIcon;
     @FXML private ImageView google;
     @FXML private Button decryptButton;
-    @FXML private Button translateButton;
     @FXML private Button historyButton;
     @FXML private Label cipherWarning;
-    @FXML private Label outputLabel;
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     Decoder decoder = new Decoder();
     GoogleTranslate translator = new GoogleTranslate();
@@ -84,7 +82,6 @@ public class DecryptViewController implements Initializable {
             Optional<ButtonType> confirm = alert.showAndWait();
             if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                 String detectedLang;
-                String output = "";
                 Dialog<?> dialog = new Dialog();
                 Window window = dialog.getDialogPane().getScene().getWindow();
                 String date = df.format(new Date());
@@ -93,124 +90,99 @@ public class DecryptViewController implements Initializable {
                 languages = new ArrayList();
                 
                 if (affineBox.isSelected()) {
-                    output += "--AFFINE--\n\n";
                     dialog.setContentText("Running Atbash Cipher");
                     dialog.show();
                     results = decoder.affineDecrypt(inputArea.getText());
                     for (String result : results) {
                         detectedLang = translator.detectLanguage(result);
-                        locale = new Locale(detectedLang);
-                        language = locale.getDisplayLanguage();
                         app.getDb().insertDecryptRecord(1, result, detectedLang,
                                 ocrId, date);
-                        output += result + "\nDetected Language: " + language + "\n\n";
                         untranslated.add(result);
                         languages.add(detectedLang);
                     }
-                    output += "--END AFFINE--\n\n";
                     dialog.close();
                 }
                 
                 if (atbashBox.isSelected()) {
-                    output += "----ATBASH----\n\n";
                     dialog.setContentText("Running Atbash Cipher");
                     dialog.show();
                     results = decoder.atbashDecrypt(inputArea.getText());
                     for (String result : results) {
                         detectedLang = translator.detectLanguage(result);
-                        locale = new Locale(detectedLang);
-                        language = locale.getDisplayLanguage();
                         app.getDb().insertDecryptRecord(2, result, detectedLang,
                                 ocrId, date);
-                        output += result + "\nDetected Language: " + language + "\n\n";
                         untranslated.add(result);
                         languages.add(detectedLang);
                     }
-                    output += "\n----END ATBASH----\n\n";
                 }
                 
                 if (baconianBox.isSelected()) {
-                    output += "--BACONIAN--\n\n";
                     dialog.setContentText("Running Baconian Cipher");
                     dialog.show();
                     results = decoder.baconianDecrypt(inputArea.getText());
                     for (String result : results) {
+                        System.out.println(result);
                         detectedLang = translator.detectLanguage(result);
-                        locale = new Locale(detectedLang);
-                        language = locale.getDisplayLanguage();
                         app.getDb().insertDecryptRecord(3, result, 
                                 detectedLang, ocrId, date);
-                        output += result + "\nDetected Language: " + language + "\n\n";
                         untranslated.add(result);
                         languages.add(detectedLang);
                     }
-                    output += "\n----END BACONIAN----\n\n";
                 }
-                
+
                 if (caesarBox.isSelected()) {
                     int key = 1;
-                    output += "----CAESAR----\n\n";
                     dialog.setContentText("Running Caesar Cipher");
                     dialog.show();
                     results = decoder.caesarDecrypt(inputArea.getText());
                     for (String result : results) {
                         detectedLang = translator.detectLanguage(result);
-                        locale = new Locale(detectedLang);
-                        language = locale.getDisplayLanguage();
                         app.getDb().insertDecryptRecord(4, result, detectedLang,
                                 ocrId, date);
-                        output += "Caesar Key: " + key + "\n" + result + 
-                                "\nDetected Language: " + language + "\n\n";
                         untranslated.add(result);
                         languages.add(detectedLang);
                         key++;
                     }
-                    output += "\n--END CAESAR--";
                 } 
-                
-                disableFirstElementSet();
-                outputArea.setText(output);
                 window.hide();
+                disableFirstElementSet();
+                translate();
             }      
         }
     }
-    
-    @FXML 
-    protected void handleTranslateButtonAction() throws SQLException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText("Start the translation process?");
-        Optional<ButtonType> confirm = alert.showAndWait();
-        if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
-            Dialog<?> dialog = new Dialog();
-            Window window = dialog.getDialogPane().getScene().getWindow();
-            dialog.setContentText("Translating...");
-            dialog.show();
-            String output = "";
-            String translated = "";
-            String languageName;
-            int index = 0;
-            for (int i = app.getDb().getLastDecryptId() - untranslated.size() + 1;
-                    i <= app.getDb().getLastDecryptId() - untranslated.size() + 26; i++) {
-                if (!languages.get(index).equals("en")) {
-                    translated = translator.translateLanguage(untranslated.get(index), 
-                            languages.get(index));
-                    output += "Original (" + languages.get(index) + "): " + untranslated.get(index) 
-                            + "\nTranslated: " + translated + "\n\n";
-                } else {
-                    translated = untranslated.get(index);
-                    output += "Not Translated - English detected:\n" + untranslated.get(index) + "\n\n";
-                }
-                locale = new Locale(languages.get(index));
-                languageName = locale.getDisplayLanguage(locale);
-                translator.runProcess(languages.get(index), translated, languageName);
-                app.getDb().insertTranslations(i, translated);
-                index++;
+     
+    protected void translate() throws SQLException {
+        Dialog<?> dialog = new Dialog();
+        Window window = dialog.getDialogPane().getScene().getWindow();
+        dialog.setContentText("Translating...");
+        dialog.show();
+        String output = "";
+        String translated = "";
+        String finalOutput = "";
+        int index = 0;
+        int startingId = app.getDb().getLastDecryptId() - untranslated.size() + 1;
+        int lastId = startingId + untranslated.size() - 1;
+        for (int i = startingId; i <= lastId; i++) {
+            if (!languages.get(index).equals("en")) {
+                translated = translator.translateLanguage(untranslated.get(index), 
+                        languages.get(index));
+                output = "Original (" + languages.get(index) + "): " + untranslated.get(index) 
+                        + "\nTranslated: " + translated;
+            } else {
+                translated = untranslated.get(index);
+                output = "Not Translated - English detected:\n" + untranslated.get(index);
             }
-            disableSecondElementSet();
-            outputArea.setText(output);
-            window.hide();
-            System.out.println("Done");
+            locale = new Locale(languages.get(index));
+            double ratio = translator.runProcess(languages.get(index), translated, "English");
+            if (ratio >= 0.7) {
+                app.getDb().insertTranslations(i, translated);
+                finalOutput += output + "\nRatio: " + ratio + "\n\n";
+            }
+            index++;
         }
+        disableSecondElementSet();
+        outputArea.setText(finalOutput);
+        window.hide();
     }
     
     @FXML
@@ -247,8 +219,6 @@ public class DecryptViewController implements Initializable {
     }
     
     private void disableFirstElementSet() {
-        translateButton.setDisable(false);
-        translateButton.setOpacity(1);
         decryptButton.setDisable(true);
         decryptButton.setOpacity(.25);
         inputArea.setEditable(false);
@@ -264,10 +234,7 @@ public class DecryptViewController implements Initializable {
     }
     
     private void disableSecondElementSet() {
-        translateButton.setDisable(true);
-        translateButton.setOpacity(.25);
         historyButton.setDisable(false);
         historyButton.setOpacity(1);
-        outputLabel.setText("Output (Translated):");
     }
 }

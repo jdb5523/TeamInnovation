@@ -14,7 +14,7 @@ import java.util.Locale;
  */
 public class Baconian {
 
-    int flag = 0, spaceStart = 0, spaceEnd = 0, cInWord;
+    int spaceStart = 0, spaceEnd = 0, cInWord;
     String message, finalResult, language, langName, concatMessage;
     StringBuilder decryptChars;
     String decryptedMessage;
@@ -78,27 +78,14 @@ public class Baconian {
                 }
             }
             processed = decryptChars.toString();
-            for (int q = 0; q < this.wordAmt; ++q) {
+            for (int q = 0; q < this.wordAmt/5; q++) {
                 cInWord = characterCount[q];
                 spaceStart = spaceEnd;
                 spaceEnd = spaceStart + cInWord;
                 processW[q] = processed.substring(spaceStart, spaceEnd) + " ";
                 decryptedMessage += processW[q];
             }
-        } else {
-            flag = 1;
-        }
-        
-        if (flag == 0) {
             allResults.add(decryptedMessage);
-            /*finalResult = trans.runProcess(language, decryptedMessage, langName);
-            
-            if ("LOW RATIO".equals(finalResult)) {
-                allResults.add("");
-            } else {
-                allResults.add("Decrypted Message: " + decryptedMessage + "\n"
-                        + "Detected language: " + langName);
-            }*/
         } else {
             allResults.add("Not encrypted with Baconian cipher: message "
                     + "is not a multiple of five");

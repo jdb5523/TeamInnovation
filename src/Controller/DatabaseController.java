@@ -331,6 +331,7 @@ public class DatabaseController {
             results[4] = result.getString(5);
             results[5] = result.getString(6);
             results[6] = transResult;
+            index++;
         }
         return results;
     }
@@ -384,6 +385,5 @@ public class DatabaseController {
     public void insertTranslations(int decryptId, String result) throws SQLException {
        sql = "UPDATE Decrypt SET TRANSLATION='" + result + "' WHERE DECRYPT_ID=" + decryptId;
        state.executeUpdate(sql);
-        System.out.println(sql);
     }
 }

@@ -34,18 +34,12 @@
             <CheckBox fx:id="affineBox" layoutX="136.0" layoutY="454.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="65.0" text="Affine" />
             <CheckBox fx:id="baconianBox" layoutX="136.0" layoutY="433.0" mnemonicParsing="false" text="Baconian" />
             <CheckBox fx:id="atbashBox" layoutX="69.0" layoutY="433.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="69.0" text="Atbash" />
-            <Button fx:id="translateButton" disable="true" layoutX="346.0" layoutY="429.0" mnemonicParsing="false" onAction="#handleTranslateButtonAction" opacity="0.25" prefHeight="25.0" prefWidth="128.0" text="Translate Results" />
             <Label fx:id="cipherWarning" layoutX="69.0" layoutY="521.0" text="No ciphers selected" textFill="RED" visible="false">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
             <Label layoutX="14.0" layoutY="492.0" text="Step 2:">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="296.0" layoutY="432.0" text="Step 3:">
                <font>
                   <Font size="14.0" />
                </font>
