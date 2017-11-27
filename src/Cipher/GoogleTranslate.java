@@ -112,10 +112,12 @@ public class GoogleTranslate {
         String langName = informedName;
         k = 0;
         ratTotal = 0;
+        ratio = 0;
+        length = 0;
 
         DecimalFormat twoDForm = new DecimalFormat("#.00");
 
-        if ("English".equals(language)) {
+        if ("English".equals(langName)) {
 
             String[] splitMessage = decryptedMessage.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
             length = splitMessage.length;
@@ -159,7 +161,7 @@ public class GoogleTranslate {
                 finalResult = ("LOW RATIO");
             }  
         }
-        finalResult += Double.toString(ratio);
+
         return finalResult;
     }
 
