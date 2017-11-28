@@ -9,22 +9,17 @@ import java.util.Locale;
 public class Affine {
 
     int dy1 = 0, dy2 = 0, dy3 = 0;
-    String message, decryptedMessage, finalResult, language, langName;
+    String message, decryptedMessage;
     char character, decryptCharacter;
     int valA[], valB[], valInvVarA[];
     String result;
-    GoogleTranslate trans;
     ArrayList<String> allResults;
     int varA, varB, varbX, varM, inv, invVarA, c = 0;
 
     public Affine() {
         
         decryptedMessage = "";
-        finalResult = "";
-        language = "";
-        langName = "";
         result = "";
-        trans = new GoogleTranslate();
         allResults = new ArrayList();
         valA = new int[]{1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25};
         valInvVarA = new int[]{1, 9, 21, 15, 3, 19, 7, 23, 11, 5, 17, 25};

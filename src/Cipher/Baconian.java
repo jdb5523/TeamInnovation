@@ -15,20 +15,18 @@ import java.util.Locale;
 public class Baconian {
 
     int spaceStart = 0, spaceEnd = 0, cInWord;
-    String message, finalResult, language, langName, concatMessage;
+    String message, concatMessage;
     StringBuilder decryptChars;
     String decryptedMessage;
     char character, decryptCharacter;
     int characterCount[], wordAmt;
     String result, processW[], processed;
-    GoogleTranslate trans;
     ArrayList<String> allResults;
     String words[], ltrcode[], digcode[];
 
     public ArrayList<String> decryptBaconian(String informedcode) {
 
-        message = informedcode;
-        message = message.toLowerCase();
+        message = informedcode.toLowerCase();
         words = message.split("\\s");
         wordAmt = words.length;
         characterCount = new int[wordAmt];
@@ -36,11 +34,7 @@ public class Baconian {
         concatMessage = message.replaceAll("\\W", "");
         decryptedMessage = "";
         decryptChars = new StringBuilder();
-        finalResult = "";
-        language = "";
-        langName = "";
         result = "";
-        trans = new GoogleTranslate();
         allResults = new ArrayList();
 
         ltrcode = new String[]{"aaaaa", "aaaab", "aaaba", "aaabb", "aabaa", "aabab", "aabba",
@@ -85,6 +79,7 @@ public class Baconian {
                 processW[q] = processed.substring(spaceStart, spaceEnd) + " ";
                 decryptedMessage += processW[q];
             }
+            System.out.println(decryptedMessage);
             allResults.add(decryptedMessage);
         } else {
             allResults.add("Not encrypted with Baconian cipher: message "

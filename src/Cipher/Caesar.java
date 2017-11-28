@@ -5,22 +5,16 @@ import java.util.Locale;
 
 public class Caesar {
 
-    String message, decryptedMessage = "", finalResult, loopInfo;
+    String message, decryptedMessage = "";
     int key;
     char character;
-    GoogleTranslate trans;
-    String language;
     ArrayList<String> allResults;
 
     public ArrayList<String> decryptCaesar(String informedcode) {
 
         message = informedcode;
         allResults = new ArrayList();
-        trans = new GoogleTranslate();
-        language = "";
         String langName = "";
-        finalResult = "";
-
         for (key = 1; key < 27; ++key) {
             decryptedMessage = "";
             for (int i = 0; i < message.length(); ++i) {
@@ -42,12 +36,6 @@ public class Caesar {
                 }
             }
             allResults.add(decryptedMessage);
-            /*if ("LOW RATIO".equals(finalResult)) {
-                allResults.add("Key " + key + ":\nNo language recognized");
-            } else {
-                allResults.add("Key " + key + ":\n" + "Decrypted Message: " + decryptedMessage + "\n"
-                        + "Language: " + langName);
-            }*/
         }
         return allResults;
     }

@@ -323,7 +323,12 @@ public class DatabaseController {
             }
             decryptResult += index +  ". " + result.getString(4) + "\n(Detected Language: " + 
                     result.getString(7) + ")" + "\n\n";
-            transResult += index + ". " + result.getString(8) + "\n\n";;
+            String foo = result.getString(8);
+            if(!result.wasNull()) {
+                transResult += index + ". " + result.getString(8) + "\n\n";
+            } else {
+                transResult += "";
+            }
             results[0] = result.getString(1);
             results[1] = result.getString(2);
             results[2] = ciphers;
