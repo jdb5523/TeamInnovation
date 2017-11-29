@@ -314,12 +314,13 @@ public class DatabaseController {
         String decryptResult = "";
         String transResult = "";
         String ciphers = "";
-        int index = 0;
+        int index = 1;
         while (result.next()) {
             if(!ciphers.contains(result.getString(3))) {
                 ciphers += result.getString(3) + " ";
-                decryptResult += "----" + result.getString(3).toUpperCase() + "----\n";
-                transResult += "----" + result.getString(3).toUpperCase() + "----\n";
+                decryptResult += "----" + result.getString(3).toUpperCase() + "----\n\n";
+                transResult += "----" + result.getString(3).toUpperCase() + "----\n\n";
+                index = 1;
             }
             decryptResult += index +  ". " + result.getString(4) + "\n(Detected Language: " + 
                     result.getString(7) + ")" + "\n\n";

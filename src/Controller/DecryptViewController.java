@@ -162,23 +162,27 @@ public class DecryptViewController implements Initializable {
         int index = 0;
         int startingId = app.getDb().getLastDecryptId() - untranslated.size() + 1;
         int lastId = startingId + untranslated.size() - 1;
+        Boolean isBacon = true;
         for (int i = startingId; i <= lastId; i++) {
             if (!languages.get(index).equals("en")) {
                 translated = translator.translateLanguage(untranslated.get(index), 
                         languages.get(index));
                 output = "Original (" + languages.get(index) + "): " + untranslated.get(index) 
                         + "\nTranslated: " + translated;
+            } else if (untranslated.get(index).equals("Not a Baconian Encryption")) {
+                isBacon = false;
             } else {
                 translated = untranslated.get(index);
                 output = "Not Translated - English detected:\n" + untranslated.get(index);
             }
             locale = new Locale(languages.get(index));
             double ratio = translator.runProcess(languages.get(index), translated, "English");
-            if (ratio >= 0.7) {
+            if (ratio >= 0.7 && isBacon) {
                 app.getDb().insertTranslations(i, translated);
                 finalOutput += output + "\nRatio: " + ratio + "\n\n";
             }
             index++;
+            isBacon = true;
         }
         disableSecondElementSet();
         outputArea.setText(finalOutput);

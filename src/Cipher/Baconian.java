@@ -82,8 +82,7 @@ public class Baconian {
             System.out.println(decryptedMessage);
             allResults.add(decryptedMessage);
         } else {
-            allResults.add("Not encrypted with Baconian cipher: message "
-                    + "is not a multiple of five");
+            allResults.add("Not a Baconian Encryption");
         }
         return allResults;
     }
