@@ -72,7 +72,7 @@ public class Baconian {
                 }
             }
             processed = decryptChars.toString();
-            for (int q = 0; q < this.wordAmt/5; q++) {
+            for (int q = 0; q < this.wordAmt; q++) {
                 cInWord = characterCount[q];
                 spaceStart = spaceEnd;
                 spaceEnd = spaceStart + cInWord;
